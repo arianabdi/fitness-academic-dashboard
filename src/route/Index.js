@@ -32,6 +32,7 @@ import Recharge from "../pages/asoo/recharge/recharge";
 import Error404Classic from "../pages/asoo/error/404-classic";
 import Error504Classic from "../pages/asoo/error/504-classic";
 import Settings from "../pages/asoo/settings";
+import ExerciseList from "../pages/fitness-academic/exercises/exerciseList";
 
 
 const Pages = () => {
@@ -45,6 +46,11 @@ const Pages = () => {
       <Route path="" element={<Layout />}>
         {/*<Route index element={<Homepage />}></Route>*/}
         <Route index element={<AsooHome />}></Route>
+
+        {/*FitnessAcademic*/}
+        <Route>
+          <Route path="exercise-list" element={<ExerciseList />}></Route>
+        </Route>
 
         {/*Asoo*/}
         <Route>

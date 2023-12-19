@@ -49,8 +49,8 @@ const AsooLogin = () => {
     try {
 
       console.log("submit", form);
-      const res = await axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, {
-        "username": form.username,
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/user/login`, {
+        "email": form.username,
         "password": form.password
       });
 
@@ -60,26 +60,30 @@ const AsooLogin = () => {
       //   fullname: action.user.userNumber,
       //   groupName: action.user.groupName
       console.log('profile-res', res.data)
-      if (res.data.statusCode === 200 || res.data.statusCode === 201) {
-        dispatch(setToken(res.data.data.accessToken));
-        console.log('profile', {
-          id: res.data.data.user.id,
-          email: 'test@gmail.com', //res.data.user.email,
-          userNumber: res.data.data.user.fullName,
-          username: res.data.data.user.username ,
-          avatar: res.data.data.user.avatar ,
-          roles: res.data.data.user.roles
+      if (res.data.statusCode === 200 ) {
+        dispatch(setToken(res.data.accessToken));
+        const userFound = await axios.get(`${process.env.REACT_APP_API_URL}/api/user`, {
+          headers: { "authorization": `bearer ${res.data.accessToken}` }
+        });
+        console.log('userFound', {
+          id: userFound.data.user.userId,
+          email: userFound.data.user.email, //res.data.user.email,
+          userNumber: `${userFound.data.user.first_name} ${userFound.data.user.last_name} `,
+          username: userFound.data.user.email ,
+          avatar: '' ,
+          roles: userFound.data.user.roles
         })
+
         dispatch(setProfile({
-          id: res.data.data.user.id,
-          email: 'test@gmail.com', //res.data.user.email,
-          userNumber: res.data.data.user.fullName,
-          username: res.data.data.user.username ,
-          avatar: res.data.data.user.avatar ,
-          roles: res.data.data.user.roles
+          id: userFound.data.user.userId,
+          email: userFound.data.user.email, //res.data.user.email,
+          userNumber: `${userFound.data.user.first_name} ${userFound.data.user.last_name} `,
+          username: userFound.data.user.email ,
+          avatar: '' ,
+          roles: userFound.data.user.roles
         }))
 
-        navigate(`/asoo_home`);
+        // navigate(`/asoo_home`);
 
       }
 

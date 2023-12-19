@@ -70,15 +70,15 @@ const Notification = () => {
 
 
 
-    fetchNotifications();
+    // fetchNotifications();
 
     // Schedule notifications fetch every 4 minutes (4 * 60 * 1000 milliseconds)
-    const fetchInterval = setInterval(fetchNotifications, 4 * 60 * 1000);
+    // const fetchInterval = setInterval(fetchNotifications, 4 * 60 * 1000);
 
     // Clean up the interval when the component unmounts
-    return () => {
-      clearInterval(fetchInterval);
-    };
+    // return () => {
+    //   clearInterval(fetchInterval);
+    // };
   }, []);
 
 

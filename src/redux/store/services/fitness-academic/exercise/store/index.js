@@ -3,5 +3,5 @@ export {
     setItemPending,
     setItemsPending,
     SET_ITEM_PENDING
-} from './exercises-actions';
+} from './exercise-actions';
 

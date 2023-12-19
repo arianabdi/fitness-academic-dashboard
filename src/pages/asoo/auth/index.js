@@ -2,7 +2,7 @@ import axios from "axios";
 
 export async function validateToken(token) {
   try {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/auth/check`, {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/user`, {
       headers: { "authorization": `bearer ${token}` }
     });
     if (res.status === 200 || res.status === 201) {

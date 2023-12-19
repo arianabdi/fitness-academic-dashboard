@@ -1,7 +1,7 @@
 import { createAction } from "redux-actions";
 
 export const SET_ITEM_PENDING = "EXERCISE/SET_PENDING";
-export const path = '/exercise'
+export const path = '/api/exercise'
 export const setItemPending = createAction(SET_ITEM_PENDING, (section = 'list', status = false) => ({
     section,
     status,

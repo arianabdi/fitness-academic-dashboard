@@ -15,212 +15,222 @@ const menu = [
   // },
 
   {
+    heading: "فیتنس آکادمیک"
+  },
+  {
+    icon: <MdOutlineHome size={fontSize} color={color} />,
+    text: "تمرین ها",
+    link: "/exercise-list",
+    roles: ["admin"],
+
+  },
+  {
     heading: "مدرسه پرواز آسو"
   },
   {
     icon: <MdOutlineHome size={fontSize} color={color} />,
     text: "خانه",
     link: "/asoo_home",
-    roles: ["Teacher", "Admin", "Student"],
+    roles: ["Teacher", "admin", "Student"],
     dashboard: true
   },
   // {
   //   icon: <LuUsers size={fontSize-1} color={color} />,
   //   text: "مدیریت کاربران",
-  //   roles: ["Admin"],
+  //   roles: ["admin"],
   //   active: false,
   //   subMenu: [
   //     {
   //       text: "کاربران",
   //       link: "/user-list-2",
-  //       roles: ["Admin"],
+  //       roles: ["admin"],
   //     },
   //     {
   //       text: "ایجاد کاربر سیستم",
   //       link: "/user-add-2",
-  //       roles: ["Admin"],
+  //       roles: ["admin"],
   //     }
   //   ]
   // },
   {
     icon: <PiChalkboardTeacherBold size={fontSize} color={color} />,
     text: "اساتید",
-    roles: ["Admin"],
+    roles: ["admin"],
     active: false,
     subMenu: [
       {
         text: "مدیریت اساتید",
         link: "/teacher-list",
-        roles: ["Admin"],
+        roles: ["admin"],
       },
       {
         text: "ایجاد استاد",
         link: "/teacher-add",
-        roles: ["Admin"],
+        roles: ["admin"],
       }
     ]
   },
   {
     icon: <LuGraduationCap size={fontSize-1} color={color} />,
     text: "دانشجویان",
-    roles: ["Admin"],
+    roles: ["admin"],
     active: false,
     subMenu: [
       {
         text: "مدیریت دانشجویان",
         link: "/student-list",
-        roles: ["Admin"],
+        roles: ["admin"],
       },
       {
         text: "ایجاد دانشجو",
         link: "/student-add",
-        roles: ["Admin"],
+        roles: ["admin"],
       }
     ]
   },
   {
     icon: <LiaPlaneDepartureSolid size={fontSize+1} color={color} />,
     text: "پروازها",
-    roles: ["Teacher", "Admin", "Student", "Plane"],
+    roles: ["Teacher", "admin", "Student", "Plane"],
     active: false,
     subMenu: [
       {
         text: "مدیریت پروازها",
         link: "/flight-list",
-        roles: ["Teacher", "Admin", "Student", "Plane"],
+        roles: ["Teacher", "admin", "Student", "Plane"],
       },
       {
         text: "ایجاد پرواز",
         link: "/flight-add",
-        roles: ["Admin"],
+        roles: ["admin"],
       },
       // {
       //   text: "خدمات پرواز",
       //   link: "/flight-service",
-      //   roles: ["Admin"],
+      //   roles: ["admin"],
       // }
     ]
   },
   {
     icon: <LiaPlaneSolid size={fontSize+1} color={color} />,
     text: "هواپیما",
-    roles: ["Admin"],
+    roles: ["admin"],
     active: false,
     subMenu: [
       {
         text: "مدیریت هواپیما ها",
         link: "/plane-list",
-        roles: ["Admin"],
+        roles: ["admin"],
       },
       {
         text: "ایجاد هواپیما",
         link: "/plane-add",
-        roles: ["Admin"],
+        roles: ["admin"],
       }
     ]
   },
   {
     icon: <MdOutlineHomeRepairService size={fontSize} color={color} />,
     text: "خدمات",
-    roles: ["Admin", "Plane"],
+    roles: ["admin", "Plane"],
     active: false,
     subMenu: [
       {
         text: "لیست خدمات",
         link: "/service-list",
-        roles: ["Admin", "Plane"],
+        roles: ["admin", "Plane"],
       },
       {
         text: "افزودن خدمات",
         link: "/service-add",
-        roles: ["Admin"],
+        roles: ["admin"],
       }
     ]
   },
   {
     icon: <RiBook2Line size={fontSize} color={color} />,
     text: "دوره ها",
-    roles: ["Admin", "Teacher", "Student"],
+    roles: ["admin", "Teacher", "Student"],
     active: false,
     subMenu: [
       {
         text: "مدیریت دوره ها",
         link: "/course-list",
-        roles: ["Admin", "Teacher", "Student"],
+        roles: ["admin", "Teacher", "Student"],
       },
       {
         text: "ایجاد دوره",
         link: "/course-add",
-        roles: ["Admin"],
+        roles: ["admin"],
       }
     ]
   },
   {
     icon: <BiChalkboard size={fontSize} color={color} />,
     text: "کلاس ها",
-    roles: ["Teacher", "Admin", "Student"],
+    roles: ["Teacher", "admin", "Student"],
     active: false,
     subMenu: [
       {
         text: "مدیریت کلاس ها",
         link: "/course-class-list",
-        roles: ["Teacher", "Admin", "Student"],
+        roles: ["Teacher", "admin", "Student"],
       },
       {
         text: "ایجاد کلاس",
         link: "/course-class-add",
-        roles: ["Admin"],
+        roles: ["admin"],
       }
     ]
   },
   {
     icon: <RiBankLine size={fontSize} color={color} />,
     text: "مالی",
-    roles: ["Teacher", "Admin", "Student", "Plane"],
+    roles: ["Teacher", "admin", "Student", "Plane"],
     active: false,
     subMenu: [
       {
         text: "تراکنش ها",
         link: "/transaction-list",
-        roles: ["Teacher", "Admin", "Student", "Plane"],
+        roles: ["Teacher", "admin", "Student", "Plane"],
       },
       {
         text: "تسویه حساب",
         link: "/checkout",
-        roles: ["Admin"],
+        roles: ["admin"],
       },
       {
         text: "شارژ کیف پول",
         link: "/recharge",
-        roles: ["Admin"],
+        roles: ["admin"],
       },
       {
         text: "درگاه های پرداخت",
         link: "/payment-gateways",
-        roles: ["Admin"],
+        roles: ["admin"],
       }
     ]
   },
   {
     icon: <TbSettings size={fontSize} color={color} />,
     text: "تنظیمات",
-    roles: ["Admin"],
+    roles: ["admin"],
     active: false,
     subMenu: [
       {
         text: "عمومی",
         link: "/settings",
-        roles: ["Admin"],
+        roles: ["admin"],
       },
       {
         text: "قالب",
         link: "/settings",
-        roles: ["Admin"],
+        roles: ["admin"],
       },
       {
         text: "متغیرهای پیشفرض",
         link: "/settings",
-        roles: ["Admin"],
+        roles: ["admin"],
       }
     ]
   }

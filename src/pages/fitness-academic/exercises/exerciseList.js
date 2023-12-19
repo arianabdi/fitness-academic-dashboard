@@ -30,8 +30,8 @@ const ExerciseList = () => {
     ));
 
     console.log('plane', res);
-    if(res.data.statusCode === 200 || !res.data.statusCode){
-      setData(res.data.planes)
+    if(res.data.statusCode === 200 || res.status === 200 ){
+      setData(res.data.exercises)
       setPagination({...pagination, totalItems: res.count || 9, lastUpdateBy: 'initializer'})
     }
 
@@ -47,8 +47,9 @@ const ExerciseList = () => {
 
 
 
+
     if(res.statusCode === 200){
-      setData(res.data.planes)
+      setData(res.data.exercises)
       if(updater === 'filter')
         setPagination({
           ...pagination,
