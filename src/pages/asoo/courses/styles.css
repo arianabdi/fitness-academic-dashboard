@@ -1,0 +1,28 @@
+.container-fluid{
+    padding: 0px !important;
+
+}
+.nk-tb-col{
+    padding-bottom: 0.8rem !important;
+    padding-top: 0.8rem !important;
+}
+
+
+.padding-top{
+    padding-top: 60px !important;
+    padding-bottom: 10px !important;
+    margin-bottom: -30px;
+}
+
+.add-student-to-class-style{
+    padding: 0px 30px !important;
+    padding-bottom: 50px !important;
+}
+
+.add-student-to-class-text{
+    width: 15vh !important;
+}
+
+.add-student-to-class-text input[type=text]{
+    height: 5px !important;
+}

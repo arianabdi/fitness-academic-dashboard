@@ -1,0 +1,11 @@
+
+{
+  "apps" : [
+    {
+      "name"      : "asoo-dashboard",
+      "script"    : "npx",
+      "interpreter": "none",
+      "args": "serve -s dist -p 3004"
+    }
+  ]
+}

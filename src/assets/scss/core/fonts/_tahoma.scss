@@ -1,0 +1,25 @@
+// Tahoma
+@font-face {
+    font-family: 'tahoma';
+    src: url('#{$font-url}/Tahoma-Regular.ttf');
+    src: local('Tahoma Regular'), local('Tahoma-Regular'),
+        url('#{$font-url}/Tahoma-Regular.ttf') format('truetype');
+
+    font-style: normal;
+    unicode-range: U+0600-06FF ;
+}
+
+@font-face {
+    font-family: 'tahoma';
+    src: url('#{$font-url}/Tahoma-Bold.ttf');
+    src: local('Tahoma Bold'), local('Tahoma-Bold'),
+    url('#{$font-url}/Tahoma-Bold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+    unicode-range: U+0600-06FF ;
+}
+
+
+
+
+

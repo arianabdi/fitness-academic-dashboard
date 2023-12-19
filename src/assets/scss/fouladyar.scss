@@ -1,0 +1,90 @@
+
+
+.chat-meta li {
+  color: #738dae;
+  font-weight: 300;
+}
+
+.user-card .user-info{
+  font-family: dana, serif;
+}
+
+
+.user-dropdown .link-list a span{
+  font-size: 12px;
+  font-weight: 400;
+  font-family: dana, serif;
+}
+
+
+.chats-dropdown,
+.notification-dropdown,
+.home-toolbox,
+.home-toolbox .title,
+.tool-box-submit-btn,
+.tcdoughnut,
+.tcdoughnut .title,
+.recent-activity,
+.recent-activity .title,
+.settings-card,
+.page-title, .nk-block-title,
+.settings-card .btn,
+.alert-fill
+{
+  font-family: dana, serif;
+}
+
+.custom-btn-font{
+  font-family: dana, serif;
+  font-weight: normal;
+}
+
+.checkout-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 30px 10px;
+  border: 1px solid #dbdfea;
+  border-radius: 5px;
+  box-shadow: 0px 2px 2px -2px #aeaeae;
+}
+
+.checkout-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.line-part {
+  display: flex;
+  align-items: center;
+  flex-grow: 1; /* Added to make line span available space */
+}
+
+.title {
+
+}
+
+.dotted-line {
+  border-top: 0.14rem dotted #e1e1e1; /* Changed to border-top to create a line */
+  flex-grow: 1; /* Added to make the line span the space */
+  margin: 0 10px;
+}
+
+.bold{
+  font-weight: bold;
+}
+
+.value {
+
+}
+
+.divider{
+  margin: 18px 0 ;
+}
+
+.duration-field{
+  font-size: 13px;
+  min-height: 4vh;
+  max-width: 22vh;
+}
