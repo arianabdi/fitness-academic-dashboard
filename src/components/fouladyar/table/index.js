@@ -254,7 +254,7 @@ const Table = ({
   // selects one product
   const onSelectChange = (e, id) => {
     let newData = tableData;
-    let index = newData.findIndex((item) => item.id === id);
+    let index = newData.findIndex((item) => item._id === id);
     newData[index].check = e.currentTarget.checked;
     // setData([...newData]);
   };
@@ -410,8 +410,11 @@ const Table = ({
 
 
   function replacePlaceholders(str, data) {
+    console.log('placeholder', str, data);
     return str.replace(/:(\w+(\.\w+)?)/g, (match, key) => {
       const keys = key.split(".");
+
+      console.log('keys', keys);
       let value = data;
       for (const k of keys) {
         value = value[k];
@@ -606,7 +609,7 @@ const Table = ({
               type="checkbox"
               className="custom-control-input"
               defaultChecked={item.check}
-              id={item.id + "uid1"}
+              id={item._id + "uid1"}
               key={Math.random()}
               onChange={(e) => onSelectChange(e, item?._id)}
             />

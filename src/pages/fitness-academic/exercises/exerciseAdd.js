@@ -5,7 +5,7 @@ import { formStatics, formStructure } from "./index";
 import axios from "axios";
 import { convertDate } from "../../../shared/shared";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { getItemById } from "../../../redux/store/services/asoo/plane/store/plane-actions";
+import { getItemById } from "../../../redux/store/services/fitness-academic/exercise/store/exercise-actions";
 
 import { ErrorToaster } from "../../../shared/toaster";
 
@@ -29,7 +29,9 @@ function ExerciseAdd({ ...props }) {
     "categoryId": "",
     "level": "",
     "description": "",
-    "image": null,
+    "image": null, // در زمان update مقدار fileId فایل آپلود شده قبلی رو نگه میداره
+    "imageHolder": null, // در زمان create و update فایل عکس رو نگه میداره
+    "imagePreview": null, // در زمان update آدرس عکسی که قبلا آپلود شده رو نگه میداره
     "video": null,
   });
 
@@ -37,19 +39,22 @@ function ExerciseAdd({ ...props }) {
 
   async function loadData() {
     const res = await dispatch(getItemById(id));
+    console.log('exercise load ', res);
     if (res.statusCode === 200) {
+      // _id: "6581578049b2da2bfca792d3"
+      // categoryId: "64ac2e32a19a70a65c8f4465"
+      // createdAt: "2023-12-19T08:42:40.888Z"
+      // description: "jjjjjj"
+      // image: "6581577f49b2da2bfca792ce"
+      // isAlive: true
+      // level: "professional"
+      // slug: "hhhh"
+      // title: "jjjj"
+      // updatedAt: "2023-12-19T08:42:40.888Z"
 
-      setData((prevData) => ({
-        ...prevData,
-        ...res.data,
-        engineOverhaulDate: new Date(res.data.engineOverhaulDate),
-        buildDate: new Date(res.data.buildDate),
-        propellerOverhaulDate: new Date(res.data.propellerOverhaulDate),
-        flightPermitDate: new Date(res.data.flightPermitDate),
-        insuranceImagePreview: res.data.insuranceImage,
-        insuranceImage: [],
-        flightPermitImage: [],
-        flightPermitImagePreview: res.data.flightPermitImage,
+      setData(prevState => ({
+        ...prevState,
+        ...res.data.exercise
       }));
       setIsloading(false);
       return data;
@@ -68,13 +73,13 @@ function ExerciseAdd({ ...props }) {
 
   async function onCreate() {
 
-    console.log('data -- xxxxxxxxxxxx', data)
+
     try {
       setProcessing(true)
-      const fileId = await uploadImage({ image: data.image })
+      const fileId = await uploadImage({ image: data.imageHolder })
 
 
-      console.log('KKKKKK', fileId);
+
       const res = await axios.post(`${process.env.REACT_APP_API_URL}${path}`, {
         ...data,
         image: fileId
@@ -86,28 +91,9 @@ function ExerciseAdd({ ...props }) {
 
 
 
-      /*if(res.data.statusCode === 201){
-
-        if(data.flightPermitImage.length > 0){
-          await uploadImage({
-            file: data.flightPermitImage[0].file,
-            user: res.data.data.user.id,
-            type: 3
-          })
-          console.log('flightPermitImage uploaded!', res.data.data)
-        }
-
-        if(data.insuranceImage.length > 0){
-          await uploadImage({
-            file: data.insuranceImage[0].file,
-            user: res.data.data.user.id,
-            type: 2
-          })
-
-          console.log('insuranceImage uploaded!', res.data.data)
-        }
-        navigate(`/plane-list`);
-      }*/
+      if(res.data.statusCode === 200){
+        navigate(`/exercise-list`);
+      }
 
       setProcessing(false)
 
@@ -125,21 +111,15 @@ function ExerciseAdd({ ...props }) {
 
       setProcessing(true)
       let _data = {...data}
-      delete _data.insuranceImage;
-      delete _data.flightPermitImage;
-      delete _data.insuranceImagePreview;
-      delete _data.flightPermitImagePreview;
+      let fileId;
+      delete _data.imagePreview;
+
+      if(data.imageHolder){
+        fileId = await uploadImage({ image: data.imageHolder })
+      }
       const res = await axios.put(`${process.env.REACT_APP_API_URL}${path}`,
-        {
-          ..._data,
-          "engineOverhaulDate": convertDate(data.engineOverhaulDate),
-          "propellerOverhaulDate": convertDate(data.propellerOverhaulDate),
-          "flightPermitDate": convertDate(data.flightPermitDate)
-        }, {
-          headers: {
-            "authorization": `bearer ${auth.token}`
-          }
-        }
+        { ..._data, image: fileId || data.image },
+        { headers: { "authorization": `bearer ${auth.token}` }}
       );
 
       console.log('plane created!', res)

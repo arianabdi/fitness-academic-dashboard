@@ -1,4 +1,5 @@
 import { createAction } from "redux-actions";
+import { ErrorToaster } from "../../../../../../shared/toaster";
 
 export const SET_ITEM_PENDING = "EXERCISE/SET_PENDING";
 export const path = '/api/exercise'
@@ -24,19 +25,6 @@ export function getItems(pagination, filter) {
         }
     };
 
-    return async (dispatch, getState, {axios}) => {
-        try {
-            const { profile } = getState();
-
-
-            dispatch(setItemsPending(true));
-            return (await axios.get(`${path}?limit=${pagination.itemPerPage}&page=${pagination.currentPage}&${filter}`));
-        } catch (error) {
-            console.log(error.message);
-        } finally {
-            dispatch(setItemsPending(false));
-        }
-    };
 }
 
 export function addNewItem(body) {
@@ -78,9 +66,10 @@ export function getItemById(id) {
    return async (dispatch, getState, {axios}) => {
         try {
             dispatch(setItemsPending(true));
-            const response = await axios.get(`${path}/${id}`);
-            return response.data.post;
+            return  await axios.get(`${path}/${id}`);
+
         } catch (error) {
+            ErrorToaster(error)
             console.log(error.message);
         } finally {
             dispatch(setItemsPending(false));

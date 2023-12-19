@@ -83,7 +83,7 @@ export const tableStructure = [
         icon: <TbEdit size={18} color={"#526484"}/>,
 
         useRoute: true,
-        route: "/exercise-edit/:id"
+        route: "/exercise-edit/:_id"
       },
       {
         title: "حذف تمرین",
@@ -169,7 +169,7 @@ export const formStructure = [
   [
     {
       title: "عکس تمرین",
-      slug: 'image',
+      slug: 'imageHolder',
       type: "file-upload",
       placeholder: "عکس تمرین را انتخاب کنید",
     },

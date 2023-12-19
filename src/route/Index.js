@@ -52,6 +52,7 @@ const Pages = () => {
         <Route>
           <Route path="exercise-list" element={<ExerciseList />}></Route>
           <Route path="exercise-add" element={<ExerciseAdd />}></Route>
+          <Route path="exercise-edit/:id" element={<ExerciseAdd />}></Route>
         </Route>
 
         {/*Asoo*/}
