@@ -6,7 +6,9 @@ import axios from "axios";
 import { convertDate } from "../../../shared/shared";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { getItemById } from "../../../redux/store/services/asoo/plane/store/plane-actions";
-import fa from "react-date-object/locales/gregorian_fa";
+
+import { ErrorToaster } from "../../../shared/toaster";
+
 
 
 function ExerciseAdd({ ...props }) {
@@ -25,10 +27,10 @@ function ExerciseAdd({ ...props }) {
     "title": "",
     "slug": "",
     "categoryId": "",
-    "level": null,
+    "level": "",
     "description": "",
     "image": null,
-    "video": "",
+    "video": null,
   });
 
 
@@ -65,13 +67,24 @@ function ExerciseAdd({ ...props }) {
 
 
   async function onCreate() {
+
+    console.log('data -- xxxxxxxxxxxx', data)
     try {
       setProcessing(true)
-      const res = await axios.post(`${process.env.REACT_APP_API_URL}${path}`, data, {
+      const fileId = await uploadImage({ image: data.image })
+
+
+      console.log('KKKKKK', fileId);
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}${path}`, {
+        ...data,
+        image: fileId
+      }, {
           headers: { "authorization": `bearer ${auth.token}` }
       });
 
       console.log('exercise-res', res)
+
+
 
       /*if(res.data.statusCode === 201){
 
@@ -99,6 +112,7 @@ function ExerciseAdd({ ...props }) {
       setProcessing(false)
 
     } catch (e) {
+      ErrorToaster(e)
       console.log("Error: ", e);
       setProcessing(false)
     }
@@ -161,17 +175,14 @@ function ExerciseAdd({ ...props }) {
     }
   }
 
-  async function uploadImage({file, user, type}) {
+  async function uploadImage({image}) {
     try {
 
+      const formData = new FormData();
+      formData.append('image', image[0].file);
 
-
-      const res = await axios.post(`${process.env.REACT_APP_API_URL}/Files/file`,
-        {
-          file: file,
-          type: type, // اجازه نامه پرواز
-          user: user // بعد از ایجاد هواپیما، ایدی ایجاد شده را در اینجا ست کن
-        }, {
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/file/upload/image`,
+        formData, {
           headers: {
             "authorization": `bearer ${auth.token}`,
             "Content-Type": "multipart/form-data"
@@ -182,7 +193,12 @@ function ExerciseAdd({ ...props }) {
 
       console.log('fileUpload',res)
 
+      if(res.status === 200)
+        return res.data.fileId;
+
+
     } catch (e) {
+      ErrorToaster(e)
       console.log("Error: ", e);
     }
   }
