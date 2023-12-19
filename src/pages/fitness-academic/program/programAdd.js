@@ -15,6 +15,7 @@ import { Field } from "../../../components/fouladyar/field/field";
 import { Block, BlockHead, BlockHeadContent, BlockTitle } from "../../../components/block/Block";
 import { PreviewCard } from "../../../components/preview/Preview";
 import Content from "../../../layout/content/Content";
+import { toFarsiNumber } from "../../../shared/toFarsiNumber";
 
 
 
@@ -30,6 +31,10 @@ function ProgramAdd({ ...props }) {
   const [isLoading, setIsloading] = useState(isEditing ? true : false);
   const [processing, setProcessing] = useState(false);
   const [exerciseCategories, setExerciseCategories] = useState([]);
+  const [exerciseCategoriesOptions, setExerciseCategoriesOptions] = useState([]);
+  const [exerciseList, setExerciseList] = useState([]);
+  const [diet, setDiet] = useState([])
+  const [isOpen, setIsOpen] = useState("1");
   const [exercises, setExercises] = useState([
     {
       sets: "3",
@@ -73,7 +78,7 @@ function ProgramAdd({ ...props }) {
   });
   async function loadData() {
     const res = await dispatch(getItemById(id));
-    console.log('exercise load ', res);
+
     if (res.statusCode === 200) {
       // _id: "6581578049b2da2bfca792d3"
       // categoryId: "64ac2e32a19a70a65c8f4465"
@@ -98,14 +103,91 @@ function ProgramAdd({ ...props }) {
 
   }
 
+  function loadExercisesByCategoryId(categoryId){
+    const items = exerciseCategories.filter(j => j._id === categoryId);
+
+    if(items.length > 0){
+      const slug = (items[0]).slug;
+
+      if(exerciseList.length > 0){
+        return exerciseList.filter(i => {
+          if(i.category === slug)
+            return {label: i.title, value: i._id}
+        })
+      }
+    }
+
+
+    return []
+  }
+
+  async function loadExercises(){
+    try {
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/exercise`, {
+        headers: {authorization: `bearer ${auth.token}`}
+      });
+
+
+      if (res.status === 200) {
+        setExerciseList(res.data.data.exercises)
+      }
+    }catch (e){
+      ErrorToaster(e)
+    }
+  }
+
+
+
+  async function loadProgram(){
+    try {
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/programs/${id}`, {
+        headers: {authorization: `bearer ${auth.token}`}
+      });
+
+
+
+      if (res.status === 200) {
+
+
+        if(res.data.data.program.exercises.length > 0){
+          setExercises(res.data.data.program.exercises)
+        }
+
+
+        if(res.data.data.program.diet.length > 0){
+          setDiet(res.data.data.program.diet)
+        }
+      }
+    }catch (e){
+      ErrorToaster(e)
+    }
+  }
+
+  useEffect(() => {
+    loadExerciseCategories()
+    loadExercises()
+    loadProgram()
+    if (isEditing)
+      loadData();
+
+
+  }, []);
+
+
   async function loadExerciseCategories(){
     try {
-      const res = await axios.get(`${process.env.REACT_APP_API_URL}//api/category/exercise`, {
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/category/exercise`, {
         headers: {authorization: `bearer ${auth.token}`}
       });
 
       if (res.status === 200) {
-        console.log('loadExerciseCategories', res)
+        setExerciseCategories(res.data.data.categories)
+        setExerciseCategoriesOptions(res.data.data.categories.map(item => {
+          return(
+            {label: item.title, value: item._id}
+          )
+        }))
+
       }
     }catch (e){
       ErrorToaster(e)
@@ -137,7 +219,7 @@ function ProgramAdd({ ...props }) {
           headers: { "authorization": `bearer ${auth.token}` }
       });
 
-      console.log('exercise-res', res)
+
 
 
 
@@ -149,7 +231,6 @@ function ProgramAdd({ ...props }) {
 
     } catch (e) {
       ErrorToaster(e)
-      console.log("Error: ", e);
       setProcessing(false)
     }
   }
@@ -163,7 +244,7 @@ function ProgramAdd({ ...props }) {
       delete _data.imagePreview;
       delete _data.imageHolder;
 
-      console.log('image-in-upload', data.imageHolder)
+
       if(data.imageHolder.length !== 0){
         fileId = await uploadImage({ image: data.imageHolder })
       }
@@ -180,134 +261,14 @@ function ProgramAdd({ ...props }) {
       setProcessing(false)
     }
   }
-
-  const Accordion = ({ className, variation }) => {
-    const [isOpen, setIsOpen] = useState("1");
-
-    const AccordionItem = ({item, index}) => {
-      return(
-        <div className="accordion-item">
-          <div className={[`d-flex flex-row justify-content-between accordion-head${isOpen !== index ? " collapsed" : ""}`]} onClick={() => toggleCollapse(index)}>
-            <h6 className="title">{"تعریف نشده"}</h6>
-            <span className="icon">
-              <IoClose size={18} color={"#526484"}/>
-            </span>
-          </div>
-          <Collapse className="accordion-body justify-content-between"  isOpen={isOpen === index ? true : false}>
-            <div className="accordion-inner">
-              <div className="d-flex flex-row ">
-                <div className="w-100 p-1">
-                  <Field
-                    id={"username"}
-                    name={"username"}
-                    label={"تعداد ست"}
-                    type={"text"}
-                    value={item.sets}
-                    onChange={(e) => {
-                    }}
-                  />
-                </div>
-                <div className="w-100 p-2">
-                  <Field
-                    id={"username"}
-                    name={"username"}
-                    label={"تعداد تکرار"}
-                    type={"text"}
-                    value={item.reps}
-                    onChange={(e) => {
-                    }}
-                  />
-                </div>
-              </div>
-              <div className="d-flex flex-row ">
-                <div className="w-100 p-1">
-                  <Field
-                    id={"username"}
-                    name={"username"}
-                    label={"استراحت بین ست"}
-                    type={"text"}
-                    value={item.rest}
-                    onChange={(e) => {
-                    }}
-                  />
-                </div>
-                <div className="w-100 p-1">
-                  <Field
-                    id={"username"}
-                    name={"username"}
-                    label={"وزن"}
-                    type={"text"}
-                    value={item.weight}
-                    onChange={(e) => {
-                    }}
-                  />
-                </div>
-
-
-              </div>
-              <div className="d-flex flex-row ">
-                <div className="w-100 p-1">
-                  <Field
-                    id={"username"}
-                    name={"username"}
-                    label={"دسته بندی تمرین"}
-                    type={"text"}
-                    value={item.categoryId}
-                    onChange={(e) => {
-                    }}
-                  />
-                </div>
-                <div className="w-100 p-1">
-                  <Field
-                    id={"username"}
-                    name={"username"}
-                    label={"عنوان تمرین"}
-                    type={"text"}
-                    value={item.exerciseId}
-                    onChange={(e) => {
-                    }}
-                  />
-                </div>
-              </div>
-              <div className="d-flex flex-row ">
-                <div className="w-100 p-1">
-                  <Field
-                    id={"username"}
-                    name={"username"}
-                    label={"توضیحات"}
-                    type={"text"}
-                    value={item.description}
-                    onChange={(e) => {
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-          </Collapse>
-        </div>
-      )
+  const toggleCollapse = (param) => {
+    if (param === isOpen) {
+      setIsOpen("0");
+    } else {
+      setIsOpen(param);
     }
-    const toggleCollapse = (param) => {
-      if (param === isOpen) {
-        setIsOpen("0");
-      } else {
-        setIsOpen(param);
-      }
-    };
-
-    return (
-      <div className={[`accordion${variation ? " accordion-s" + variation : ""}${className ? " " + className : ""}`]}>
-
-        {
-          exercises.map((item, index) => {
-            return(<AccordionItem item={item} index={index} />)
-          })
-        }
-
-
-      </div>
-    );
   };
+
 
   async function uploadImage({image}) {
     try {
@@ -325,7 +286,7 @@ function ProgramAdd({ ...props }) {
         }
       );
 
-      console.log('fileUpload',res)
+
 
       if(res.status === 200)
         return res.data.fileId;
@@ -333,24 +294,12 @@ function ProgramAdd({ ...props }) {
 
     } catch (e) {
       ErrorToaster(e)
-      console.log("Error: ", e);
     }
   }
 
 
-  function handleOnFieldChange(change) {
-    setData((prevData) => ({
-      ...prevData,
-      ...change
-    }));
-    console.log("setValue", change);
-  }
 
-  async function handleOnSubmit() {
-    console.log("form", data);
-    !isEditing ? await onCreate() : await onUpdate();
 
-  }
 
   return (
 
@@ -373,9 +322,139 @@ function ProgramAdd({ ...props }) {
                 </BlockHead>
                 <PreviewCard>
 
-                  <Accordion/>
+                  <div className={[`accordion`]}>
+
+                    {
+                      exercises.map((item, index) => {
+
+                        return(
+                          <div className="accordion-item">
+                            <div className={[`d-flex flex-row justify-content-between accordion-head${isOpen !== index ? " collapsed" : ""}`]} onClick={() => toggleCollapse(index)}>
+                              <h6 className="title">{`${toFarsiNumber(index + 1)}. تعریف نشده`}</h6>
+                              <span className="icon">
+                    <IoClose size={18} color={"#526484"}/>
+                  </span>
+                            </div>
+                            <Collapse className="accordion-body justify-content-between"  isOpen={isOpen === index ? true : false}>
+                              <div className="accordion-inner">
+                                <div className="d-flex flex-row ">
+                                  <div className="w-100 p-1">
+                                    <Field
+                                      id={"sets"}
+                                      name={"sets"}
+                                      label={"تعداد ست"}
+                                      type={"text"}
+                                      value={item.sets}
+                                      onChange={(e) => {
+                                        setExercises(exercises.map((i, indx) => {
+                                          if(index === indx){
+                                            return {
+                                              ...item,
+                                              sets: e
+                                            }
+                                          }
+
+                                          return i;
+                                        }))
+                                      }}
+                                    />
+                                  </div>
+                                  <div className="w-100 p-2">
+                                    <Field
+                                      id={"username"}
+                                      name={"username"}
+                                      label={"تعداد تکرار"}
+                                      type={"text"}
+                                      value={item.reps}
+                                      onChange={(e) => {
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="d-flex flex-row ">
+                                  <div className="w-100 p-1">
+                                    <Field
+                                      id={"username"}
+                                      name={"username"}
+                                      label={"استراحت بین ست"}
+                                      type={"text"}
+                                      value={item.rest}
+                                      onChange={(e) => {
+                                      }}
+                                    />
+                                  </div>
+                                  <div className="w-100 p-1">
+                                    <Field
+                                      id={"username"}
+                                      name={"username"}
+                                      label={"وزن"}
+                                      type={"text"}
+                                      value={item.weight}
+                                      onChange={(e) => {
+                                      }}
+                                    />
+                                  </div>
+
+
+                                </div>
+                                <div className="d-flex flex-row ">
+                                  <div className="w-100 p-1">
+                                    <Field
+                                      id={"username"}
+                                      name={"username"}
+                                      label={"دسته بندی تمرین"}
+                                      disabled={exerciseCategoriesOptions.length === 0}
+                                      options={exerciseCategoriesOptions}
+                                      type={"select"}
+                                      value={item.categoryId}
+                                      onChange={(e) => {
+                                      }}
+                                    />
+                                  </div>
+                                  <div className="w-100 p-1">
+                                    <Field
+                                      id={"username"}
+                                      name={"username"}
+                                      disabled={exerciseList.length === 0}
+                                      options={loadExercisesByCategoryId(item.categoryId)}
+                                      label={"عنوان تمرین"}
+                                      type={"select"}
+                                      value={item.exerciseId}
+                                      onChange={(e) => {
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="d-flex flex-row ">
+                                  <div className="w-100 p-1">
+                                    <Field
+                                      id={"username"}
+                                      name={"username"}
+                                      label={"توضیحات"}
+                                      type={"text"}
+                                      value={item.description}
+                                      onChange={(e) => {
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </Collapse>
+                          </div>
+                        )
+                      })
+                    }
+
+
+                  </div>
 
                 </PreviewCard>
+
+                <div className="btn btn-primary" onClick={()=>{
+                  console.log('exercise', exercises);
+                }}>
+                  click on me!
+                </div>
               </Block>
 
             </Content>

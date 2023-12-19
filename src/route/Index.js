@@ -61,7 +61,6 @@ const Pages = () => {
         {/*FitnessAcademic*/}
         <Route>
           <Route path="program-list" element={<ProgramList />}></Route>
-          <Route path="program-add" element={<ProgramAdd />}></Route>
           <Route path="program-edit/:id" element={<ProgramAdd />}></Route>
         </Route>
 
