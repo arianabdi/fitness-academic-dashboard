@@ -92,6 +92,8 @@ export const tableStructure = [
 
         useYesOrNoModal: true,
         modalCancelText: 'بستن پنجره',
+        modalType: "delete",
+        modalPath: '/api/exercise/:_id',
         modalSubmitText: 'حذف تمرین',
         modalTitle: 'حذف تمرین',
         modalContent: 'ایا از حذف این تمرین اطمینان دارید؟ با حذف این تمرین داده ها دیگر در دسترس نخواهند بود',

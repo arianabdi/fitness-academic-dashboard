@@ -36,6 +36,9 @@ import { LuBell, LuCopy, LuMoreHorizontal, LuPrinter } from "react-icons/lu";
 import { RiFileExcel2Line } from "react-icons/ri";
 import { TbFileTypeCsv, TbFilterSearch } from "react-icons/tb";
 import { MdAdd } from "react-icons/md";
+import { path } from "../../../redux/store/services/fitness-academic/exercise/store/exercise-actions";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 
 const Export = ({ data }) => {
@@ -158,8 +161,10 @@ const Table = ({
    onEveryGridButtonClick,
    onItemPerPageChange,
    onCurrentPageChange,
-   onFilterSubmit
+   onFilterSubmit,
+   onDeleteComplete
 }) => {
+  const auth = useSelector((state) => state.auth);
   const { t, i18n } = useTranslation();
   // const [data, setData] = useState([]);
   const [smOption, setSmOption] = useState(false);
@@ -197,7 +202,10 @@ const Table = ({
     modalCancelText: "",
     modalSubmitText: "",
     modalTitle: "",
-    modalContent: ""
+    modalContent: "",
+    modalItemTarget: "",
+    modalType: "",
+    modalPath: ""
   });
 
   //scroll off when sidebar shows
@@ -464,7 +472,10 @@ const Table = ({
                                 modalCancelText: j.modalCancelText || "بستن",
                                 modalSubmitText: j.modalSubmitText || "تایید",
                                 modalTitle: j.modalTitle || "عنوان پنجره یافت نشد",
-                                modalContent: j.modalContent || "متن پنجره یافت نشد"
+                                modalContent: j.modalContent || "متن پنجره یافت نشد",
+                                modalType: j.modalType || "",
+                                modalPath: j.modalPath || "",
+                                modalItemTarget: item || "",
                               });
                             }
                             // onEditClick(item.id);
@@ -732,8 +743,23 @@ const Table = ({
             cancelText={modalProps.modalCancelText}
             submitText={modalProps.modalSubmitText}
             onClose={() => {
-
               setYesOrNoModalIsOpen(false);
+            }}
+            onSubmit={async ()=>{
+              if(modalProps.modalType === 'delete'){
+                // replacePlaceholders(j.route, item)
+                const res = await axios.delete(`${process.env.REACT_APP_API_URL}${replacePlaceholders(modalProps.modalPath, modalProps.modalItemTarget)}`, {
+                  headers: {authorization: `bearer ${auth.token}`}
+                });
+
+                if(res.status === 200){
+                  onDeleteComplete()
+                  setYesOrNoModalIsOpen(false);
+                  toast.success("آیتم مورد نظر با موفقیت حذف شد")
+                }
+
+                console.log('delete item', res)
+              }
             }}
             title={modalProps.modalTitle}
             content={modalProps.modalContent}

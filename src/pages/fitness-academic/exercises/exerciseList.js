@@ -100,6 +100,9 @@ const ExerciseList = () => {
         onFilterSubmit={ (e)=>{
           setFilter(e);
         }}
+        onDeleteComplete={ (e)=>{
+          fetchData('pagination');
+        }}
       />
     </React.Fragment>
   );
