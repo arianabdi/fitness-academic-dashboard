@@ -4,7 +4,7 @@ import { RiDeleteBinLine } from "react-icons/ri";
 export const tableStatics = {
   title: "تمرینها",
   description: "",
-  addNewItemButtonLink: '/plane-add'
+  addNewItemButtonLink: '/exercise-add'
 }
 export const formStatics = {
   title: "ایجاد تمرین",
@@ -41,10 +41,10 @@ export const filterStructure = [
     type: "select",
 
     chooseOptionsFromApi: true,
-    path: '/Persons/Search/Student',
-    key: 'results',
-    chooseOptionsLabelFrom: 'fullname',
-    chooseOptionsValueFrom: 'userId',
+    path: '/api/category/exercise',
+    key: 'categories',
+    chooseOptionsLabelFrom: 'title',
+    chooseOptionsValueFrom: '_id',
     options: [],
     placeholder: "دانشجو را انتخاب کنید",
   },
@@ -104,105 +104,47 @@ export const tableStructure = [
 export const formStructure = [
   [
     {
-      title: "اسم",
-      slug: 'name',
+      title: "عنوان تمرین",
+      slug: 'title',
       type: "text",
-      placeholder: "نام تمرین را وارد کنید",
+      placeholder: "عنوان تمرین را وارد کنید",
       isRequired: true,
     },
     {
-      title: "شماره رجیستر",
-      slug: 'registerNumber',
+      title: "شناسه تمرین",
+      slug: 'slug',
       type: "text",
-      placeholder: "شماره رجییستر تمرین را وارد کنید",
+      placeholder: "شناسه تمرین را وارد کنید",
       isRequired: true,
     },
   ],
   [
     {
-      title: "سال ساخت",
-      slug: 'buildDate',
-      type: "date",
+      title: "سطح تمرین",
+      slug: 'level',
+      type: "select",
       isJalali: true,
-      placeholder: "سال ساخت تمرین را وارد کنید",
+      placeholder: "سطح تمرین را انتخاب کنید",
+      options: [
+        {label: 'مبتدی', value: 'beginner'},
+        {label: 'حرفه ای', value: 'professional'},
+      ],
       isRequired: true,
-    },
-    {
-      title: "ساعت پرواز",
-      slug: 'flightHours',
-      type: "number",
-      placeholder: "نام تمرین را وارد کنید",
-      isRequired: true,
-    },
-  ],
-  [
-    {
-      title: "تاریخ اورهال موتور",
-      slug: 'engineOverhaulDate',
-      type: "date",
-      isJalali: true,
-      placeholder: "تاریخ اورهال موتور را وارد کنید",
-      isRequired: true,
-    },
-    {
-      title: "ساعت اورهال موتور",
-      slug: 'engineOverhaulHours',
-      type: "number",
-      placeholder: "ساعت اورهال موتور را وارد کنید",
-      isRequired: true,
-    },
-  ],
-  [
-    {
-      title: "تاریخ اورهال ملخ",
-      slug: 'propellerOverhaulDate',
-      type: "date",
-      isJalali: true,
-      placeholder: "تاریخ اورهال ملخ را وارد کنید",
-      isRequired: true,
-    },
-    {
-      title: "ساعت اورهال ملخ",
-      slug: 'propellerOverhaulHours',
-      type: "number",
-      placeholder: "ساعت اورهال ملخ را وارد کنید",
-      isRequired: true,
-    }
-  ],
-  [
-    {
-      title: "مجوز پرواز",
-      slug: 'flightPermitDate',
-      type: "date",
-      isJalali: true,
-      placeholder: "مجوز پرواز را وارد کنید",
-      isRequired: true,
-    },
-    {
-      title: "ساعت سرویس بعدی",
-      slug: 'overallServicesHours',
-      type: "number",
-      isJalali: true,
-      placeholder: "ساعت سرویس کلی را وارد کنید",
-      isRequired: true,
-    },
 
-  ],
-  [
-    {
-      title: "شماره بیمه",
-      slug: 'insuranceNumber',
-      type: "text",
-      placeholder: "شماره بیمه را وارد کنید",
-      isRequired: true,
     },
     {
-      title: "تاریخ بیمه",
-      slug: 'insuranceDate',
-      type: "date",
-      isJalali: true,
-      placeholder: "تاریخ بیمه را وارد کنید",
+      title: "دسته بندی تمرین",
+      slug: 'categoryId',
       isRequired: true,
+      type: "select",
+
+      chooseOptionsFromApi: true,
+      path: '/api/category/exercise',
+      key: 'categories',
+      chooseOptionsLabelFrom: 'title',
+      chooseOptionsValueFrom: '_id',
+      options: [],
+      placeholder: "دسته بندی تمرین را انتخاب کنید",
     },
   ],
   [
@@ -215,30 +157,24 @@ export const formStructure = [
   ],
   [
     {
-      title: "تصویر اجازه نامه پرواز",
-      slug: 'flightPermitImagePreview',
+      title: "عکس تمرین",
+      slug: 'imagePreview',
       type: "image-preview",
-      placeholder: "تصویر اجازه نامه پرواز را انتخاب کنید",
+      placeholder: "عکس تمرین را انتخاب کنید",
     },
     {
-      title: "تصویر بیمه نامه",
-      slug: 'insuranceImagePreview',
-      type: "image-preview",
-      placeholder: "تصویر بیمه نامه را انتخاب کنید",
+      isEmpty: true
     },
   ],
   [
     {
-      title: "تصویر اجازه نامه پرواز",
-      slug: 'flightPermitImage',
+      title: "عکس تمرین",
+      slug: 'image',
       type: "file-upload",
-      placeholder: "تصویر اجازه نامه پرواز را انتخاب کنید",
+      placeholder: "عکس تمرین را انتخاب کنید",
     },
     {
-      title: "تصویر بیمه نامه",
-      slug: 'insuranceImage',
-      type: "file-upload",
-      placeholder: "تصویر بیمه نامه را انتخاب کنید",
+      isEmpty: true
     },
   ]
 ]

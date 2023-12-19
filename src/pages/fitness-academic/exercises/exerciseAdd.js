@@ -22,22 +22,17 @@ function ExerciseAdd({ ...props }) {
   const [processing, setProcessing] = useState(false);
 
   const [data, setData] = useState({
-    "type": 1,
-    "name": "",
-    "registerNumber": "",
-    "buildDate": "",
-    "flightHours": null,
-    "engineOverhaulDate": "",
-    "engineOverhaulHours": null,
-    "propellerOverhaulDate": "",
-    "propellerOverhaulHours":null,
-    "overallServicesHours": null,
-    "flightPermitDate": "",
-    "insuranceNumber": "",
+
+    "title": "",
+    "slug": "",
+    "categoryId": "",
+    "level": null,
     "description": "",
-    "flightPermitImage": "",
-    "insuranceImage": "",
+    "image": null,
+    "video": "",
   });
+
+
 
   async function loadData() {
     const res = await dispatch(getItemById(id));
