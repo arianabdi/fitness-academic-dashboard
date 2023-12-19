@@ -113,44 +113,22 @@ function ExerciseAdd({ ...props }) {
       let _data = {...data}
       let fileId;
       delete _data.imagePreview;
+      delete _data.imageHolder;
 
-      if(data.imageHolder){
+      console.log('image-in-upload', data.imageHolder)
+      if(data.imageHolder.length !== 0){
         fileId = await uploadImage({ image: data.imageHolder })
       }
-      const res = await axios.put(`${process.env.REACT_APP_API_URL}${path}`,
+      const res = await axios.patch(`${process.env.REACT_APP_API_URL}${path}/${id}`,
         { ..._data, image: fileId || data.image },
         { headers: { "authorization": `bearer ${auth.token}` }}
       );
 
-      console.log('plane created!', res)
-      if(res.data.statusCode === 200){
-
-        if(data.flightPermitImage.length > 0){
-          await uploadImage({
-            file: data.flightPermitImage[0].file,
-            user: res.data.data.user.id,
-            type: 3
-          })
-          console.log('flightPermitImage uploaded!', res.data.data)
-        }
-
-        if(data.insuranceImage.length > 0){
-          await uploadImage({
-            file: data.insuranceImage[0].file,
-            user: res.data.data.user.id,
-            type: 2
-          })
-
-          console.log('insuranceImage uploaded!', res.data.data)
-        }
-        navigate(`/plane-list`);
-      }
 
 
       setProcessing(false)
     } catch (e) {
-      console.log("Error: ", e);
-
+      ErrorToaster(e)
       setProcessing(false)
     }
   }
