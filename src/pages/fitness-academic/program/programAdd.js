@@ -5,7 +5,7 @@ import { formStatics, formStructure } from "./index";
 import axios from "axios";
 import { convertDate } from "../../../shared/shared";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { getItemById } from "../../../redux/store/services/fitness-academic/exercise/store/exercise-actions";
+import { getItemById, path } from "../../../redux/store/services/fitness-academic/exercise/store/exercise-actions";
 
 import { ErrorToaster } from "../../../shared/toaster";
 import { Collapse } from "reactstrap";
@@ -29,6 +29,7 @@ function ProgramAdd({ ...props }) {
   const dispatch = useDispatch();
   const [isLoading, setIsloading] = useState(isEditing ? true : false);
   const [processing, setProcessing] = useState(false);
+  const [exerciseCategories, setExerciseCategories] = useState([]);
   const [exercises, setExercises] = useState([
     {
       sets: "3",
@@ -97,9 +98,27 @@ function ProgramAdd({ ...props }) {
 
   }
 
+  async function loadExerciseCategories(){
+    try {
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}//api/category/exercise`, {
+        headers: {authorization: `bearer ${auth.token}`}
+      });
+
+      if (res.status === 200) {
+        console.log('loadExerciseCategories', res)
+      }
+    }catch (e){
+      ErrorToaster(e)
+    }
+  }
+
   useEffect(() => {
+    loadExerciseCategories()
+
     if (isEditing)
       loadData();
+
+
   }, []);
 
   async function onCreate() {
@@ -165,16 +184,16 @@ function ProgramAdd({ ...props }) {
   const Accordion = ({ className, variation }) => {
     const [isOpen, setIsOpen] = useState("1");
 
-    const AccordionItem = ({item}) => {
+    const AccordionItem = ({item, index}) => {
       return(
         <div className="accordion-item">
-          <div className={[`d-flex flex-row justify-content-between accordion-head${isOpen !== id ? " collapsed" : ""}`]} onClick={() => toggleCollapse(id)}>
-            <h6 className="title">{title}</h6>
+          <div className={[`d-flex flex-row justify-content-between accordion-head${isOpen !== index ? " collapsed" : ""}`]} onClick={() => toggleCollapse(index)}>
+            <h6 className="title">{"تعریف نشده"}</h6>
             <span className="icon">
               <IoClose size={18} color={"#526484"}/>
             </span>
           </div>
-          <Collapse className="accordion-body justify-content-between"  isOpen={isOpen === id ? true : false}>
+          <Collapse className="accordion-body justify-content-between"  isOpen={isOpen === index ? true : false}>
             <div className="accordion-inner">
               <div className="d-flex flex-row ">
                 <div className="w-100 p-1">
@@ -183,7 +202,7 @@ function ProgramAdd({ ...props }) {
                     name={"username"}
                     label={"تعداد ست"}
                     type={"text"}
-                    value={""}
+                    value={item.sets}
                     onChange={(e) => {
                     }}
                   />
@@ -194,7 +213,7 @@ function ProgramAdd({ ...props }) {
                     name={"username"}
                     label={"تعداد تکرار"}
                     type={"text"}
-                    value={""}
+                    value={item.reps}
                     onChange={(e) => {
                     }}
                   />
@@ -207,7 +226,7 @@ function ProgramAdd({ ...props }) {
                     name={"username"}
                     label={"استراحت بین ست"}
                     type={"text"}
-                    value={""}
+                    value={item.rest}
                     onChange={(e) => {
                     }}
                   />
@@ -218,7 +237,7 @@ function ProgramAdd({ ...props }) {
                     name={"username"}
                     label={"وزن"}
                     type={"text"}
-                    value={""}
+                    value={item.weight}
                     onChange={(e) => {
                     }}
                   />
@@ -233,7 +252,7 @@ function ProgramAdd({ ...props }) {
                     name={"username"}
                     label={"دسته بندی تمرین"}
                     type={"text"}
-                    value={""}
+                    value={item.categoryId}
                     onChange={(e) => {
                     }}
                   />
@@ -244,7 +263,7 @@ function ProgramAdd({ ...props }) {
                     name={"username"}
                     label={"عنوان تمرین"}
                     type={"text"}
-                    value={""}
+                    value={item.exerciseId}
                     onChange={(e) => {
                     }}
                   />
@@ -280,8 +299,8 @@ function ProgramAdd({ ...props }) {
       <div className={[`accordion${variation ? " accordion-s" + variation : ""}${className ? " " + className : ""}`]}>
 
         {
-          exercises.map(item => {
-            return(<AccordionItem item={item} />)
+          exercises.map((item, index) => {
+            return(<AccordionItem item={item} index={index} />)
           })
         }
 

@@ -68,6 +68,7 @@ export function getItemById(id) {
             dispatch(setItemsPending(true));
             return  await axios.get(`${path}/${id}`);
 
+
         } catch (error) {
             ErrorToaster(error)
             console.log(error.message);
