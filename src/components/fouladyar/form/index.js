@@ -20,6 +20,7 @@ import axios from "axios";
 import { convertDate } from "../../../shared/shared";
 import { useSelector } from "react-redux";
 import { FormUtils, loadOptionsFromApi } from "../../../shared/forms";
+import { ErrorToaster } from "../../../shared/toaster";
 
 
 function Form ({ form, fields, statics, isEditing, isloading, componentBeforeForm, componentAfterForm,  onFieldChange, onFormSubmit }) {
@@ -53,30 +54,11 @@ function Form ({ form, fields, statics, isEditing, isloading, componentBeforeFor
     })
 
 
-
-    console.log('error', errors);
     if(errors.length === 0){
-      setShowAlert(false)
-      setAlertText('');
       return true;
     }
 
-    setAlertText(
-      <>
-        شما باید فیلد های زیر را تغییر دهید:
-        <div className="space-10"/>
-        <ul>
-          {
-            errors.map(message => {
-              return (
-                <li>{message}</li>
-              )
-            })
-          }
-        </ul>
-      </>
-    )
-    setShowAlert(true)
+    ErrorToaster(errors.join('\n'))
     return false;
   }
 

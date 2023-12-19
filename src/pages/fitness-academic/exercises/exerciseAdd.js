@@ -13,16 +13,15 @@ function ExerciseAdd({ ...props }) {
 
   const { id } = useParams();
   const location = useLocation();
-  const isEditing = location.pathname.includes("plane-edit");
+  const isEditing = location.pathname.includes("exercise-edit");
   const navigate = useNavigate();
   const auth = useSelector((state) => state.auth);
-  const path = '/Planes/Plane'
+  const path = '/api/exercise'
   const dispatch = useDispatch();
   const [isLoading, setIsloading] = useState(isEditing ? true : false);
   const [processing, setProcessing] = useState(false);
 
   const [data, setData] = useState({
-
     "title": "",
     "slug": "",
     "categoryId": "",
@@ -68,21 +67,13 @@ function ExerciseAdd({ ...props }) {
   async function onCreate() {
     try {
       setProcessing(true)
-      const res = await axios.post(`${process.env.REACT_APP_API_URL}${path}`,
-        {
-          ...data,
-          "engineOverhaulDate": convertDate(data.engineOverhaulDate),
-          "propellerOverhaulDate": convertDate(data.propellerOverhaulDate),
-          "flightPermitDate": convertDate(data.flightPermitDate),
-          "buildDate": convertDate(data.buildDate)
-        }, {
-          headers: {
-            "authorization": `bearer ${auth.token}`
-          }
-        }
-      );
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}${path}`, data, {
+          headers: { "authorization": `bearer ${auth.token}` }
+      });
 
-      if(res.data.statusCode === 201){
+      console.log('exercise-res', res)
+
+      /*if(res.data.statusCode === 201){
 
         if(data.flightPermitImage.length > 0){
           await uploadImage({
@@ -103,7 +94,7 @@ function ExerciseAdd({ ...props }) {
           console.log('insuranceImage uploaded!', res.data.data)
         }
         navigate(`/plane-list`);
-      }
+      }*/
 
       setProcessing(false)
 
