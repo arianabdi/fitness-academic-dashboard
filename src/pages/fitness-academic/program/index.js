@@ -2,17 +2,17 @@ import { TbEdit } from "react-icons/tb";
 import { RiDeleteBinLine } from "react-icons/ri";
 
 export const tableStatics = {
-  title: "تمرینها",
+  title: "برنامه ها",
   description: "",
   addNewItemButtonLink: '/exercise-add'
 }
 export const formStatics = {
-  title: "ایجاد تمرین",
-  editTitle: "ویرایش تمرین",
-  description: "از اینجا میتوانید اقدام به ایجاد تمرین کنید",
-  editDescription: "از اینجا میتوانید اقدام به ویرایش تمرین کنید",
-  submitText: "ایجاد تمرین",
-  editSubmitText: "ویرایش تمرین",
+  title: "ایجاد برنامه",
+  editTitle: "ویرایش برنامه",
+  description: "از اینجا میتوانید اقدام به ایجاد برنامه کنید",
+  editDescription: "از اینجا میتوانید اقدام به ویرایش برنامه کنید",
+  submitText: "ایجاد برنامه",
+  editSubmitText: "ویرایش برنامه",
 }
 
 
@@ -30,7 +30,7 @@ export const filterStructure = [
       {label: 'مبتدی', value: 'beginner'},
       {label: 'حرفه ای', value: 'professional'},
     ],
-    placeholder: "سطح تمرین را انتخاب کنید",
+    placeholder: "سطح برنامه را انتخاب کنید",
   },
   {
     title: "دسته بندی",
@@ -43,7 +43,7 @@ export const filterStructure = [
     chooseOptionsLabelFrom: 'title',
     chooseOptionsValueFrom: '_id',
     options: [],
-    placeholder: "دسته بندی تمرین را انتخاب کنید",
+    placeholder: "دسته بندی برنامه را انتخاب کنید",
   },
 ]
 
@@ -75,7 +75,7 @@ export const tableStructure = [
     slug: '',
     actions: [
       {
-        title: "ویرایش تمرین",
+        title: "ویرایش برنامه",
         slug: "edit-exercise",
         icon: <TbEdit size={18} color={"#526484"}/>,
 
@@ -83,7 +83,7 @@ export const tableStructure = [
         route: "/exercise-edit/:_id"
       },
       {
-        title: "حذف تمرین",
+        title: "حذف برنامه",
         slug: 'delete-exercise',
         icon: <RiDeleteBinLine size={18} color={"#526484"}/>,
 
@@ -91,9 +91,9 @@ export const tableStructure = [
         modalCancelText: 'بستن پنجره',
         modalType: "delete",
         modalPath: '/api/exercise/:_id',
-        modalSubmitText: 'حذف تمرین',
-        modalTitle: 'حذف تمرین',
-        modalContent: 'ایا از حذف این تمرین اطمینان دارید؟ با حذف این تمرین داده ها دیگر در دسترس نخواهند بود',
+        modalSubmitText: 'حذف برنامه',
+        modalTitle: 'حذف برنامه',
+        modalContent: 'ایا از حذف این برنامه اطمینان دارید؟ با حذف این برنامه داده ها دیگر در دسترس نخواهند بود',
 
       },
     ]
@@ -103,27 +103,27 @@ export const tableStructure = [
 export const formStructure = [
   [
     {
-      title: "عنوان تمرین",
+      title: "عنوان برنامه",
       slug: 'title',
       type: "text",
-      placeholder: "عنوان تمرین را وارد کنید",
+      placeholder: "عنوان برنامه را وارد کنید",
       isRequired: true,
     },
     {
-      title: "شناسه تمرین",
+      title: "شناسه برنامه",
       slug: 'slug',
       type: "text",
-      placeholder: "شناسه تمرین را وارد کنید",
+      placeholder: "شناسه برنامه را وارد کنید",
       isRequired: true,
     },
   ],
   [
     {
-      title: "سطح تمرین",
+      title: "سطح برنامه",
       slug: 'level',
       type: "select",
       isJalali: true,
-      placeholder: "سطح تمرین را انتخاب کنید",
+      placeholder: "سطح برنامه را انتخاب کنید",
       options: [
         {label: 'مبتدی', value: 'beginner'},
         {label: 'حرفه ای', value: 'professional'},
@@ -132,7 +132,7 @@ export const formStructure = [
 
     },
     {
-      title: "دسته بندی تمرین",
+      title: "دسته بندی برنامه",
       slug: 'categoryId',
       isRequired: true,
       type: "select",
@@ -143,7 +143,7 @@ export const formStructure = [
       chooseOptionsLabelFrom: 'title',
       chooseOptionsValueFrom: '_id',
       options: [],
-      placeholder: "دسته بندی تمرین را انتخاب کنید",
+      placeholder: "دسته بندی برنامه را انتخاب کنید",
     },
   ],
   [
@@ -151,15 +151,15 @@ export const formStructure = [
       title: "توضیحات",
       slug: 'description',
       type: "textarea",
-      placeholder: "توضیحات تمرین را وارد کنید",
+      placeholder: "توضیحات برنامه را وارد کنید",
     }
   ],
   [
     {
-      title: "عکس تمرین",
+      title: "عکس برنامه",
       slug: 'imagePreview',
       type: "image-preview",
-      placeholder: "عکس تمرین را انتخاب کنید",
+      placeholder: "عکس برنامه را انتخاب کنید",
     },
     {
       isEmpty: true
@@ -167,10 +167,10 @@ export const formStructure = [
   ],
   [
     {
-      title: "عکس تمرین",
+      title: "عکس برنامه",
       slug: 'imageHolder',
       type: "file-upload",
-      placeholder: "عکس تمرین را انتخاب کنید",
+      placeholder: "عکس برنامه را انتخاب کنید",
     },
     {
       isEmpty: true

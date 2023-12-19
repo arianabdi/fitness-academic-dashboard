@@ -73,7 +73,7 @@ export default function Filter({filterStructure, filter, onClose, onSubmit, onCh
           <MdClose size={22} color={"#26282a"} onClick={(ev) => {ev.preventDefault();}}/>
         </a>
       </div>
-      <h4 style={{ padding: "0px 20px" }}>{t('filter')}</h4>
+      <h4 style={{ padding: "0px 20px" }}>{t('فیلتر')}</h4>
       <li className="divider" style={{margin: 0}}></li>
 
 

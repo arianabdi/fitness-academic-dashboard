@@ -34,6 +34,8 @@ import Error504Classic from "../pages/asoo/error/504-classic";
 import Settings from "../pages/asoo/settings";
 import ExerciseList from "../pages/fitness-academic/exercises/exerciseList";
 import ExerciseAdd from "../pages/fitness-academic/exercises/exerciseAdd";
+import ProgramAdd from "../pages/fitness-academic/program/programAdd";
+import ProgramList from "../pages/fitness-academic/program/programList";
 
 
 const Pages = () => {
@@ -53,6 +55,14 @@ const Pages = () => {
           <Route path="exercise-list" element={<ExerciseList />}></Route>
           <Route path="exercise-add" element={<ExerciseAdd />}></Route>
           <Route path="exercise-edit/:id" element={<ExerciseAdd />}></Route>
+        </Route>
+
+
+        {/*FitnessAcademic*/}
+        <Route>
+          <Route path="program-list" element={<ProgramList />}></Route>
+          <Route path="program-add" element={<ProgramAdd />}></Route>
+          <Route path="program-edit/:id" element={<ProgramAdd />}></Route>
         </Route>
 
         {/*Asoo*/}
