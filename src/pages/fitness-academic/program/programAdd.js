@@ -17,6 +17,7 @@ import { PreviewCard } from "../../../components/preview/Preview";
 import Content from "../../../layout/content/Content";
 import { toFarsiNumber } from "../../../shared/toFarsiNumber";
 import { useTranslation } from "react-i18next";
+import toast from "react-hot-toast";
 
 
 
@@ -343,6 +344,31 @@ function ProgramAdd({ ...props }) {
 
   }
 
+  function validateform() {
+    let ErrorMessages = []
+    exercises.map((ex, index) => {
+      if(!ex.categoryId)
+        ErrorMessages.push(`لطفا فیلد دسته بندی شماره ${index + 1} را پر کنید`)
+
+      if(!ex.exerciseId)
+        ErrorMessages.push(`لطفا فیلد عنوان تمرین شماره ${index + 1} را پر کنید`)
+
+      if(!ex.sets)
+        ErrorMessages.push(`لطفا تعداد ست تمرین شماره ${index + 1} را پر کنید`)
+
+      if(!ex.reps)
+        ErrorMessages.push(`لطفا تعداد تکرار تمرین شماره ${index + 1} را پر کنید`)
+    })
+
+    if(ErrorMessages.length > 0){
+      toast.error(ErrorMessages.join('\n'))
+    }
+  }
+
+  function onSubmitForm() {
+    validateform()
+  }
+
   return (
 
     <>
@@ -556,7 +582,7 @@ function ProgramAdd({ ...props }) {
                 </PreviewCard>
 
                 <div className="btn btn-primary" onClick={()=>{
-                  console.log('exercise', exercises);
+                  onSubmitForm()
                 }}>
                   click on me!
                 </div>

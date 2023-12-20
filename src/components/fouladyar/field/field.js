@@ -332,7 +332,8 @@ export const Field = ({
                             isDisabled={disabled}
                             className="react-select-container"
                             classNamePrefix="react-select"
-                            defaultValue={(selectOptions.filter(item => item.value === value))[0]}
+                            // defaultValue={}
+                            value={(selectOptions.filter(item => item.value === value))[0]}
                             options={selectOptions}
                             onChange={(e)=>{onChange(e.value)}}
                             placeholder={placeholder}
