@@ -50,7 +50,11 @@ function ProgramAdd({ ...props }) {
     exerciseId: "",
     description: ""
   }
-
+  const emptyDiet = {
+    suggestions: [""],
+    title: "",
+    type: "",
+  }
 
   /*Tab*/
   const [activeTab, setActiveTab] = useState("1");
@@ -410,7 +414,8 @@ function ProgramAdd({ ...props }) {
   }
 
   function onSubmitForm() {
-
+    console.log('diet', diet)
+    console.log('exercise', exercises)
     validateform()
   }
 
@@ -658,7 +663,7 @@ function ProgramAdd({ ...props }) {
                           })
                         }
                       </div>
-                      <Button outline color="light" className="dana-font mt-3 w-100 d-flex justify-content-center" onClick={()=>{
+                      <Button outline color="light" className="dana-font mt-3 w-100 d-flex justify-content-center btn-font-weight-thin" onClick={()=>{
                         setExercises(prevState => ([
                           ...prevState,
                           emptyExercise
@@ -674,11 +679,10 @@ function ProgramAdd({ ...props }) {
                       <div className={[`accordion`]}>
                         {
                           diet.map((item, index) => {
-
                             return(
                               <div className="accordion-item">
                                 <div className={[`d-flex flex-row justify-content-between accordion-head${isOpen !== index ? " collapsed" : ""}`]} >
-                                  <h6 className="title" onClick={() => toggleCollapse(index)}>{`${toFarsiNumber(index + 1)}. ${(exerciseListOptions.length > 0 && item.exerciseId) ? (exerciseListOptions.find(i=>i.value === item.exerciseId))?.label : 'ثبت نشده'}`}</h6>
+                                  <h6 className="title" onClick={() => toggleCollapse(index)}>{`${toFarsiNumber(index + 1)}. ${item.title ? item.title : 'ثبت نشده'}`}</h6>
                                   <span className="icon" onClick={() => {
                                     setDiet(diet.filter((i, indx) => {
                                       if(indx !== index)
@@ -753,24 +757,38 @@ function ProgramAdd({ ...props }) {
                                                 type={"text"}
                                                 value={sugg}
                                                 onChange={(e) => {
-                                                  // setDiet(diet.map((i, indx) => {
-                                                  //   if(index === indx){
-                                                  //     return {
-                                                  //       ...item,
-                                                  //       type: e
-                                                  //     }
-                                                  //   }
-                                                  //
-                                                  //   return i;
-                                                  // }))
+                                                  setDiet(diet.map((i, dietIndx) => {
+                                                    if(index === dietIndx){
+                                                      return {
+                                                        ...item,
+                                                        suggestions: item.suggestions.map((j, sugIndx)=>{
+                                                          if(indx === sugIndx )
+                                                            return e;
+
+                                                          return  j
+                                                        })
+                                                      }
+                                                    }
+
+                                                    return i;
+                                                  }))
                                                 }}
                                               />
 
                                               <Button outline color="light" className="dana-font mt-5 me-3 d-flex justify-content-center diet-cancel-btn" onClick={()=>{
-                                                // setDiet(prevState => ([
-                                                //   ...prevState,
-                                                //   emptyExercise
-                                                // ]))
+                                                setDiet(diet.map((i, dietIndx) => {
+                                                  if(index === dietIndx){
+                                                    return {
+                                                      ...item,
+                                                      suggestions: item.suggestions.filter((j, sugIndx)=>{
+                                                        if(indx !== sugIndx )
+                                                          return  j
+                                                      })
+                                                    }
+                                                  }
+
+                                                  return i;
+                                                }))
                                               }}>
                                                 <IoMdClose size={19} color={"#526484"}/>
                                               </Button>
@@ -786,10 +804,10 @@ function ProgramAdd({ ...props }) {
                           })
                         }
                       </div>
-                      <Button outline color="light" className="dana-font mt-3 w-100 d-flex justify-content-center" onClick={()=>{
+                      <Button outline color="light" className="dana-font mt-3 w-100 d-flex justify-content-center btn-font-weight-thin" onClick={()=>{
                         setDiet(prevState => ([
                           ...prevState,
-                          emptyExercise
+                          emptyDiet
                         ]))
                       }}>
                         افزودن وعده غذایی
