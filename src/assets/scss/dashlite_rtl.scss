@@ -565,7 +565,12 @@ body, h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1{
   padding: 1rem 0rem;
   border-bottom: 1px solid rgba(72, 94, 144, 0.16);
 }
-
+.dana-font{
+  font-family: 'dana';
+  font-size: 15px;
+  text-align: center;
+  color: #fff;
+}
 .InfoItem-container .info-title{
   font-family: 'dana';
   font-size: 15px;
@@ -573,8 +578,14 @@ body, h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1{
 }
 
 .InfoItem-container .info-value{
-
   font-family: 'dana';
   font-size: 15px;
   color: #4b5f7c;
+}
+
+.block-title{
+  font-family: "dana" !important;
+  font-size: 23px !important;
+  color: #4b5f7c;
+  padding: 10px 0px;
 }

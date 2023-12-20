@@ -384,7 +384,7 @@ function ProgramAdd({ ...props }) {
               <Block size="lg">
                 <BlockHead>
                   <BlockHeadContent>
-                    <BlockTitle tag="h5">ایجاد برنامه جدید</BlockTitle>
+                    <BlockTitle tag="h5" className="block-title">ایجاد برنامه جدید</BlockTitle>
                     <p>در بخش باید متناسب با اطلاعات وارد شده توسط کاربر، برنامه تمرینی و غذایی ایجاد و ثبت شود</p>
                   </BlockHeadContent>
                 </BlockHead>
@@ -398,10 +398,10 @@ function ProgramAdd({ ...props }) {
                         return(
                           <div className="accordion-item">
                             <div className={[`d-flex flex-row justify-content-between accordion-head${isOpen !== index ? " collapsed" : ""}`]} onClick={() => toggleCollapse(index)}>
-                              <h6 className="title">{`${toFarsiNumber(index + 1)}. تعریف نشده`}</h6>
+                              <h6 className="title">{`${toFarsiNumber(index + 1)}. ${(exerciseListOptions.length > 0 && item.exerciseId) ? (exerciseListOptions.find(i=>i.value === item.exerciseId))?.label : 'ثبت نشده'}`}</h6>
                               <span className="icon">
-                    <IoClose size={18} color={"#526484"}/>
-                  </span>
+                                <IoClose size={18} color={"#526484"}/>
+                              </span>
                             </div>
                             <Collapse className="accordion-body justify-content-between"  isOpen={isOpen === index ? true : false}>
                               <div className="accordion-inner">
@@ -581,16 +581,12 @@ function ProgramAdd({ ...props }) {
 
                 </PreviewCard>
 
-                <div className="btn btn-primary" onClick={()=>{
-                  onSubmitForm()
-                }}>
-                  click on me!
-                </div>
+
               </Block>
               <Block size="lg">
                 <BlockHead>
                   <BlockHeadContent>
-                    <BlockTitle tag="h5">اطالاعات کاربر</BlockTitle>
+                    <BlockTitle tag="h5" className="block-title">اطالاعات کاربر</BlockTitle>
                     <p>این اطلاعات توسط کاربر تکمیل و ارسال شده اند و کاربر قبول کرده است که این اطلاعات کاملا صحیح میباشد.</p>
                   </BlockHeadContent>
                 </BlockHead>
@@ -605,6 +601,15 @@ function ProgramAdd({ ...props }) {
                   }
 
                 </PreviewCard>
+              </Block>
+
+
+              <Block size="lg">
+                <div className="btn btn-primary d-flex w-100 dana-font justify-content-center align-content-center" onClick={()=>{
+                  onSubmitForm()
+                }}>
+                  ثبت
+                </div>
               </Block>
             </Content>
           </>
