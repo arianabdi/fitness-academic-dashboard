@@ -560,3 +560,21 @@ body, h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1{
 .nk-chat-body{
   background: unset !important;
 }
+
+.InfoItem-container{
+  padding: 1rem 0rem;
+  border-bottom: 1px solid rgba(72, 94, 144, 0.16);
+}
+
+.InfoItem-container .info-title{
+  font-family: 'dana';
+  font-size: 15px;
+  color: #4b5f7c;
+}
+
+.InfoItem-container .info-value{
+
+  font-family: 'dana';
+  font-size: 15px;
+  color: #4b5f7c;
+}

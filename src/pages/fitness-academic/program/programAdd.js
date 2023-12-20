@@ -16,12 +16,14 @@ import { Block, BlockHead, BlockHeadContent, BlockTitle } from "../../../compone
 import { PreviewCard } from "../../../components/preview/Preview";
 import Content from "../../../layout/content/Content";
 import { toFarsiNumber } from "../../../shared/toFarsiNumber";
+import { useTranslation } from "react-i18next";
 
 
 
 function ProgramAdd({ ...props }) {
 
   const { id } = useParams();
+  const { t, i18n } = useTranslation();
   const location = useLocation();
   const isEditing = location.pathname.includes("exercise-edit");
   const navigate = useNavigate();
@@ -33,8 +35,10 @@ function ProgramAdd({ ...props }) {
   const [exerciseCategories, setExerciseCategories] = useState([]);
   const [exerciseCategoriesOptions, setExerciseCategoriesOptions] = useState([]);
   const [exerciseList, setExerciseList] = useState([]);
+  const [exerciseListOptions, setExerciseListOptions] = useState([]);
   const [diet, setDiet] = useState([])
   const [isOpen, setIsOpen] = useState("1");
+  const [program, setProgram] = useState([])
   const [exercises, setExercises] = useState([
     {
       sets: "3",
@@ -128,8 +132,14 @@ function ProgramAdd({ ...props }) {
       });
 
 
+      console.log('exercises', res.data.data.exercises)
       if (res.status === 200) {
         setExerciseList(res.data.data.exercises)
+        setExerciseListOptions(res.data.data.exercises.map(item => {
+          return(
+            {label: item.title, value: item._id, category: item.category}
+          )
+        }))
       }
     }catch (e){
       ErrorToaster(e)
@@ -145,9 +155,14 @@ function ProgramAdd({ ...props }) {
       });
 
 
-
       if (res.status === 200) {
 
+        if(res.data.data.program){
+          const p = {...res.data.data.program}
+          delete p.diet;
+          delete p.exercises;
+          setProgram(p)
+        }
 
         if(res.data.data.program.exercises.length > 0){
           setExercises(res.data.data.program.exercises)
@@ -167,6 +182,7 @@ function ProgramAdd({ ...props }) {
     loadExerciseCategories()
     loadExercises()
     loadProgram()
+
     if (isEditing)
       loadData();
 
@@ -180,11 +196,12 @@ function ProgramAdd({ ...props }) {
         headers: {authorization: `bearer ${auth.token}`}
       });
 
+      console.log('categories', res.data.data.categories)
       if (res.status === 200) {
         setExerciseCategories(res.data.data.categories)
         setExerciseCategoriesOptions(res.data.data.categories.map(item => {
           return(
-            {label: item.title, value: item._id}
+            {label: item.title, value: item._id, slug: item.slug}
           )
         }))
 
@@ -194,14 +211,7 @@ function ProgramAdd({ ...props }) {
     }
   }
 
-  useEffect(() => {
-    loadExerciseCategories()
 
-    if (isEditing)
-      loadData();
-
-
-  }, []);
 
   async function onCreate() {
 
@@ -300,6 +310,38 @@ function ProgramAdd({ ...props }) {
 
 
 
+  function InfoItem({title, value}){
+    return(
+      <div className="d-flex flex-row justify-content-between InfoItem-container">
+        <div className="info-title">
+          {title}
+        </div>
+        <div className="info-value">
+          {value ? toFarsiNumber(value) : '-'}
+        </div>
+      </div>
+    )
+  }
+
+  function loadExerciseOptionsByCategoryId(categoryId) {
+    if(categoryId){
+      return exerciseListOptions.filter(exerciseItem => {
+        const currentCategory = exerciseCategoriesOptions?.find(i=>i.value === categoryId);
+
+
+        if(exerciseItem.category === currentCategory.slug ){
+          console.log('loadExerciseOptionsByCategoryId', categoryId, exerciseItem.category, currentCategory.slug)
+          return exerciseItem
+        }
+
+
+      })
+    }
+
+
+    return []
+
+  }
 
   return (
 
@@ -316,8 +358,8 @@ function ProgramAdd({ ...props }) {
               <Block size="lg">
                 <BlockHead>
                   <BlockHeadContent>
-                    <BlockTitle tag="h5">عنوان</BlockTitle>
-                    <p>توضیحات</p>
+                    <BlockTitle tag="h5">ایجاد برنامه جدید</BlockTitle>
+                    <p>در بخش باید متناسب با اطلاعات وارد شده توسط کاربر، برنامه تمرینی و غذایی ایجاد و ثبت شود</p>
                   </BlockHeadContent>
                 </BlockHead>
                 <PreviewCard>
@@ -343,9 +385,10 @@ function ProgramAdd({ ...props }) {
                                       id={"sets"}
                                       name={"sets"}
                                       label={"تعداد ست"}
-                                      type={"text"}
+                                      type={"number"}
                                       value={item.sets}
                                       onChange={(e) => {
+
                                         setExercises(exercises.map((i, indx) => {
                                           if(index === indx){
                                             return {
@@ -356,17 +399,28 @@ function ProgramAdd({ ...props }) {
 
                                           return i;
                                         }))
+
                                       }}
                                     />
                                   </div>
                                   <div className="w-100 p-2">
                                     <Field
-                                      id={"username"}
-                                      name={"username"}
+                                      id={"reps"}
+                                      name={"reps"}
                                       label={"تعداد تکرار"}
-                                      type={"text"}
+                                      type={"number"}
                                       value={item.reps}
                                       onChange={(e) => {
+                                        setExercises(exercises.map((i, indx) => {
+                                          if(index === indx){
+                                            return {
+                                              ...item,
+                                              reps: e
+                                            }
+                                          }
+
+                                          return i;
+                                        }))
                                       }}
                                     />
                                   </div>
@@ -374,23 +428,43 @@ function ProgramAdd({ ...props }) {
                                 <div className="d-flex flex-row ">
                                   <div className="w-100 p-1">
                                     <Field
-                                      id={"username"}
-                                      name={"username"}
+                                      id={"rest"}
+                                      name={"rest"}
                                       label={"استراحت بین ست"}
-                                      type={"text"}
+                                      type={"number"}
                                       value={item.rest}
                                       onChange={(e) => {
+                                        setExercises(exercises.map((i, indx) => {
+                                          if(index === indx){
+                                            return {
+                                              ...item,
+                                              rest: e
+                                            }
+                                          }
+
+                                          return i;
+                                        }))
                                       }}
                                     />
                                   </div>
                                   <div className="w-100 p-1">
                                     <Field
-                                      id={"username"}
-                                      name={"username"}
+                                      id={"weight"}
+                                      name={"weight"}
                                       label={"وزن"}
-                                      type={"text"}
+                                      type={"number"}
                                       value={item.weight}
                                       onChange={(e) => {
+                                        setExercises(exercises.map((i, indx) => {
+                                          if(index === indx){
+                                            return {
+                                              ...item,
+                                              weight: e
+                                            }
+                                          }
+
+                                          return i;
+                                        }))
                                       }}
                                     />
                                   </div>
@@ -400,27 +474,48 @@ function ProgramAdd({ ...props }) {
                                 <div className="d-flex flex-row ">
                                   <div className="w-100 p-1">
                                     <Field
-                                      id={"username"}
-                                      name={"username"}
+                                      id={"categoryId"}
+                                      name={"categoryId"}
                                       label={"دسته بندی تمرین"}
                                       disabled={exerciseCategoriesOptions.length === 0}
                                       options={exerciseCategoriesOptions}
                                       type={"select"}
                                       value={item.categoryId}
                                       onChange={(e) => {
+                                        setExercises(exercises.map((i, indx) => {
+                                          if(index === indx){
+                                            return {
+                                              ...item,
+                                              categoryId: e,
+                                              exerciseId: ''
+                                            }
+                                          }
+
+                                          return i;
+                                        }))
                                       }}
                                     />
                                   </div>
                                   <div className="w-100 p-1">
                                     <Field
-                                      id={"username"}
-                                      name={"username"}
-                                      disabled={exerciseList.length === 0}
-                                      options={loadExercisesByCategoryId(item.categoryId)}
+                                      id={"exerciseId"}
+                                      name={"exerciseId"}
+                                      disabled={exerciseListOptions.length === 0}
+                                      options={loadExerciseOptionsByCategoryId(item.categoryId)}
                                       label={"عنوان تمرین"}
                                       type={"select"}
                                       value={item.exerciseId}
                                       onChange={(e) => {
+                                        setExercises(exercises.map((i, indx) => {
+                                          if(index === indx){
+                                            return {
+                                              ...item,
+                                              exerciseId: e
+                                            }
+                                          }
+
+                                          return i;
+                                        }))
                                       }}
                                     />
                                   </div>
@@ -428,12 +523,22 @@ function ProgramAdd({ ...props }) {
                                 <div className="d-flex flex-row ">
                                   <div className="w-100 p-1">
                                     <Field
-                                      id={"username"}
-                                      name={"username"}
+                                      id={"description"}
+                                      name={"description"}
                                       label={"توضیحات"}
                                       type={"text"}
                                       value={item.description}
                                       onChange={(e) => {
+                                        setExercises(exercises.map((i, indx) => {
+                                          if(index === indx){
+                                            return {
+                                              ...item,
+                                              exerciseId: e
+                                            }
+                                          }
+
+                                          return i;
+                                        }))
                                       }}
                                     />
                                   </div>
@@ -456,7 +561,25 @@ function ProgramAdd({ ...props }) {
                   click on me!
                 </div>
               </Block>
+              <Block size="lg">
+                <BlockHead>
+                  <BlockHeadContent>
+                    <BlockTitle tag="h5">اطالاعات کاربر</BlockTitle>
+                    <p>این اطلاعات توسط کاربر تکمیل و ارسال شده اند و کاربر قبول کرده است که این اطلاعات کاملا صحیح میباشد.</p>
+                  </BlockHeadContent>
+                </BlockHead>
+                <PreviewCard className="pt-0 pb-0">
 
+                  {
+                    Object.keys(program).map(key => {
+                      return(
+                        <InfoItem title={t(key)} value={program[key]}/>
+                      )
+                    })
+                  }
+
+                </PreviewCard>
+              </Block>
             </Content>
           </>
       }

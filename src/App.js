@@ -13,8 +13,8 @@ import { Toaster } from "react-hot-toast";
 const configs = configureApp();
 export const { store, persistor } = configs;
 i18next.init({
-  lng: 'fr', // if you're using a language detector, do not define the lng option
-  fallbackLng: 'fr',
+  lng: 'fa', // if you're using a language detector, do not define the lng option
+  fallbackLng: 'fa',
   interpolation: {
     escapeValue: false,
   },
