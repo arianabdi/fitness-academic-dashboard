@@ -419,6 +419,21 @@ function ProgramAdd({ ...props }) {
     console.log('exercise', exercises)
     validateform()
   }
+  function deleteSkill(e, index, index1){
+    e.preventDefault()
+    setDiet(prev=>(
+      prev.map((item,i)=>{
+        if(i === index){
+          return {...item,
+            suggestions:item.suggestions.filter((_,j)=>j!==index1)
+          }
+        }
+        //not the index, just return the item
+        return item
+      })
+      )
+    )
+  }
 
   return (
 
@@ -778,16 +793,11 @@ function ProgramAdd({ ...props }) {
                                                 }}
                                               />
 
-                                              <Button outline color="light" className="dana-font mt-5 me-3 d-flex justify-content-center diet-cancel-btn" onClick={()=>{
-                                                setDiet( diet.map((i, dietIndx) => {
-                                                  if(itemIndex === dietIndx){
-                                                    return {
-                                                      ...item,
-                                                      suggestions: [...item.suggestions.filter((_, sugIndx)=>indx !== sugIndx)]
-                                                    }
-                                                  }
-                                                  return i;
-                                                }))
+                                              <Button outline
+                                                      color="light"
+                                                      className="dana-font mt-5 me-3 d-flex justify-content-center diet-cancel-btn"
+                                                      onClick={(e)=>{
+                                                        deleteSkill(e, itemIndex, indx)
                                               }}>
                                                 {indx}
                                                 <IoMdClose size={19} color={"#526484"}/>
