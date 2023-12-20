@@ -577,12 +577,22 @@ body, h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1{
   color: #4b5f7c;
 }
 
+.tab-title,
 .InfoItem-container .info-value{
   font-family: 'dana';
   font-size: 15px;
   color: #4b5f7c;
 }
-
+.accordion-item .title{
+  font-size: 15px;
+  font-weight: normal;
+}
+.nav-tabs .nav-item{
+  padding-right: 0px !important;
+}
+.tab-space{
+  margin: 0px 20px
+}
 .block-title{
   font-family: "dana" !important;
   font-size: 23px !important;

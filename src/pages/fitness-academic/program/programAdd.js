@@ -8,7 +8,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { getItemById, path } from "../../../redux/store/services/fitness-academic/exercise/store/exercise-actions";
 
 import { ErrorToaster } from "../../../shared/toaster";
-import { Button, Collapse } from "reactstrap";
+import { Button, Collapse, Nav, NavItem, NavLink, TabContent, TabPane } from "reactstrap";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { IoClose } from "react-icons/io5";
 import { Field } from "../../../components/fouladyar/field/field";
@@ -18,6 +18,7 @@ import Content from "../../../layout/content/Content";
 import { toFarsiNumber } from "../../../shared/toFarsiNumber";
 import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
+import classnames from "classnames";
 
 
 
@@ -49,6 +50,26 @@ function ProgramAdd({ ...props }) {
     exerciseId: "",
     description: ""
   }
+
+
+  /*Tab*/
+  const [activeTab, setActiveTab] = useState("1");
+  const [activeIconTab, setActiveIconTab] = useState("5");
+  const [activeAltTab, setActiveAltTab] = useState("9");
+  const [verticalTab, setVerticalTab] = useState("1");
+  const [verticalIconTab, setVerticalIconTab] = useState("1");
+
+  /*Tab Functions*/
+  const toggle = (tab) => {
+    if (activeTab !== tab) setActiveTab(tab);
+  };
+  const toggleIconTab = (icontab) => {
+    if (activeIconTab !== icontab) setActiveIconTab(icontab);
+  };
+  const toggleAltTab = (alttab) => {
+    if (activeAltTab !== alttab) setActiveAltTab(alttab);
+  };
+
 
   const [exercises, setExercises] = useState([
     {
@@ -376,6 +397,7 @@ function ProgramAdd({ ...props }) {
   }
 
   function onSubmitForm() {
+
     validateform()
   }
 
@@ -400,208 +422,250 @@ function ProgramAdd({ ...props }) {
                 </BlockHead>
                 <PreviewCard>
 
-                  <div className={[`accordion`]}>
+                  <Nav tabs className="mt-n3">
+                    <NavItem>
+                      <NavLink
+                        tag="a"
+                        href="#tab"
+                        className={`${classnames({ active: activeTab === "1" })} tab-title tab-space`}
+                        onClick={(ev) => {
+                          ev.preventDefault();
+                          toggle("1");
+                        }}
+                      >
+                        تمرین
+                      </NavLink>
+                    </NavItem>
+                    <NavItem>
+                      <NavLink
+                        tag="a"
+                        href="#tab"
+                        className={`${classnames({ active: activeTab === "2" })} tab-title tab-space`}
+                        onClick={(ev) => {
+                          ev.preventDefault();
+                          toggle("2");
+                        }}
+                      >
+                        برنامه غذایی
+                      </NavLink>
+                    </NavItem>
+                  </Nav>
+                  <TabContent activeTab={activeTab}>
+                    <TabPane tabId="1">
+                      <p>
+                        ادمین عزیز! در اینجا شما می‌توانید برنامه حرکت های ورزشی را اضافه کرده و  ویرایش کنید. از فرم زیر برای افزودن حرکات ورزشی، انتخاب دسته بندی و انتخاب عنوان حرکت و تعیین تعداد تکرار و ست‌ها استفاده کنید:
+                      </p>
+                      <div className={[`accordion`]}>
+                        {
+                          exercises.map((item, index) => {
 
-                    {
-                      exercises.map((item, index) => {
-
-                        return(
-                          <div className="accordion-item">
-                            <div className={[`d-flex flex-row justify-content-between accordion-head${isOpen !== index ? " collapsed" : ""}`]} >
-                              <h6 className="title" onClick={() => toggleCollapse(index)}>{`${toFarsiNumber(index + 1)}. ${(exerciseListOptions.length > 0 && item.exerciseId) ? (exerciseListOptions.find(i=>i.value === item.exerciseId))?.label : 'ثبت نشده'}`}</h6>
-                              <span className="icon" onClick={() => {
-                                setExercises(exercises.filter((i, indx) => {
-                                  if(indx !== index)
-                                    return i
-                                }))
-
-                              }}>
+                            return(
+                              <div className="accordion-item">
+                                <div className={[`d-flex flex-row justify-content-between accordion-head${isOpen !== index ? " collapsed" : ""}`]} >
+                                  <h6 className="title" onClick={() => toggleCollapse(index)}>{`${toFarsiNumber(index + 1)}. ${(exerciseListOptions.length > 0 && item.exerciseId) ? (exerciseListOptions.find(i=>i.value === item.exerciseId))?.label : 'ثبت نشده'}`}</h6>
+                                  <span className="icon" onClick={() => {
+                                    setExercises(exercises.filter((i, indx) => {
+                                      if(indx !== index)
+                                        return i
+                                    }))
+                                  }}>
                                 <IoClose size={18} color={"#526484"}/>
                               </span>
-                            </div>
-                            <Collapse className="accordion-body justify-content-between"  isOpen={isOpen === index ? true : false}>
-                              <div className="accordion-inner">
-                                <div className="d-flex flex-row ">
-                                  <div className="w-100 p-1">
-                                    <Field
-                                      id={"sets"}
-                                      name={"sets"}
-                                      label={"تعداد ست"}
-                                      type={"number"}
-                                      value={item.sets}
-                                      onChange={(e) => {
-
-                                        setExercises(exercises.map((i, indx) => {
-                                          if(index === indx){
-                                            return {
-                                              ...item,
-                                              sets: e
-                                            }
-                                          }
-
-                                          return i;
-                                        }))
-
-                                      }}
-                                    />
-                                  </div>
-                                  <div className="w-100 p-2">
-                                    <Field
-                                      id={"reps"}
-                                      name={"reps"}
-                                      label={"تعداد تکرار"}
-                                      type={"number"}
-                                      value={item.reps}
-                                      onChange={(e) => {
-                                        setExercises(exercises.map((i, indx) => {
-                                          if(index === indx){
-                                            return {
-                                              ...item,
-                                              reps: e
-                                            }
-                                          }
-
-                                          return i;
-                                        }))
-                                      }}
-                                    />
-                                  </div>
                                 </div>
-                                <div className="d-flex flex-row ">
-                                  <div className="w-100 p-1">
-                                    <Field
-                                      id={"rest"}
-                                      name={"rest"}
-                                      label={"استراحت بین ست"}
-                                      type={"number"}
-                                      value={item.rest}
-                                      onChange={(e) => {
-                                        setExercises(exercises.map((i, indx) => {
-                                          if(index === indx){
-                                            return {
-                                              ...item,
-                                              rest: e
-                                            }
-                                          }
+                                <Collapse className="accordion-body justify-content-between"  isOpen={isOpen === index ? true : false}>
+                                  <div className="accordion-inner">
+                                    <div className="d-flex flex-row ">
+                                      <div className="w-100 p-1">
+                                        <Field
+                                          id={"sets"}
+                                          name={"sets"}
+                                          label={"تعداد ست"}
+                                          type={"number"}
+                                          value={item.sets}
+                                          onChange={(e) => {
 
-                                          return i;
-                                        }))
-                                      }}
-                                    />
+                                            setExercises(exercises.map((i, indx) => {
+                                              if(index === indx){
+                                                return {
+                                                  ...item,
+                                                  sets: e
+                                                }
+                                              }
+
+                                              return i;
+                                            }))
+
+                                          }}
+                                        />
+                                      </div>
+                                      <div className="w-100 p-2">
+                                        <Field
+                                          id={"reps"}
+                                          name={"reps"}
+                                          label={"تعداد تکرار"}
+                                          type={"number"}
+                                          value={item.reps}
+                                          onChange={(e) => {
+                                            setExercises(exercises.map((i, indx) => {
+                                              if(index === indx){
+                                                return {
+                                                  ...item,
+                                                  reps: e
+                                                }
+                                              }
+
+                                              return i;
+                                            }))
+                                          }}
+                                        />
+                                      </div>
+                                    </div>
+                                    <div className="d-flex flex-row ">
+                                      <div className="w-100 p-1">
+                                        <Field
+                                          id={"rest"}
+                                          name={"rest"}
+                                          label={"استراحت بین ست"}
+                                          type={"number"}
+                                          value={item.rest}
+                                          onChange={(e) => {
+                                            setExercises(exercises.map((i, indx) => {
+                                              if(index === indx){
+                                                return {
+                                                  ...item,
+                                                  rest: e
+                                                }
+                                              }
+
+                                              return i;
+                                            }))
+                                          }}
+                                        />
+                                      </div>
+                                      <div className="w-100 p-1">
+                                        <Field
+                                          id={"weight"}
+                                          name={"weight"}
+                                          label={"وزن"}
+                                          type={"number"}
+                                          value={item.weight}
+                                          onChange={(e) => {
+                                            setExercises(exercises.map((i, indx) => {
+                                              if(index === indx){
+                                                return {
+                                                  ...item,
+                                                  weight: e
+                                                }
+                                              }
+
+                                              return i;
+                                            }))
+                                          }}
+                                        />
+                                      </div>
+
+
+                                    </div>
+                                    <div className="d-flex flex-row ">
+                                      <div className="w-100 p-1">
+                                        <Field
+                                          id={"categoryId"}
+                                          name={"categoryId"}
+                                          label={"دسته بندی تمرین"}
+                                          disabled={exerciseCategoriesOptions.length === 0}
+                                          options={exerciseCategoriesOptions}
+                                          type={"select"}
+                                          value={item.categoryId}
+                                          onChange={(e) => {
+                                            setExercises(exercises.map((i, indx) => {
+                                              if(index === indx){
+                                                return {
+                                                  ...item,
+                                                  categoryId: e,
+                                                  exerciseId: ''
+                                                }
+                                              }
+
+                                              return i;
+                                            }))
+                                          }}
+                                        />
+                                      </div>
+                                      <div className="w-100 p-1">
+                                        <Field
+                                          id={"exerciseId"}
+                                          name={"exerciseId"}
+                                          disabled={exerciseListOptions.length === 0}
+                                          options={loadExerciseOptionsByCategoryId(item.categoryId)}
+                                          label={"عنوان تمرین"}
+                                          type={"select"}
+                                          value={item.exerciseId}
+                                          onChange={(e) => {
+                                            setExercises(exercises.map((i, indx) => {
+                                              if(index === indx){
+                                                return {
+                                                  ...item,
+                                                  exerciseId: e
+                                                }
+                                              }
+
+                                              return i;
+                                            }))
+                                          }}
+                                        />
+                                      </div>
+                                    </div>
+                                    <div className="d-flex flex-row ">
+                                      <div className="w-100 p-1">
+                                        <Field
+                                          id={"description"}
+                                          name={"description"}
+                                          label={"توضیحات"}
+                                          type={"text"}
+                                          value={item.description}
+                                          onChange={(e) => {
+                                            setExercises(exercises.map((i, indx) => {
+                                              if(index === indx){
+                                                return {
+                                                  ...item,
+                                                  description: e
+                                                }
+                                              }
+
+                                              return i;
+                                            }))
+                                          }}
+                                        />
+                                      </div>
+                                    </div>
                                   </div>
-                                  <div className="w-100 p-1">
-                                    <Field
-                                      id={"weight"}
-                                      name={"weight"}
-                                      label={"وزن"}
-                                      type={"number"}
-                                      value={item.weight}
-                                      onChange={(e) => {
-                                        setExercises(exercises.map((i, indx) => {
-                                          if(index === indx){
-                                            return {
-                                              ...item,
-                                              weight: e
-                                            }
-                                          }
-
-                                          return i;
-                                        }))
-                                      }}
-                                    />
-                                  </div>
-
-
-                                </div>
-                                <div className="d-flex flex-row ">
-                                  <div className="w-100 p-1">
-                                    <Field
-                                      id={"categoryId"}
-                                      name={"categoryId"}
-                                      label={"دسته بندی تمرین"}
-                                      disabled={exerciseCategoriesOptions.length === 0}
-                                      options={exerciseCategoriesOptions}
-                                      type={"select"}
-                                      value={item.categoryId}
-                                      onChange={(e) => {
-                                        setExercises(exercises.map((i, indx) => {
-                                          if(index === indx){
-                                            return {
-                                              ...item,
-                                              categoryId: e,
-                                              exerciseId: ''
-                                            }
-                                          }
-
-                                          return i;
-                                        }))
-                                      }}
-                                    />
-                                  </div>
-                                  <div className="w-100 p-1">
-                                    <Field
-                                      id={"exerciseId"}
-                                      name={"exerciseId"}
-                                      disabled={exerciseListOptions.length === 0}
-                                      options={loadExerciseOptionsByCategoryId(item.categoryId)}
-                                      label={"عنوان تمرین"}
-                                      type={"select"}
-                                      value={item.exerciseId}
-                                      onChange={(e) => {
-                                        setExercises(exercises.map((i, indx) => {
-                                          if(index === indx){
-                                            return {
-                                              ...item,
-                                              exerciseId: e
-                                            }
-                                          }
-
-                                          return i;
-                                        }))
-                                      }}
-                                    />
-                                  </div>
-                                </div>
-                                <div className="d-flex flex-row ">
-                                  <div className="w-100 p-1">
-                                    <Field
-                                      id={"description"}
-                                      name={"description"}
-                                      label={"توضیحات"}
-                                      type={"text"}
-                                      value={item.description}
-                                      onChange={(e) => {
-                                        setExercises(exercises.map((i, indx) => {
-                                          if(index === indx){
-                                            return {
-                                              ...item,
-                                              exerciseId: e
-                                            }
-                                          }
-
-                                          return i;
-                                        }))
-                                      }}
-                                    />
-                                  </div>
-                                </div>
+                                </Collapse>
                               </div>
-                            </Collapse>
-                          </div>
-                        )
-                      })
-                    }
+                            )
+                          })
+                        }
+                      </div>
+                      <Button outline color="light" className="dana-font mt-3 w-100 d-flex justify-content-center" onClick={()=>{
+                        setExercises(prevState => ([
+                          ...prevState,
+                          emptyExercise
+                        ]))
+                      }}>
+                        افزودن تمرین جدید
+                      </Button>
+                    </TabPane>
+                    <TabPane tabId="2">
+                      <p>
+                        اادمین عزیز! در اینجا شما می‌توانید برنامه های غذایی را اضافه کرده و  ویرایش کنید. از فرم زیر برای افزودن آیتم های غذایی هدف و نوع وعده غذایی را تعیین کنید:
+                      </p>
+                      <div >
+                        برنامه غذایی
+                      </div>
+                    </TabPane>
+                  </TabContent>
 
 
-                  </div>
-                  <Button outline color="light" className="dana-font mt-3 w-100 d-flex justify-content-center" onClick={()=>{
-                    setExercises(prevState => ([
-                      ...prevState,
-                      emptyExercise
-                    ]))
-                  }}>
-                    افزودن تمرین جدید
-                  </Button>
+
                 </PreviewCard>
 
 
