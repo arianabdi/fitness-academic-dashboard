@@ -20,6 +20,7 @@ import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
 import classnames from "classnames";
 import { IoMdClose } from "react-icons/io";
+import { preventDefault } from "@fullcalendar/react";
 
 
 
@@ -678,21 +679,21 @@ function ProgramAdd({ ...props }) {
                       </p>
                       <div className={[`accordion`]}>
                         {
-                          diet.map((item, index) => {
+                          diet.map((item, itemIndex) => {
                             return(
                               <div className="accordion-item">
-                                <div className={[`d-flex flex-row justify-content-between accordion-head${isOpen !== index ? " collapsed" : ""}`]} >
-                                  <h6 className="title" onClick={() => toggleCollapse(index)}>{`${toFarsiNumber(index + 1)}. ${item.title ? item.title : 'ثبت نشده'}`}</h6>
+                                <div className={[`d-flex flex-row justify-content-between accordion-head${isOpen !== itemIndex ? " collapsed" : ""}`]} >
+                                  <h6 className="title" onClick={() => toggleCollapse(itemIndex)}>{`${toFarsiNumber(itemIndex + 1)}. ${item.title ? item.title : 'ثبت نشده'}`}</h6>
                                   <span className="icon" onClick={() => {
                                     setDiet(diet.filter((i, indx) => {
-                                      if(indx !== index)
+                                      if(indx !== itemIndex)
                                         return i
                                     }))
                                   }}>
                                 <IoClose size={18} color={"#526484"}/>
                               </span>
                                 </div>
-                                <Collapse className="accordion-body justify-content-between"  isOpen={isOpen === index ? true : false}>
+                                <Collapse className="accordion-body justify-content-between"  isOpen={isOpen === itemIndex ? true : false}>
                                   <div className="accordion-inner">
                                     <div className="d-flex flex-row ">
                                       <div className="w-100 p-1">
@@ -705,7 +706,7 @@ function ProgramAdd({ ...props }) {
                                           onChange={(e) => {
 
                                             setDiet(diet.map((i, indx) => {
-                                              if(index === indx){
+                                              if(itemIndex === indx){
                                                 return {
                                                   ...item,
                                                   title: e
@@ -732,7 +733,7 @@ function ProgramAdd({ ...props }) {
                                           value={item.type}
                                           onChange={(e) => {
                                             setDiet(diet.map((i, indx) => {
-                                              if(index === indx){
+                                              if(itemIndex === indx){
                                                 return {
                                                   ...item,
                                                   type: e
@@ -748,48 +749,47 @@ function ProgramAdd({ ...props }) {
                                     {
                                       item.suggestions.map((sugg, indx) => {
                                         return(
-                                          <div className="d-flex flex-row ">
+                                          <div className="d-flex flex-row " key={`suggestion${itemIndex}-${indx}`}>
                                             <div className="d-flex flex-row w-100 p-2">
                                               <Field
-                                                id={`suggestion-${indx}`}
-                                                name={`suggestion-${indx}`}
+                                                id={`suggestion${itemIndex}-${indx}`}
+                                                name={`suggestion${itemIndex}-${indx}`}
                                                 label={`پیشنهاد ${indx}`}
                                                 type={"text"}
                                                 value={sugg}
                                                 onChange={(e) => {
-                                                  setDiet(diet.map((i, dietIndx) => {
-                                                    if(index === dietIndx){
-                                                      return {
-                                                        ...item,
-                                                        suggestions: item.suggestions.map((j, sugIndx)=>{
-                                                          if(indx === sugIndx )
-                                                            return e;
+                                                  setDiet(prevState => (
+                                                    prevState.map((i, dietIndx) => {
+                                                      if(itemIndex === dietIndx){
+                                                        return {
+                                                          ...item,
+                                                          suggestions: item.suggestions.map((j, sugIndx)=>{
+                                                            if(indx === sugIndx )
+                                                              return e;
 
-                                                          return  j
-                                                        })
+                                                            return  j
+                                                          })
+                                                        }
                                                       }
-                                                    }
 
-                                                    return i;
-                                                  }))
+                                                      return i;
+                                                    })
+                                                  ) )
                                                 }}
                                               />
 
                                               <Button outline color="light" className="dana-font mt-5 me-3 d-flex justify-content-center diet-cancel-btn" onClick={()=>{
-                                                setDiet(diet.map((i, dietIndx) => {
-                                                  if(index === dietIndx){
+                                                setDiet( diet.map((i, dietIndx) => {
+                                                  if(itemIndex === dietIndx){
                                                     return {
                                                       ...item,
-                                                      suggestions: item.suggestions.filter((j, sugIndx)=>{
-                                                        if(indx !== sugIndx )
-                                                          return  j
-                                                      })
+                                                      suggestions: [...item.suggestions.filter((_, sugIndx)=>indx !== sugIndx)]
                                                     }
                                                   }
-
                                                   return i;
                                                 }))
                                               }}>
+                                                {indx}
                                                 <IoMdClose size={19} color={"#526484"}/>
                                               </Button>
                                             </div>
