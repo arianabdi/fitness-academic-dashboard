@@ -19,6 +19,7 @@ import { toFarsiNumber } from "../../../shared/toFarsiNumber";
 import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
 import classnames from "classnames";
+import { IoMdClose } from "react-icons/io";
 
 
 
@@ -38,7 +39,6 @@ function ProgramAdd({ ...props }) {
   const [exerciseCategoriesOptions, setExerciseCategoriesOptions] = useState([]);
   const [exerciseList, setExerciseList] = useState([]);
   const [exerciseListOptions, setExerciseListOptions] = useState([]);
-  const [diet, setDiet] = useState([])
   const [isOpen, setIsOpen] = useState("1");
   const [program, setProgram] = useState([])
   const emptyExercise = {
@@ -71,6 +71,17 @@ function ProgramAdd({ ...props }) {
   };
 
 
+  const [diet, setDiet] = useState([
+    {
+      suggestions: [
+        "ماهی قزل آلا،‌الشیر گریل شده ۱۵۰ گرم + ۸ قاشق برنج قهوه ای +‌یک بشقاب سبزیجات بخارپز (انتخاب سبزیجات به دلخواه) ",
+        "ماهی قزل آلا،‌الشیر گریل شده ۱۵۰ گرم + ۸ قاشق برنج قهوه ای +‌یک بشقاب سبزیجات بخارپز (انتخاب سبزیجات به دلخواه) ",
+        "ماهی قزل آلا،‌الشیر گریل شده ۱۵۰ گرم + ۸ قاشق برنج قهوه ای +‌یک بشقاب سبزیجات بخارپز (انتخاب سبزیجات به دلخواه) "
+      ],
+      title: "ناهار",
+      type: "meal",
+    }
+  ])
   const [exercises, setExercises] = useState([
     {
       sets: "3",
@@ -202,6 +213,7 @@ function ProgramAdd({ ...props }) {
 
 
         if(res.data.data.program.diet.length > 0){
+          console.log('diet',res.data.data.program.diet )
           setDiet(res.data.data.program.diet)
         }
       }
@@ -357,14 +369,15 @@ function ProgramAdd({ ...props }) {
 
   function loadExerciseOptionsByCategoryId(categoryId) {
     if(categoryId){
+
       return exerciseListOptions.filter(exerciseItem => {
         const currentCategory = exerciseCategoriesOptions?.find(i=>i.value === categoryId);
 
-
-        if(exerciseItem.category === currentCategory.slug ){
-          console.log('loadExerciseOptionsByCategoryId', categoryId, exerciseItem.category, currentCategory.slug)
-          return exerciseItem
-        }
+        if(currentCategory)
+          if(exerciseItem.category === currentCategory.slug ){
+            console.log('loadExerciseOptionsByCategoryId', categoryId, exerciseItem.category, currentCategory.slug)
+            return exerciseItem
+          }
 
 
       })
@@ -658,9 +671,129 @@ function ProgramAdd({ ...props }) {
                       <p>
                         اادمین عزیز! در اینجا شما می‌توانید برنامه های غذایی را اضافه کرده و  ویرایش کنید. از فرم زیر برای افزودن آیتم های غذایی هدف و نوع وعده غذایی را تعیین کنید:
                       </p>
-                      <div >
-                        برنامه غذایی
+                      <div className={[`accordion`]}>
+                        {
+                          diet.map((item, index) => {
+
+                            return(
+                              <div className="accordion-item">
+                                <div className={[`d-flex flex-row justify-content-between accordion-head${isOpen !== index ? " collapsed" : ""}`]} >
+                                  <h6 className="title" onClick={() => toggleCollapse(index)}>{`${toFarsiNumber(index + 1)}. ${(exerciseListOptions.length > 0 && item.exerciseId) ? (exerciseListOptions.find(i=>i.value === item.exerciseId))?.label : 'ثبت نشده'}`}</h6>
+                                  <span className="icon" onClick={() => {
+                                    setDiet(diet.filter((i, indx) => {
+                                      if(indx !== index)
+                                        return i
+                                    }))
+                                  }}>
+                                <IoClose size={18} color={"#526484"}/>
+                              </span>
+                                </div>
+                                <Collapse className="accordion-body justify-content-between"  isOpen={isOpen === index ? true : false}>
+                                  <div className="accordion-inner">
+                                    <div className="d-flex flex-row ">
+                                      <div className="w-100 p-1">
+                                        <Field
+                                          id={"title"}
+                                          name={"title"}
+                                          label={"عنوان"}
+                                          type={"text"}
+                                          value={item.title}
+                                          onChange={(e) => {
+
+                                            setDiet(diet.map((i, indx) => {
+                                              if(index === indx){
+                                                return {
+                                                  ...item,
+                                                  title: e
+                                                }
+                                              }
+
+                                              return i;
+                                            }))
+
+                                          }}
+                                        />
+                                      </div>
+                                      <div className="w-100 p-2">
+                                        <Field
+                                          id={"type"}
+                                          name={"type"}
+                                          label={"نوع"}
+                                          type={"select"}
+                                          options={[
+                                            {label: 'وعده غذایی', value: 'meal'},
+                                            {label: 'غذایی مکمل', value: 'supplement'},
+                                            {label: 'محدودیت', value: 'limitation'},
+                                          ]}
+                                          value={item.type}
+                                          onChange={(e) => {
+                                            setDiet(diet.map((i, indx) => {
+                                              if(index === indx){
+                                                return {
+                                                  ...item,
+                                                  type: e
+                                                }
+                                              }
+
+                                              return i;
+                                            }))
+                                          }}
+                                        />
+                                      </div>
+                                    </div>
+                                    {
+                                      item.suggestions.map((sugg, indx) => {
+                                        return(
+                                          <div className="d-flex flex-row ">
+                                            <div className="d-flex flex-row w-100 p-2">
+                                              <Field
+                                                id={`suggestion-${indx}`}
+                                                name={`suggestion-${indx}`}
+                                                label={`پیشنهاد ${indx}`}
+                                                type={"text"}
+                                                value={sugg}
+                                                onChange={(e) => {
+                                                  // setDiet(diet.map((i, indx) => {
+                                                  //   if(index === indx){
+                                                  //     return {
+                                                  //       ...item,
+                                                  //       type: e
+                                                  //     }
+                                                  //   }
+                                                  //
+                                                  //   return i;
+                                                  // }))
+                                                }}
+                                              />
+
+                                              <Button outline color="light" className="dana-font mt-5 me-3 d-flex justify-content-center diet-cancel-btn" onClick={()=>{
+                                                // setDiet(prevState => ([
+                                                //   ...prevState,
+                                                //   emptyExercise
+                                                // ]))
+                                              }}>
+                                                <IoMdClose size={19} color={"#526484"}/>
+                                              </Button>
+                                            </div>
+                                          </div>
+                                        )
+                                      })
+                                    }
+                                  </div>
+                                </Collapse>
+                              </div>
+                            )
+                          })
+                        }
                       </div>
+                      <Button outline color="light" className="dana-font mt-3 w-100 d-flex justify-content-center" onClick={()=>{
+                        setDiet(prevState => ([
+                          ...prevState,
+                          emptyExercise
+                        ]))
+                      }}>
+                        افزودن وعده غذایی
+                      </Button>
                     </TabPane>
                   </TabContent>
 
