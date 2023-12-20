@@ -8,7 +8,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { getItemById, path } from "../../../redux/store/services/fitness-academic/exercise/store/exercise-actions";
 
 import { ErrorToaster } from "../../../shared/toaster";
-import { Collapse } from "reactstrap";
+import { Button, Collapse } from "reactstrap";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { IoClose } from "react-icons/io5";
 import { Field } from "../../../components/fouladyar/field/field";
@@ -40,6 +40,16 @@ function ProgramAdd({ ...props }) {
   const [diet, setDiet] = useState([])
   const [isOpen, setIsOpen] = useState("1");
   const [program, setProgram] = useState([])
+  const emptyExercise = {
+    sets: "",
+    reps: "",
+    rest: "",
+    weight: "",
+    categoryId: "",
+    exerciseId: "",
+    description: ""
+  }
+
   const [exercises, setExercises] = useState([
     {
       sets: "3",
@@ -397,9 +407,15 @@ function ProgramAdd({ ...props }) {
 
                         return(
                           <div className="accordion-item">
-                            <div className={[`d-flex flex-row justify-content-between accordion-head${isOpen !== index ? " collapsed" : ""}`]} onClick={() => toggleCollapse(index)}>
-                              <h6 className="title">{`${toFarsiNumber(index + 1)}. ${(exerciseListOptions.length > 0 && item.exerciseId) ? (exerciseListOptions.find(i=>i.value === item.exerciseId))?.label : 'ثبت نشده'}`}</h6>
-                              <span className="icon">
+                            <div className={[`d-flex flex-row justify-content-between accordion-head${isOpen !== index ? " collapsed" : ""}`]} >
+                              <h6 className="title" onClick={() => toggleCollapse(index)}>{`${toFarsiNumber(index + 1)}. ${(exerciseListOptions.length > 0 && item.exerciseId) ? (exerciseListOptions.find(i=>i.value === item.exerciseId))?.label : 'ثبت نشده'}`}</h6>
+                              <span className="icon" onClick={() => {
+                                setExercises(exercises.filter((i, indx) => {
+                                  if(indx !== index)
+                                    return i
+                                }))
+
+                              }}>
                                 <IoClose size={18} color={"#526484"}/>
                               </span>
                             </div>
@@ -578,7 +594,14 @@ function ProgramAdd({ ...props }) {
 
 
                   </div>
-
+                  <Button outline color="light" className="dana-font mt-3 w-100 d-flex justify-content-center" onClick={()=>{
+                    setExercises(prevState => ([
+                      ...prevState,
+                      emptyExercise
+                    ]))
+                  }}>
+                    افزودن تمرین جدید
+                  </Button>
                 </PreviewCard>
 
 
