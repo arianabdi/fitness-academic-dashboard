@@ -1,21 +1,12 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Table from "../../../components/fouladyar/table";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  filterStructure,
-  filterStructureOfCategories,
-  tableStatics, tableStaticsOfCategories,
-  tableStructure,
-  tableStructureOfCategories
-} from "./index";
+import { useDispatch } from "react-redux";
+import { filterStructureOfCategories, tableStaticsOfCategories, tableStructureOfCategories } from "./index";
 import { ConvertFilterObjectToUrlParam } from "../../../redux/store/shared/shared";
-import { selectPending } from "../../../redux/store/services/general/store";
 import { getItems } from "../../../redux/store/services/fitness-academic/exercise/store/exerciseCategories";
 
 
-
-
-const ExerciseList = () => {
+const ExerciseCategoryList = () => {
 
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
@@ -25,47 +16,46 @@ const ExerciseList = () => {
     itemPerPage: 7,
     currentPage: 1,
     totalItems: 0,
-    lastUpdateBy: ''
-  })
+    lastUpdateBy: ""
+  });
 
-  const [filter, setFilter] = useState({})
+  const [filter, setFilter] = useState({});
+
   async function initializeData() {
-    setIsLoading(true)
+    setIsLoading(true);
     const res = await dispatch(getItems(
       pagination
     ));
 
-    console.log('plane', res);
-    if(res.data.statusCode === 200 || res.status === 200 ){
-      setData(res.data.exercises)
-      setPagination({...pagination, totalItems: res.data.totalItems || 9, lastUpdateBy: 'initializer'})
+    console.log("exercise-categories", res);
+    if (res.data.statusCode === 200 || res.status === 200) {
+      setData(res.data.categories);
+      setPagination({ ...pagination, totalItems: res.data.totalItems || 9, lastUpdateBy: "initializer" });
     }
 
-    setIsLoading(false)
+    setIsLoading(false);
   }
 
   async function fetchData(updater) {
-    setIsLoading(true)
+    setIsLoading(true);
     const res = await dispatch(getItems(
       pagination,
       ConvertFilterObjectToUrlParam(filter)
     ));
 
 
-
-
-    if(res.statusCode === 200){
-      setData(res.data.exercises)
-      if(updater === 'filter')
+    if (res.statusCode === 200) {
+      setData(res.data.categories);
+      if (updater === "filter")
         setPagination({
           ...pagination,
           totalItems: res.data.totalItems,
           currentPage: 1,
           lastUpdateBy: updater
-        })
+        });
     }
 
-    setIsLoading(false)
+    setIsLoading(false);
   }
 
   useEffect(() => {
@@ -74,17 +64,15 @@ const ExerciseList = () => {
 
 
   useEffect(() => {
-    if(pagination.lastUpdateBy === "pagination")
-        fetchData('pagination');
+    if (pagination.lastUpdateBy === "pagination")
+      fetchData("pagination");
 
   }, [pagination]);
 
 
-
   useEffect(() => {
-    fetchData('filter');
+    fetchData("filter");
   }, [filter]);
-
 
 
   return (
@@ -97,21 +85,26 @@ const ExerciseList = () => {
         tableHeading={tableStaticsOfCategories}
         tableStructure={tableStructureOfCategories}
         filterStructure={filterStructureOfCategories}
-        onItemPerPageChange={(itemPerPage, currentPage)=> {
-          setPagination({...pagination, itemPerPage: itemPerPage, currentPage: currentPage, lastUpdateBy: 'pagination'})
+        onItemPerPageChange={(itemPerPage, currentPage) => {
+          setPagination({
+            ...pagination,
+            itemPerPage: itemPerPage,
+            currentPage: currentPage,
+            lastUpdateBy: "pagination"
+          });
         }}
-        onCurrentPageChange={(currentPage)=> {
-          setPagination({...pagination, currentPage: currentPage, lastUpdateBy: 'pagination'})
+        onCurrentPageChange={(currentPage) => {
+          setPagination({ ...pagination, currentPage: currentPage, lastUpdateBy: "pagination" });
         }}
-        onFilterSubmit={ (e)=>{
+        onFilterSubmit={(e) => {
           setFilter(e);
         }}
-        onDeleteComplete={ (e)=>{
-          fetchData('pagination');
+        onDeleteComplete={(e) => {
+          fetchData("pagination");
         }}
       />
     </React.Fragment>
   );
 };
 
-export default ExerciseList;
+export default ExerciseCategoryList;

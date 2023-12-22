@@ -39,6 +39,8 @@ import ProgramList from "../pages/fitness-academic/program/programList";
 import PostList from "../pages/fitness-academic/post/postList";
 import PostAdd from "../pages/fitness-academic/post/postAdd";
 import PostCategoriesList from "../pages/fitness-academic/post/postCategoriesList";
+import ExerciseCategoryList from "../pages/fitness-academic/exercises/exerciseCategoryList";
+import ExerciseCategoryAdd from "../pages/fitness-academic/exercises/exerciseCategoryAdd";
 
 
 const Pages = () => {
@@ -57,8 +59,10 @@ const Pages = () => {
         <Route>
           <Route path="exercise-list" element={<ExerciseList />}></Route>
           <Route path="exercise-add" element={<ExerciseAdd />}></Route>
-          <Route path="exercise-categories" element={<ExerciseAdd />}></Route>
           <Route path="exercise-edit/:id" element={<ExerciseAdd />}></Route>
+          <Route path="exercise-category-list" element={<ExerciseCategoryList />}></Route>
+          <Route path="exercise-category-add" element={<ExerciseCategoryAdd />}></Route>
+          <Route path="exercise-category-edit/:id" element={<ExerciseCategoryAdd />}></Route>
         </Route>
 
 

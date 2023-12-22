@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import Table from "../../../components/fouladyar/table";
 import { useDispatch, useSelector } from "react-redux";
 import { selectPending } from "../../../redux/store/services/general/store";
-import { getItems } from "../../../redux/store/services/fitness-academic/exercise/store";
+import { getItems } from "../../../redux/store/services/fitness-academic/exercise/store/exerciseItems";
 import { filterStructure, tableHeading, tableStructure } from "./index";
 import { ConvertFilterObjectToUrlParam } from "../../../redux/store/shared/shared";
 

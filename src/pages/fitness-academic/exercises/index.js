@@ -2,7 +2,7 @@ import { TbEdit } from "react-icons/tb";
 import { RiDeleteBinLine } from "react-icons/ri";
 
 export const tableStatics = {
-  title: "تمرینها",
+  title: "تمرین ها",
   description: "",
   addNewItemButtonLink: '/exercise-add'
 }
@@ -151,12 +151,8 @@ export const tableStructureOfCategories = [
     slug: 'title',
   },
   {
-    title: "سطح",
-    slug: 'level',
-  },
-  {
-    title: "دسته بندی",
-    slug: 'category'
+    title: "شناسه دسته",
+    slug: 'slug',
   },
   {
     title: "تاریخ ایجاد",
@@ -169,25 +165,25 @@ export const tableStructureOfCategories = [
     slug: '',
     actions: [
       {
-        title: "ویرایش تمرین",
-        slug: "edit-exercise",
+        title: "ویرایش دسته بندی تمرین",
+        slug: "edit-exercise-category",
         icon: <TbEdit size={18} color={"#526484"}/>,
 
         useRoute: true,
-        route: "/exercise-edit/:_id"
+        route: "/exercise-category-edit/:_id"
       },
       {
-        title: "حذف تمرین",
-        slug: 'delete-exercise',
+        title: "حذف دسته بندی تمرین",
+        slug: 'delete-exercise-category',
         icon: <RiDeleteBinLine size={18} color={"#526484"}/>,
 
         useYesOrNoModal: true,
         modalCancelText: 'بستن پنجره',
         modalType: "delete",
-        modalPath: '/api/exercise/:_id',
-        modalSubmitText: 'حذف تمرین',
-        modalTitle: 'حذف تمرین',
-        modalContent: 'ایا از حذف این تمرین اطمینان دارید؟ با حذف این تمرین داده ها دیگر در دسترس نخواهند بود',
+        modalPath: '/api/category/exercise/:_id',
+        modalSubmitText: 'حذف دسته بندی',
+        modalTitle: 'حذف دسته بندی',
+        modalContent: 'ایا از حذف این دسته بندی اطمینان دارید؟ با حذف این تمرین داده ها دیگر در دسترس نخواهند بود',
 
       },
     ]

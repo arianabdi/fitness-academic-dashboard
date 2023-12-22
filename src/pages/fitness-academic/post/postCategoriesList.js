@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Table from "../../../components/fouladyar/table";
 import { useDispatch } from "react-redux";
-import {
-  filterStructureOfCategories,
-  tableStatics,
-  tableStaticsOfCategories,
-  tableStructureOfCategories
-} from "./index";
+import { filterStructureOfCategories, tableStaticsOfCategories, tableStructureOfCategories } from "./index";
 import { ConvertFilterObjectToUrlParam } from "../../../redux/store/shared/shared";
 import { getItems } from "../../../redux/store/services/fitness-academic/posts/store/postCategories";
 
@@ -32,7 +27,7 @@ const PostCategoriesList = () => {
       pagination
     ));
 
-    console.log("plane", res);
+    console.log("post-categories", res);
     if (res.data.statusCode === 200 || res.status === 200) {
       setData(res.data.categories);
       setPagination({ ...pagination, totalItems: res.data.totalItems || 9, lastUpdateBy: "initializer" });

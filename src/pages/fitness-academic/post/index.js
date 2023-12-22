@@ -149,6 +149,10 @@ export const tableStructureOfCategories = [
     slug: 'title',
   },
   {
+    title: "شناسه دسته",
+    slug: 'slug',
+  },
+  {
     title: "تاریخ ایجاد",
     slug: 'createdAt',
     useJalaliFormat: true,
@@ -177,7 +181,7 @@ export const tableStructureOfCategories = [
         modalPath: '/api/category/post/:_id',
         modalSubmitText: 'حذف دسته بندی',
         modalTitle: 'حذف دسته بندی',
-        modalContent: 'ایا از حذف این مقاله اطمینان دارید؟ با حذف این مقاله داده ها دیگر در دسترس نخواهند بود',
+        modalContent: 'ایا از حذف این دسته بندی اطمینان دارید؟ با حذف این مقاله داده ها دیگر در دسترس نخواهند بود',
 
       },
     ]

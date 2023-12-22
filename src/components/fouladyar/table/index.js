@@ -36,7 +36,6 @@ import { LuBell, LuCopy, LuMoreHorizontal, LuPrinter } from "react-icons/lu";
 import { RiFileExcel2Line } from "react-icons/ri";
 import { TbFileTypeCsv, TbFilterSearch } from "react-icons/tb";
 import { MdAdd } from "react-icons/md";
-import { path } from "../../../redux/store/services/fitness-academic/exercise/store/exerciseItems/exercise-actions";
 import axios from "axios";
 import toast from "react-hot-toast";
 

@@ -3,12 +3,9 @@ import Form, { FormIsLoading } from "../../../components/fouladyar/form";
 import { useDispatch, useSelector } from "react-redux";
 import { formStatics, formStructure } from "./index";
 import axios from "axios";
-import { convertDate } from "../../../shared/shared";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { getItemById } from "../../../redux/store/services/fitness-academic/exercise/store/exerciseItems/exercise-actions";
-
+import { getItemById } from "../../../redux/store/services/fitness-academic/exercise/store/exerciseItems/";
 import { ErrorToaster } from "../../../shared/toaster";
-
 
 
 function ExerciseAdd({ ...props }) {
@@ -18,7 +15,7 @@ function ExerciseAdd({ ...props }) {
   const isEditing = location.pathname.includes("exercise-edit");
   const navigate = useNavigate();
   const auth = useSelector((state) => state.auth);
-  const path = '/api/exercise'
+  const path = "/api/exercise";
   const dispatch = useDispatch();
   const [isLoading, setIsloading] = useState(isEditing ? true : false);
   const [processing, setProcessing] = useState(false);
@@ -32,14 +29,13 @@ function ExerciseAdd({ ...props }) {
     "image": null, // در زمان update مقدار fileId فایل آپلود شده قبلی رو نگه میداره
     "imageHolder": null, // در زمان create و update فایل عکس رو نگه میداره
     "imagePreview": null, // در زمان update آدرس عکسی که قبلا آپلود شده رو نگه میداره
-    "video": null,
+    "video": null
   });
-
 
 
   async function loadData() {
     const res = await dispatch(getItemById(id));
-    console.log('exercise load ', res);
+    console.log("exercise load ", res);
     if (res.statusCode === 200) {
       // _id: "6581578049b2da2bfca792d3"
       // categoryId: "64ac2e32a19a70a65c8f4465"
@@ -75,88 +71,84 @@ function ExerciseAdd({ ...props }) {
 
 
     try {
-      setProcessing(true)
-      const fileId = await uploadImage({ image: data.imageHolder })
-
+      setProcessing(true);
+      const fileId = await uploadImage({ image: data.imageHolder });
 
 
       const res = await axios.post(`${process.env.REACT_APP_API_URL}${path}`, {
         ...data,
         image: fileId
       }, {
-          headers: { "authorization": `bearer ${auth.token}` }
+        headers: { "authorization": `bearer ${auth.token}` }
       });
 
-      console.log('exercise-res', res)
+      console.log("exercise-res", res);
 
 
-
-      if(res.data.statusCode === 200){
+      if (res.data.statusCode === 200) {
         navigate(`/exercise-list`);
       }
 
-      setProcessing(false)
+      setProcessing(false);
 
     } catch (e) {
-      ErrorToaster(e)
+      ErrorToaster(e);
       console.log("Error: ", e);
-      setProcessing(false)
+      setProcessing(false);
     }
   }
-
 
 
   async function onUpdate() {
     try {
 
-      setProcessing(true)
-      let _data = {...data}
+      setProcessing(true);
+      let _data = { ...data };
       let fileId;
       delete _data.imagePreview;
       delete _data.imageHolder;
 
-      console.log('image-in-upload', data.imageHolder)
-      if(data.imageHolder.length !== 0){
-        fileId = await uploadImage({ image: data.imageHolder })
+      console.log("image-in-upload", data.imageHolder);
+      if (data.imageHolder.length !== 0) {
+        fileId = await uploadImage({ image: data.imageHolder });
       }
       const res = await axios.patch(`${process.env.REACT_APP_API_URL}${path}/${id}`,
         { ..._data, image: fileId || data.image },
-        { headers: { "authorization": `bearer ${auth.token}` }}
+        { headers: { "authorization": `bearer ${auth.token}` } }
       );
 
 
-
-      setProcessing(false)
+      setProcessing(false);
     } catch (e) {
-      ErrorToaster(e)
-      setProcessing(false)
+      ErrorToaster(e);
+      setProcessing(false);
     }
   }
 
-  async function uploadImage({image}) {
+  async function uploadImage({ image }) {
     try {
 
       const formData = new FormData();
-      formData.append('image', image[0].file);
+      formData.append("image", image[0].file);
 
       const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/file/upload/image`,
         formData, {
           headers: {
             "authorization": `bearer ${auth.token}`,
             "Content-Type": "multipart/form-data"
-          },
+          }
 
         }
       );
 
-      console.log('fileUpload',res)
+      console.log("fileUpload", res);
 
-      if(res.status === 200)
+      if (res.status === 200)
         return res.data.fileId;
 
 
     } catch (e) {
-      ErrorToaster(e)
+      ErrorToaster(e);
       console.log("Error: ", e);
     }
   }
@@ -192,7 +184,7 @@ function ExerciseAdd({ ...props }) {
             fields={formStructure}
             statics={formStatics}
             isloading={processing}
-            submitButtonText={"ایجاد کلاس"}
+            submitButtonText={"ایجاد تمرین"}
             onFieldChange={handleOnFieldChange}
             onFormSubmit={handleOnSubmit}
           />
