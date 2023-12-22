@@ -6,6 +6,12 @@ export const tableStatics = {
   description: "",
   addNewItemButtonLink: '/exercise-add'
 }
+
+export const tableStaticsOfCategories = {
+  title: "دسته بندی تمرین ها",
+  description: "",
+  addNewItemButtonLink: '/exercise-category-add'
+}
 export const formStatics = {
   title: "ایجاد تمرین",
   editTitle: "ویرایش تمرین",
@@ -49,6 +55,93 @@ export const filterStructure = [
 ]
 
 export const tableStructure = [
+  {
+    title: "شناسه",
+    slug: '_id',
+  },
+  {
+    title: "عنوان",
+    slug: 'title',
+  },
+  {
+    title: "سطح",
+    slug: 'level',
+  },
+  {
+    title: "دسته بندی",
+    slug: 'category'
+  },
+  {
+    title: "تاریخ ایجاد",
+    slug: 'createdAt',
+    useJalaliFormat: true,
+    useFarsiNumber: true
+  },
+  {
+    useActionsButton: true, //use delete-item class to automatic implement the removing item.
+    slug: '',
+    actions: [
+      {
+        title: "ویرایش تمرین",
+        slug: "edit-exercise",
+        icon: <TbEdit size={18} color={"#526484"}/>,
+
+        useRoute: true,
+        route: "/exercise-edit/:_id"
+      },
+      {
+        title: "حذف تمرین",
+        slug: 'delete-exercise',
+        icon: <RiDeleteBinLine size={18} color={"#526484"}/>,
+
+        useYesOrNoModal: true,
+        modalCancelText: 'بستن پنجره',
+        modalType: "delete",
+        modalPath: '/api/exercise/:_id',
+        modalSubmitText: 'حذف تمرین',
+        modalTitle: 'حذف تمرین',
+        modalContent: 'ایا از حذف این تمرین اطمینان دارید؟ با حذف این تمرین داده ها دیگر در دسترس نخواهند بود',
+
+      },
+    ]
+  },
+]
+
+
+
+
+export const filterStructureOfCategories = [
+  {
+    title: "عنوان",
+    slug: 'title',
+    type: "text",
+  },
+  {
+    title: "سطح",
+    slug: 'level',
+    type: "select",
+    options: [
+      {label: 'مبتدی', value: 'beginner'},
+      {label: 'حرفه ای', value: 'professional'},
+    ],
+    placeholder: "سطح تمرین را انتخاب کنید",
+  },
+  {
+    title: "دسته بندی",
+    slug: 'category',
+    type: "select",
+
+    chooseOptionsFromApi: true,
+    path: '/api/category/exercise',
+    key: 'categories',
+    chooseOptionsLabelFrom: 'title',
+    chooseOptionsValueFrom: '_id',
+    options: [],
+    placeholder: "دسته بندی تمرین را انتخاب کنید",
+  },
+]
+
+export const tableStructureOfCategories = [
   {
     title: "شناسه",
     slug: '_id',

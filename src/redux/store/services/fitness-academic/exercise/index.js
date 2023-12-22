@@ -1,4 +1,4 @@
-import requestReducer from './store/exercise-reducer';
+import requestReducer from './store/exerciseItems/exercise-reducer';
 
 export default {
   reducer: requestReducer,

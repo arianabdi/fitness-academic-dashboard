@@ -3,7 +3,7 @@
 import {
   SET_ITEM_PENDING
 } from './exercise-actions';
-import { RESET_STORE } from "../../../general/store/general-actions";
+import { RESET_STORE } from "../../../../general/store/general-actions";
 
 const initialState = {
   pending: {

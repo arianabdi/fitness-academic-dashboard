@@ -5,8 +5,7 @@ import { formStatics, formStructure } from "./index";
 import axios from "axios";
 import { convertDate } from "../../../shared/shared";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { getItemById } from "../../../redux/store/services/fitness-academic/exercise/store/exerciseItems/exercise-actions";
-
+import { getItemById } from "../../../redux/store/services/fitness-academic/exercise/store/exerciseCategories";
 import { ErrorToaster } from "../../../shared/toaster";
 
 

@@ -1,5 +1,5 @@
 import { createAction } from "redux-actions";
-import { ErrorToaster } from "../../../../../../shared/toaster";
+import { ErrorToaster } from "../../../../../../../shared/toaster";
 
 export const SET_ITEM_PENDING = "EXERCISE/SET_PENDING";
 export const path = '/api/exercise'

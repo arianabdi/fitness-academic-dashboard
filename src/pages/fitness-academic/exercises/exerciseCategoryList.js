@@ -1,10 +1,16 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Table from "../../../components/fouladyar/table";
 import { useDispatch, useSelector } from "react-redux";
-import { filterStructure, tableStatics, tableStructure } from "./index";
+import {
+  filterStructure,
+  filterStructureOfCategories,
+  tableStatics, tableStaticsOfCategories,
+  tableStructure,
+  tableStructureOfCategories
+} from "./index";
 import { ConvertFilterObjectToUrlParam } from "../../../redux/store/shared/shared";
 import { selectPending } from "../../../redux/store/services/general/store";
-import { getItems } from "../../../redux/store/services/fitness-academic/exercise/store/exerciseItems";
+import { getItems } from "../../../redux/store/services/fitness-academic/exercise/store/exerciseCategories";
 
 
 
@@ -88,9 +94,9 @@ const ExerciseList = () => {
         filter={filter}
         tableData={data}
         pagination={pagination}
-        tableHeading={tableStatics}
-        tableStructure={tableStructure}
-        filterStructure={filterStructure}
+        tableHeading={tableStaticsOfCategories}
+        tableStructure={tableStructureOfCategories}
+        filterStructure={filterStructureOfCategories}
         onItemPerPageChange={(itemPerPage, currentPage)=> {
           setPagination({...pagination, itemPerPage: itemPerPage, currentPage: currentPage, lastUpdateBy: 'pagination'})
         }}
