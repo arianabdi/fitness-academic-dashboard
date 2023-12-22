@@ -32,6 +32,7 @@ import PaymentGatewayAdd from "../pages/fitness-academic/payment-gateways/paymen
 import ProductCategoryList from "../pages/fitness-academic/products/productCategoryList";
 import ProductsList from "../pages/fitness-academic/products/productsList";
 import ProductAdd from "../pages/fitness-academic/products/productAdd";
+import ProductCategoryAdd from "../pages/fitness-academic/products/productCategoryAdd";
 
 
 const Pages = () => {
@@ -97,8 +98,8 @@ const Pages = () => {
         {/*Fitness Academic*/}
         <Route>
           <Route path="products-category-list" element={<ProductCategoryList />}></Route>
-          <Route path="products-category-add" element={<PaymentGatewayAdd />}></Route>
-          <Route path="products-category-edit/:id" element={<PaymentGatewayAdd />}></Route>
+          <Route path="products-category-add" element={<ProductCategoryAdd />}></Route>
+          <Route path="products-category-edit/:id" element={<ProductCategoryAdd />}></Route>
         </Route>
 
         {/*Fitness Academic*/}

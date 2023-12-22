@@ -13,10 +13,10 @@ function ProductCategoryAdd({ ...props }) {
 
   const { id } = useParams();
   const location = useLocation();
-  const isEditing = location.pathname.includes("exercise-category-edit");
+  const isEditing = location.pathname.includes("products-category-edit");
   const navigate = useNavigate();
   const auth = useSelector((state) => state.auth);
-  const path = "/api/category/exercise";
+  const path = "/api/category/product";
   const dispatch = useDispatch();
   const [isLoading, setIsloading] = useState(isEditing ? true : false);
   const [processing, setProcessing] = useState(false);
@@ -30,7 +30,7 @@ function ProductCategoryAdd({ ...props }) {
 
   async function loadData() {
     const res = await dispatch(getItemById(id));
-    console.log("exercise-category-load ", res);
+    console.log("product-category-load ", res);
     if (res.statusCode === 200) {
       setData(prevState => ({
         ...prevState,
@@ -60,8 +60,8 @@ function ProductCategoryAdd({ ...props }) {
         headers: { "authorization": `bearer ${auth.token}` }
       });
       if (res.status === 200) {
-        toast.success("دسته بندی تمرین با موفقیت ثبت شد")
-        navigate(`/exercise-category-list`);
+        toast.success("دسته بندی محصول با موفقیت ثبت شد")
+        navigate(`/products-category-list`);
       }
       setProcessing(false);
 
@@ -80,8 +80,8 @@ function ProductCategoryAdd({ ...props }) {
         { headers: { "authorization": `bearer ${auth.token}` } }
       );
       if(res.status === 200){
-        toast.success("دسته بندی تمرین با موفقیت بروزرسانی شد")
-        navigate(`/exercise-category-list`);
+        toast.success("دسته بندی محصول با موفقیت بروزرسانی شد")
+        navigate(`/products-category-list`);
       }
       setProcessing(false);
     } catch (e) {
@@ -119,7 +119,7 @@ function ProductCategoryAdd({ ...props }) {
             fields={formStructureOfCategories}
             statics={formStaticsOfCategories}
             isloading={processing}
-            submitButtonText={"ایجاد دسته بندی تمرین"}
+            submitButtonText={"ایجاد دسته بندی محصول"}
             onFieldChange={handleOnFieldChange}
             onFormSubmit={handleOnSubmit}
           />

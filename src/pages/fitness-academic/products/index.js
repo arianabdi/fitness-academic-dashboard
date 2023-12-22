@@ -226,25 +226,25 @@ export const tableStructureOfCategories = [
     slug: '',
     actions: [
       {
-        title: "ویرایش دسته بندی محصول",
+        title: "ویرایش دسته بندی",
         slug: "edit-exercise-category",
         icon: <TbEdit size={18} color={"#526484"}/>,
 
         useRoute: true,
-        route: "/exercise-category-edit/:_id"
+        route: "/products-category-edit/:_id"
       },
       {
-        title: "حذف دسته بندی محصول",
+        title: "حذف دسته بندی",
         slug: 'delete-exercise-category',
         icon: <RiDeleteBinLine size={18} color={"#526484"}/>,
 
         useYesOrNoModal: true,
         modalCancelText: 'بستن پنجره',
         modalType: "delete",
-        modalPath: '/api/category/exercise/:_id',
+        modalPath: '/api/category/product/:_id',
         modalSubmitText: 'حذف دسته بندی',
         modalTitle: 'حذف دسته بندی',
-        modalContent: 'ایا از حذف این دسته بندی اطمینان دارید؟ با حذف این محصول داده ها دیگر در دسترس نخواهند بود',
+        modalContent: 'ایا از حذف این دسته بندی اطمینان دارید؟ با حذف این دسته بندی داده ها دیگر در دسترس نخواهند بود',
 
       },
     ]
