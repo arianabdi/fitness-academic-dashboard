@@ -5,13 +5,13 @@ import { formStatics, formStructure } from "./index";
 import axios from "axios";
 import { convertDate } from "../../../shared/shared";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { getItemById } from "../../../redux/store/services/fitness-academic/posts/store/postItems";
+import { getItemById } from "../../../redux/store/services/fitness-academic/posts/store/postCategories";
 
 import { ErrorToaster } from "../../../shared/toaster";
 
 
 
-function PostAdd({ ...props }) {
+function PostCategoryAdd({ ...props }) {
 
   const { id } = useParams();
   const location = useLocation();
@@ -192,7 +192,7 @@ function PostAdd({ ...props }) {
             fields={formStructure}
             statics={formStatics}
             isloading={processing}
-            submitButtonText={"ایجاد کلاس"}
+            submitButtonText={"ایجاد دسته بندی مقاله"}
             onFieldChange={handleOnFieldChange}
             onFormSubmit={handleOnSubmit}
           />
@@ -203,4 +203,4 @@ function PostAdd({ ...props }) {
   );
 };
 
-export default PostAdd;
+export default PostCategoryAdd;

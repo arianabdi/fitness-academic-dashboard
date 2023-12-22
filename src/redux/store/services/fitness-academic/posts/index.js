@@ -1,4 +1,4 @@
-import requestReducer from './store/post-reducer';
+import requestReducer from './store/postItems/post-reducer';
 
 export default {
   reducer: requestReducer,

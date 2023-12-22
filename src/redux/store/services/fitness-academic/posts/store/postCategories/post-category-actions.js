@@ -1,8 +1,8 @@
 import {createAction} from 'redux-actions';
-import { ErrorToaster } from "../../../../../../shared/toaster";
+import { ErrorToaster } from "../../../../../../../shared/toaster";
 
-export const SET_ITEM_PENDING = "POST/SET_PENDING";
-export const path = '/api/posts'
+export const SET_ITEM_PENDING = "POST_CATEGORY/SET_PENDING";
+export const path = '/api/category/post'
 export const setItemPending = createAction(SET_ITEM_PENDING, (section = 'list', status = false) => ({
     section,
     status,

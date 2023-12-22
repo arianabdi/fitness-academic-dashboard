@@ -2,8 +2,8 @@
 
 import {
   SET_ITEM_PENDING
-} from './program-actions';
-import { RESET_STORE } from "../../../general/store/general-actions";
+} from './post-actions';
+import { RESET_STORE } from "../../../../general/store/general-actions";
 
 const initialState = {
   pending: {

@@ -2,8 +2,8 @@
 
 import {
   SET_ITEM_PENDING
-} from './exercise-actions';
-import { RESET_STORE } from "../../../general/store/general-actions";
+} from './post-category-actions';
+import { RESET_STORE } from "../../../../general/store/general-actions";
 
 const initialState = {
   pending: {
@@ -14,7 +14,7 @@ const initialState = {
   name: '',
 };
 
-export default function ExerciseReducer(state = initialState, action = {}) {
+export default function PostCategoryReducer(state = initialState, action = {}) {
   switch (action.type) {
     case RESET_STORE:
       return initialState;

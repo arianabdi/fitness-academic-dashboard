@@ -1,6 +1,11 @@
 import { TbEdit } from "react-icons/tb";
 import { RiDeleteBinLine } from "react-icons/ri";
 
+export const tableStaticsOfCategories = {
+  title: "دسته بندی مقاله ها",
+  description: "",
+  addNewItemButtonLink: '/post-category-add'
+}
 export const tableStatics = {
   title: "مقاله ها",
   description: "",
@@ -47,6 +52,7 @@ export const filterStructure = [
     placeholder: "دسته بندی مقاله را انتخاب کنید",
   },
 ]
+
 
 export const tableStructure = [
   {
@@ -100,6 +106,84 @@ export const tableStructure = [
     ]
   },
 ]
+
+
+
+export const filterStructureOfCategories = [
+  {
+    title: "عنوان",
+    slug: 'title',
+    type: "text",
+  },
+  {
+    title: "سطح",
+    slug: 'level',
+    type: "select",
+    options: [
+      {label: 'مبتدی', value: 'beginner'},
+      {label: 'حرفه ای', value: 'professional'},
+    ],
+    placeholder: "سطح مقاله را انتخاب کنید",
+  },
+  {
+    title: "دسته بندی",
+    slug: 'category',
+    type: "select",
+
+    chooseOptionsFromApi: true,
+    path: '/api/category/exercise',
+    key: 'categories',
+    chooseOptionsLabelFrom: 'title',
+    chooseOptionsValueFrom: '_id',
+    options: [],
+    placeholder: "دسته بندی مقاله را انتخاب کنید",
+  },
+]
+export const tableStructureOfCategories = [
+  {
+    title: "شناسه",
+    slug: '_id',
+  },
+  {
+    title: "عنوان",
+    slug: 'title',
+  },
+  {
+    title: "تاریخ ایجاد",
+    slug: 'createdAt',
+    useJalaliFormat: true,
+    useFarsiNumber: true
+  },
+  {
+    useActionsButton: true, //use delete-item class to automatic implement the removing item.
+    slug: '',
+    actions: [
+      {
+        title: "ویرایش دسته بندی مقاله ",
+        slug: "edit-post-category",
+        icon: <TbEdit size={18} color={"#526484"}/>,
+
+        useRoute: true,
+        route: "/post-edit/:_id"
+      },
+      {
+        title: "حذف دسته بندی مقاله",
+        slug: 'delete-post-category',
+        icon: <RiDeleteBinLine size={18} color={"#526484"}/>,
+
+        useYesOrNoModal: true,
+        modalCancelText: 'بستن پنجره',
+        modalType: "delete",
+        modalPath: '/api/category/post/:_id',
+        modalSubmitText: 'حذف دسته بندی',
+        modalTitle: 'حذف دسته بندی',
+        modalContent: 'ایا از حذف این مقاله اطمینان دارید؟ با حذف این مقاله داده ها دیگر در دسترس نخواهند بود',
+
+      },
+    ]
+  },
+]
+
 
 export const formStructure = [
   [

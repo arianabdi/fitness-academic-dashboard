@@ -30,7 +30,7 @@ const menu = [
       },
       {
         text: "دسته بندی تمرین ها",
-        link: "/user-add-2",
+        link: "/exercise-category-list",
         roles: ["admin"],
       }
     ]
@@ -43,12 +43,12 @@ const menu = [
     subMenu: [
       {
         text: "مقاله ها",
-        link: "/exercise-list",
+        link: "/post-list",
         roles: ["admin"],
       },
       {
         text: "دسته بندی مقاله ها",
-        link: "/user-add-2",
+        link: "/post-category-list",
         roles: ["admin"],
       }
     ]

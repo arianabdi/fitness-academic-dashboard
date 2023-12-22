@@ -36,6 +36,9 @@ import ExerciseList from "../pages/fitness-academic/exercises/exerciseList";
 import ExerciseAdd from "../pages/fitness-academic/exercises/exerciseAdd";
 import ProgramAdd from "../pages/fitness-academic/program/programAdd";
 import ProgramList from "../pages/fitness-academic/program/programList";
+import PostList from "../pages/fitness-academic/post/postList";
+import PostAdd from "../pages/fitness-academic/post/postAdd";
+import PostCategoriesList from "../pages/fitness-academic/post/postCategoriesList";
 
 
 const Pages = () => {
@@ -67,9 +70,12 @@ const Pages = () => {
 
         {/*FitnessAcademic*/}
         <Route>
-          <Route path="post-list" element={<ProgramList />}></Route>
-          <Route path="post-add" element={<ExerciseAdd />}></Route>
-          <Route path="post-edit/:id" element={<ProgramAdd />}></Route>
+          <Route path="post-list" element={<PostList />}></Route>
+          <Route path="post-add" element={<PostAdd />}></Route>
+          <Route path="post-edit/:id" element={<PostAdd />}></Route>
+          <Route path="post-category-list" element={<PostCategoriesList />}></Route>
+          <Route path="post-category-add" element={<PostCategoriesList />}></Route>
+          <Route path="post-category-edit/:id" element={<PostCategoriesList />}></Route>
         </Route>
 
         {/*Asoo*/}
