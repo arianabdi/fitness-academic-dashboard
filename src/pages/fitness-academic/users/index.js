@@ -1,16 +1,24 @@
 import { TbEdit } from "react-icons/tb";
 import { RiDeleteBinLine } from "react-icons/ri";
 
-export const tableHeading = {
+
+export const tableStatics = {
   title: "کاربران سیستم",
   description: "شما از این بخش میتوانید تمامی کاربر های مورد نظر خود را ثبت کرده و در بخش ایجاد برنامه به آن ها دسترسی داشته باشید.",
-  addNewItemButtonLink: 'user-system-add'
+  addNewItemButtonLink: '/user-system-add'
 }
-export const itemAddHeader = {
-  title: "ایجاد کاربر سیستم",
-  description: "شما از این بخش میتوانید برای سیستم ادمین خود یک کاربر جدید ایجاد کنید",
 
+
+
+export const formStatics = {
+  title: "ایجاد کاربر سیستم",
+  editTitle: "ویرایش کاربر سیستم",
+  description: "از اینجا میتوانید اقدام به ایجاد کاربر سیستم کنید",
+  editDescription: "از اینجا میتوانید اقدام به ویرایش کاربر سیستم کنید",
+  submitText: "ایجاد کاربر سیستم",
+  editSubmitText: "ویرایش کاربر سیستم",
 }
+
 export const filterStructure = [
   {
     title: "عنوان",
@@ -81,7 +89,7 @@ export const tableStructure = [
         icon: <TbEdit size={18} color={"#526484"}/>,
 
         useRoute: true,
-        route: "/post-category-edit/:_id"
+        route: "/user-system-edit/:_id"
       },
       {
         title: "حذف کاربر سیستم",
@@ -101,102 +109,106 @@ export const tableStructure = [
   },
 ]
 
+
+
 export const formStructure = [
   [
 
     {
-      title: "عنوان کاربر",
-      slug: 'title',
+      title: "نام",
+      slug: 'first_name',
       type: "text",
-      placeholder: "لطفا عنوان کاربر را وارد کنید",
-      regex: /^[A-Za-z\u0600-\u06FF\s]+$/,
+      placeholder: "نام کاربر را وارد کنید",
       isRequired: true,
-      alert: 'مقدار عنوان کاربر باید شامل حروف انگلیسی یا فارسی یا عدد باشد ',
-      value: "",
     },
-
     {
-      title: "شناسه کاربر",
-      slug: 'slug',
+      title: "نام خانوادگی",
+      slug: 'last_name',
       type: "text",
+      placeholder: "نام خانوادگی کاربر را وارد کنید",
       isRequired: true,
-      regex: /^[A-Za-z0-9_]+$/,
-      alert: 'مقدار شناسه کاربر باید شامل عدد، حروف و underline باشد.',
-      value: "",
-    },
-  ],
-  [
-
-    {
-      title: "سطح کاربر",
-      slug: 'level',
-      type: "select",
-      isRequired: true,
-      options: [
-        {label: 'مبتدی', value: 'beginner'},
-        {label: 'حرفه ای', value: 'professional'},
-      ],
-      value: "",
-    },
-    {
-      title: "دسته بندی کاربر",
-      slug: 'categoryId',
-      type: "select",
-      isRequired: true,
-      options: [
-        {label: 'بازو', value: '6489c0bae32a24bcc407357f'},
-        {label: 'پا', value: '6489c0dfe32a24bcc4073587'},
-        {label: 'کمربند شانه ای', value: '64ac3caca19a70a65c8f4487'},
-        {label: 'عضلات زیربغل', value: '64ac3cd2a19a70a65c8f4491'},
-        {label: 'عضلات سینه ای', value: '64ac3c65a19a70a65c8f447d'},
-        {label: 'عضلات چهار سر رانی و همسترینگ', value: '64ac3cf7a19a70a65c8f449b'},
-        {label: 'عضلات شکمی', value: '64ac3d35a19a70a65c8f44a5'},
-        {label: 'پا', value: '6489c0dfe32a24bcc4073587'},
-      ],
-      value: "",
     },
 
   ],
   [
-
-    {
-      title: "توضیحات",
-      slug: 'description',
-      type: "textarea",
-      value: "",
-    },
     {
       title: "جنسیت",
       slug: "gender",
-      type: "radiobox",
+      type: "select",
       options: [
-        {label: 'خانم', value: 'woman'},
-        {label: 'آقا', value: 'man'},
+        {label: 'خانم', value: 'female'},
+        {label: 'آقا', value: 'male'},
       ],
       value: "",
     },
+    {
+      title: "نقش",
+      slug: "role",
+      type: "select",
+      options: [
+        {label: 'ادمین', value: 'admin'},
+        {label: 'سوپر ادمین', value: 'super-admin'},
+      ],
+      value: "",
+    },
+
   ],
   [
     {
-      title: "ویدیو کاربر",
-      slug: 'video',
-      type: "video",
-      value: "",
+      title: "کد ملی",
+      slug: 'nationalCode',
+      type: "text",
+      placeholder: "کد ملی کاربر را وارد کنید",
+      isRequired: true,
+    },
+    {
+      title: "پسورد",
+      slug: 'password',
+      type: "password",
+      placeholder: "پسورد کاربر را وارد کنید",
+      isRequired: true,
     },
   ],
   [
     {
-      title: "عکس کاربر",
-      slug: 'image',
-      type: "image",
-      value: "",
+      title: "ایمیل",
+      slug: 'email',
+      type: "text",
+      placeholder: "ایمیل کاربر را وارد کنید",
+      isRequired: true,
     },
-  ]
+    {
+      title: "شماره موبایل",
+      slug: 'mobile',
+      type: "text",
+      placeholder: "شماره موبایل کاربر را وارد کنید",
+      isRequired: true,
+    },
+  ],
+  [
+    {
+      title: "کشور",
+      slug: 'country',
+      type: "text",
+      placeholder: "کشور کاربر را وارد کنید",
+      isRequired: true,
+    },
+    {
+      title: "شهر",
+      slug: 'city',
+      type: "text",
+      placeholder: "شهر کاربر را وارد کنید",
+      isRequired: true,
+    },
+  ],
+  [
+    {
+      title: "آدرس کامل",
+      slug: 'address',
+      type: "text",
+      placeholder: "آدرس کاربر را وارد کنید",
+      isRequired: true,
+    },
+  ],
 ]
-export const actionsStructure = [
-  {
-    title: "عنوان",
-    slug: 'title',
-    useImage: true,
-  },
-]
+

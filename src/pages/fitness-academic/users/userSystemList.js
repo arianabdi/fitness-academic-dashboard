@@ -1,54 +1,56 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Table from "../../../components/fouladyar/table";
-import { useDispatch, useSelector } from "react-redux";
-import { selectPending } from "../../../redux/store/services/general/store";
+import { useDispatch } from "react-redux";
 import { getItems } from "../../../redux/store/services/fitness-academic/users/store/userSystem";
-import { filterStructure, tableHeading, tableStructure } from "./index";
+import { filterStructure, tableStatics, tableStructure } from "./index";
 import { ConvertFilterObjectToUrlParam } from "../../../redux/store/shared/shared";
 
 
 const UserSystemList = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
-  const isLoading = useSelector(selectPending("program", "list"));
+  const [isLoading, setIsLoading] = useState(true);
   const [isApplyingFilter, setIsApplyingFilter] = useState(false);
   const [pagination, setPagination] = useState({
     itemPerPage: 7,
     currentPage: 1,
     totalItems: 0,
-    lastUpdateBy: ''
-  })
+    lastUpdateBy: ""
+  });
 
-  const [filter, setFilter] = useState({})
+  const [filter, setFilter] = useState({});
+
   async function initializeData() {
+    setIsLoading(true);
     const res = await dispatch(getItems(
       pagination
     ));
 
-    console.log('user-system-list', res)
-    if(res.statusCode === 200){
-      setData(res.data.users)
-      setPagination({...pagination, totalItems: res.data.totalItems, lastUpdateBy: 'initializer'})
+    console.log("user-system-list", res);
+    if (res.statusCode === 200) {
+      setData(res.users);
+      setPagination({ ...pagination, totalItems: res.totalItems || 9, lastUpdateBy: "initializer" });
     }
-
+    setIsLoading(false);
   }
 
   async function fetchData(updater) {
+    setIsLoading(true);
     const res = await dispatch(getItems(
       pagination,
       ConvertFilterObjectToUrlParam(filter)
     ));
-    if(res.statusCode === 200){
-      setData(res.data.users)
-      if(updater === 'filter')
+    if (res.statusCode === 200) {
+      setData(res.users);
+      if (updater === "filter")
         setPagination({
           ...pagination,
-          totalItems: res.data.totalItems,
+          totalItems: res.totalItems,
           currentPage: 1,
           lastUpdateBy: updater
-        })
+        });
     }
-
+    setIsLoading(false);
   }
 
   useEffect(() => {
@@ -57,36 +59,43 @@ const UserSystemList = () => {
 
 
   useEffect(() => {
-    if(pagination.lastUpdateBy === "pagination")
-        fetchData('pagination');
+    if (pagination.lastUpdateBy === "pagination")
+      fetchData("pagination");
 
   }, [pagination]);
 
 
-
   useEffect(() => {
-    fetchData('filter');
+    fetchData("filter");
   }, [filter]);
-
 
 
   return (
     <React.Fragment>
       <Table
+        loading={isLoading}
         filter={filter}
         tableData={data}
         pagination={pagination}
-        tableHeading={tableHeading}
+        tableHeading={tableStatics}
         tableStructure={tableStructure}
         filterStructure={filterStructure}
-        onItemPerPageChange={(itemPerPage, currentPage)=> {
-          setPagination({...pagination, itemPerPage: itemPerPage, currentPage: currentPage, lastUpdateBy: 'pagination'})
+        onItemPerPageChange={(itemPerPage, currentPage) => {
+          setPagination({
+            ...pagination,
+            itemPerPage: itemPerPage,
+            currentPage: currentPage,
+            lastUpdateBy: "pagination"
+          });
         }}
-        onCurrentPageChange={(currentPage)=> {
-          setPagination({...pagination, currentPage: currentPage, lastUpdateBy: 'pagination'})
+        onCurrentPageChange={(currentPage) => {
+          setPagination({ ...pagination, currentPage: currentPage, lastUpdateBy: "pagination" });
         }}
-        onFilterSubmit={ (e)=>{d
+        onFilterSubmit={(e) => {
           setFilter(e);
+        }}
+        onDeleteComplete={(e) => {
+          fetchData("pagination");
         }}
       />
     </React.Fragment>

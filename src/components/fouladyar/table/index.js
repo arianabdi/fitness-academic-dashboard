@@ -38,6 +38,7 @@ import { TbFileTypeCsv, TbFilterSearch } from "react-icons/tb";
 import { MdAdd } from "react-icons/md";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { ErrorToaster } from "../../../shared/toaster";
 
 
 const Export = ({ data }) => {
@@ -747,17 +748,21 @@ const Table = ({
             onSubmit={async ()=>{
               if(modalProps.modalType === 'delete'){
                 // replacePlaceholders(j.route, item)
-                const res = await axios.delete(`${process.env.REACT_APP_API_URL}${replacePlaceholders(modalProps.modalPath, modalProps.modalItemTarget)}`, {
-                  headers: {authorization: `bearer ${auth.token}`}
-                });
-
-                if(res.status === 200){
-                  onDeleteComplete()
-                  setYesOrNoModalIsOpen(false);
-                  toast.success("آیتم مورد نظر با موفقیت حذف شد")
+                try {
+                  const res = await axios.delete(`${process.env.REACT_APP_API_URL}${replacePlaceholders(modalProps.modalPath, modalProps.modalItemTarget)}`, {
+                    headers: {authorization: `bearer ${auth.token}`}
+                  });
+                  console.log('delete item', res)
+                  if(res.status === 200){
+                    onDeleteComplete()
+                    setYesOrNoModalIsOpen(false);
+                    toast.success("آیتم مورد نظر با موفقیت حذف شد")
+                  }
+                }catch (e) {
+                  ErrorToaster(e);
                 }
 
-                console.log('delete item', res)
+
               }
             }}
             title={modalProps.modalTitle}

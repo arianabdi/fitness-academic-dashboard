@@ -2,7 +2,7 @@ import {createAction} from 'redux-actions';
 import { ErrorToaster } from "../../../../../../../shared/toaster";
 
 export const SET_ITEM_PENDING = "USER_SYSTEM/SET_PENDING";
-export const path = '/api/user'
+export const path = '/api/user/system-user'
 export const setItemPending = createAction(SET_ITEM_PENDING, (section = 'list', status = false) => ({
     section,
     status,
@@ -17,7 +17,7 @@ export function getItems(pagination, filter) {
     return async (dispatch, getState, {axios}) => {
         try {
             dispatch(setItemsPending(true));
-            return (await axios.get(`${path}/list?limit=${pagination.itemPerPage}&page=${pagination.currentPage}&${filter}`))
+            return (await axios.get(`${path}?limit=${pagination.itemPerPage}&page=${pagination.currentPage}&${filter}`))
         } catch (error) {
             ErrorToaster(error)
             console.log(error.message);
@@ -67,8 +67,7 @@ export function getItemById(id) {
    return async (dispatch, getState, {axios}) => {
         try {
             dispatch(setItemsPending(true));
-            const response = await axios.get(`${path}/${id}`);
-            return response.data.post;
+            return (await axios.get(`${path}/${id}`))
         } catch (error) {
             ErrorToaster(error)
             console.log(error.message);
