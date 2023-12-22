@@ -29,6 +29,7 @@ import UserSystemAdd from "../pages/fitness-academic/users/userSystemAdd";
 import UserSystemList from "../pages/fitness-academic/users/userSystemList";
 import PaymentGatewayList from "../pages/fitness-academic/payment-gateways/paymentGatewayList";
 import PaymentGatewayAdd from "../pages/fitness-academic/payment-gateways/paymentGatewayAdd";
+import ProductCategoryList from "../pages/fitness-academic/products/productCategoryList";
 
 
 const Pages = () => {
@@ -88,6 +89,14 @@ const Pages = () => {
           <Route path="payment-gateway-list" element={<PaymentGatewayList />}></Route>
           <Route path="payment-gateway-add" element={<PaymentGatewayAdd />}></Route>
           <Route path="payment-gateway-edit/:id" element={<PaymentGatewayAdd />}></Route>
+        </Route>
+
+
+        {/*Fitness Academic*/}
+        <Route>
+          <Route path="products-category-list" element={<ProductCategoryList />}></Route>
+          <Route path="products-category-add" element={<PaymentGatewayAdd />}></Route>
+          <Route path="products-category-edit/:id" element={<PaymentGatewayAdd />}></Route>
         </Route>
 
 

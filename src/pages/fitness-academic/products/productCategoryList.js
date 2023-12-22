@@ -3,7 +3,7 @@ import Table from "../../../components/fouladyar/table";
 import { useDispatch } from "react-redux";
 import { filterStructureOfCategories, tableStaticsOfCategories, tableStructureOfCategories } from "./index";
 import { ConvertFilterObjectToUrlParam } from "../../../redux/store/shared/shared";
-import { getItems } from "../../../redux/store/services/fitness-academic/exercise/store/exerciseCategories";
+import { getItems } from "../../../redux/store/services/fitness-academic/product/store/productCategories";
 
 
 const ProductCategoryList = () => {
