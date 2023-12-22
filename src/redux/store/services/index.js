@@ -13,6 +13,7 @@ export { default as theme } from './theme';
 export { default as program } from './fitness-academic/program';
 export { default as exercise } from './fitness-academic/exercise';
 export { default as posts } from './fitness-academic/posts';
+export { default as paymentGateway } from './fitness-academic/payment-gateways';
 
 // asoo
 export { default as course } from './asoo/courses';

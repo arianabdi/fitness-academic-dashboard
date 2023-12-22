@@ -95,7 +95,7 @@ const menu = [
       },
       {
         text: "درگاه های بانکی",
-        link: "/payment-gateways",
+        link: "/payment-gateway-list",
         roles: ["admin"],
       }
     ]

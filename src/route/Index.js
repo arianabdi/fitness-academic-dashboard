@@ -27,6 +27,8 @@ import ExerciseCategoryAdd from "../pages/fitness-academic/exercises/exerciseCat
 import PostCategoryAdd from "../pages/fitness-academic/post/postCategoryAdd";
 import UserSystemAdd from "../pages/fitness-academic/users/userSystemAdd";
 import UserSystemList from "../pages/fitness-academic/users/userSystemList";
+import PaymentGatewayList from "../pages/fitness-academic/payment-gateways/paymentGatewayList";
+import PaymentGatewayAdd from "../pages/fitness-academic/payment-gateways/paymentGatewayAdd";
 
 
 const Pages = () => {
@@ -73,12 +75,19 @@ const Pages = () => {
           <Route path="settings" element={<Settings />}></Route>
         </Route>
 
-        {/*Asoo*/}
+        {/*Fitness Academic*/}
         <Route path="asoo_home" element={<AsooHome />}></Route>
         <Route>
           <Route path="user-system-list" element={<UserSystemList />}></Route>
           <Route path="user-system-add" element={<UserSystemAdd />}></Route>
           <Route path="user-system-edit/:id" element={<UserSystemAdd />}></Route>
+        </Route>
+
+        {/*Fitness Academic*/}
+        <Route>
+          <Route path="payment-gateway-list" element={<PaymentGatewayList />}></Route>
+          <Route path="payment-gateway-add" element={<PaymentGatewayAdd />}></Route>
+          <Route path="payment-gateway-edit/:id" element={<PaymentGatewayAdd />}></Route>
         </Route>
 
 

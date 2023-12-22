@@ -1,0 +1,105 @@
+import React, { useEffect, useState } from "react";
+import Table from "../../../components/fouladyar/table";
+import { useDispatch } from "react-redux";
+import { getItems } from "../../../redux/store/services/fitness-academic/payment-gateways/store/payment-gateway-actions";
+import { filterStructure, tableStatics, tableStructure } from "./index";
+import { ConvertFilterObjectToUrlParam } from "../../../redux/store/shared/shared";
+
+
+const PaymentGatewayList = () => {
+  const dispatch = useDispatch();
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isApplyingFilter, setIsApplyingFilter] = useState(false);
+  const [pagination, setPagination] = useState({
+    itemPerPage: 7,
+    currentPage: 1,
+    totalItems: 0,
+    lastUpdateBy: ""
+  });
+
+  const [filter, setFilter] = useState({});
+
+  async function initializeData() {
+    setIsLoading(true);
+    const res = await dispatch(getItems(
+      pagination
+    ));
+
+    console.log("payment-gateway-list", res);
+    if (res.statusCode === 200) {
+      setData(res.paymentGateways);
+      setPagination({ ...pagination, totalItems: res.totalItems || 9, lastUpdateBy: "initializer" });
+    }
+    setIsLoading(false);
+  }
+
+  async function fetchData(updater) {
+    setIsLoading(true);
+    const res = await dispatch(getItems(
+      pagination,
+      ConvertFilterObjectToUrlParam(filter)
+    ));
+    if (res.statusCode === 200) {
+      setData(res.paymentGateways);
+      if (updater === "filter")
+        setPagination({
+          ...pagination,
+          totalItems: res.totalItems,
+          currentPage: 1,
+          lastUpdateBy: updater
+        });
+    }
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    initializeData();
+  }, []);
+
+
+  useEffect(() => {
+    if (pagination.lastUpdateBy === "pagination")
+      fetchData("pagination");
+
+  }, [pagination]);
+
+
+  useEffect(() => {
+    fetchData("filter");
+  }, [filter]);
+
+
+  return (
+    <React.Fragment>
+      <Table
+        loading={isLoading}
+        filter={filter}
+        tableData={data}
+        pagination={pagination}
+        tableHeading={tableStatics}
+        tableStructure={tableStructure}
+        filterStructure={filterStructure}
+        onItemPerPageChange={(itemPerPage, currentPage) => {
+          setPagination({
+            ...pagination,
+            itemPerPage: itemPerPage,
+            currentPage: currentPage,
+            lastUpdateBy: "pagination"
+          });
+        }}
+        onCurrentPageChange={(currentPage) => {
+          setPagination({ ...pagination, currentPage: currentPage, lastUpdateBy: "pagination" });
+        }}
+        onFilterSubmit={(e) => {
+          setFilter(e);
+        }}
+        onDeleteComplete={(e) => {
+          fetchData("pagination");
+        }}
+      />
+    </React.Fragment>
+  );
+};
+
+export default PaymentGatewayList;
