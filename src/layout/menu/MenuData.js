@@ -85,7 +85,7 @@ const menu = [
     subMenu: [
       {
         text: "محصولات",
-        link: "/products",
+        link: "/products-list",
         roles: ["admin"],
       },
       {

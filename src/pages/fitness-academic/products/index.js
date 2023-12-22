@@ -4,13 +4,13 @@ import { RiDeleteBinLine } from "react-icons/ri";
 export const tableStatics = {
   title: "محصول ها",
   description: "",
-  addNewItemButtonLink: '/exercise-add'
+  addNewItemButtonLink: '/products-add'
 }
 
 export const tableStaticsOfCategories = {
   title: "دسته بندی محصول ها",
   description: "",
-  addNewItemButtonLink: '/exercise-category-add'
+  addNewItemButtonLink: '/products-category-add'
 }
 export const formStatics = {
   title: "ایجاد محصول",
@@ -68,15 +68,20 @@ export const tableStructure = [
     slug: '_id',
   },
   {
-    title: "عنوان",
-    slug: 'title',
+    title: "نام محصول",
+    slug: 'name',
   },
   {
-    title: "سطح",
-    slug: 'level',
+    title: "شناسه محصول",
+    slug: 'slug',
   },
   {
-    title: "دسته بندی",
+    title: "قیمت محصول",
+    slug: 'price',
+    useFarsiNumber: true
+  },
+  {
+    title: "دسته بندی محصول",
     slug: 'category'
   },
   {
@@ -91,21 +96,21 @@ export const tableStructure = [
     actions: [
       {
         title: "ویرایش محصول",
-        slug: "edit-exercise",
+        slug: "edit-product",
         icon: <TbEdit size={18} color={"#526484"}/>,
 
         useRoute: true,
-        route: "/exercise-edit/:_id"
+        route: "/products-edit/:_id"
       },
       {
         title: "حذف محصول",
-        slug: 'delete-exercise',
+        slug: 'delete-product',
         icon: <RiDeleteBinLine size={18} color={"#526484"}/>,
 
         useYesOrNoModal: true,
         modalCancelText: 'بستن پنجره',
         modalType: "delete",
-        modalPath: '/api/exercise/:_id',
+        modalPath: '/api/product/:_id',
         modalSubmitText: 'حذف محصول',
         modalTitle: 'حذف محصول',
         modalContent: 'ایا از حذف این محصول اطمینان دارید؟ با حذف این محصول داده ها دیگر در دسترس نخواهند بود',
@@ -117,8 +122,8 @@ export const tableStructure = [
 export const formStructure = [
   [
     {
-      title: "عنوان محصول",
-      slug: 'title',
+      title: "نام محصول",
+      slug: 'name',
       type: "text",
       placeholder: "عنوان محصول را وارد کنید",
       isRequired: true,
@@ -133,31 +138,27 @@ export const formStructure = [
   ],
   [
     {
-      title: "سطح محصول",
-      slug: 'level',
-      type: "select",
-      isJalali: true,
-      placeholder: "سطح محصول را انتخاب کنید",
-      options: [
-        {label: 'مبتدی', value: 'beginner'},
-        {label: 'حرفه ای', value: 'professional'},
-      ],
-      isRequired: true,
-
-    },
-    {
       title: "دسته بندی محصول",
       slug: 'categoryId',
-      isRequired: true,
       type: "select",
 
       chooseOptionsFromApi: true,
-      path: '/api/category/exercise',
+      path: '/api/category/product?page=1&limit=100&sort=createdAt&sortType=ASC',
       key: 'categories',
       chooseOptionsLabelFrom: 'title',
       chooseOptionsValueFrom: '_id',
       options: [],
+
       placeholder: "دسته بندی محصول را انتخاب کنید",
+      isRequired: true,
+
+    },
+    {
+      title: "قیمت محصول",
+      slug: 'price',
+      type: "text",
+      placeholder: "قیمت محصول را وارد کنید",
+      isRequired: true,
     },
   ],
   [
@@ -168,28 +169,6 @@ export const formStructure = [
       placeholder: "توضیحات محصول را وارد کنید",
     }
   ],
-  [
-    {
-      title: "عکس محصول",
-      slug: 'imagePreview',
-      type: "image-preview",
-      placeholder: "عکس محصول را انتخاب کنید",
-    },
-    {
-      isEmpty: true
-    },
-  ],
-  [
-    {
-      title: "عکس محصول",
-      slug: 'imageHolder',
-      type: "file-upload",
-      placeholder: "عکس محصول را انتخاب کنید",
-    },
-    {
-      isEmpty: true
-    },
-  ]
 ]
 
 export const filterStructureOfCategories = [

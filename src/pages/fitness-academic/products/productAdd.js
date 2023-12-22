@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { formStatics, formStructure } from "./index";
 import axios from "axios";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { getItemById } from "../../../redux/store/services/fitness-academic/exercise/store/exerciseItems/";
+import { getItemById } from "../../../redux/store/services/fitness-academic/product/store/productItems";
 import { ErrorToaster } from "../../../shared/toaster";
 import toast from "react-hot-toast";
 
@@ -13,10 +13,10 @@ function ProductAdd({ ...props }) {
 
   const { id } = useParams();
   const location = useLocation();
-  const isEditing = location.pathname.includes("exercise-edit");
+  const isEditing = location.pathname.includes("products-edit");
   const navigate = useNavigate();
   const auth = useSelector((state) => state.auth);
-  const path = "/api/exercise";
+  const path = "/api/product";
   const dispatch = useDispatch();
   const [isLoading, setIsloading] = useState(isEditing ? true : false);
   const [processing, setProcessing] = useState(false);
@@ -25,33 +25,18 @@ function ProductAdd({ ...props }) {
     "title": "",
     "slug": "",
     "categoryId": "",
-    "level": "",
+    "price": "",
     "description": "",
-    "image": null, // در زمان update مقدار fileId فایل آپلود شده قبلی رو نگه میداره
-    "imageHolder": null, // در زمان create و update فایل عکس رو نگه میداره
-    "imagePreview": null, // در زمان update آدرس عکسی که قبلا آپلود شده رو نگه میداره
-    "video": null
   });
 
 
   async function loadData() {
     const res = await dispatch(getItemById(id));
-    console.log("exercise load ", res);
+    console.log("product load ", res);
     if (res.statusCode === 200) {
-      // _id: "6581578049b2da2bfca792d3"
-      // categoryId: "64ac2e32a19a70a65c8f4465"
-      // createdAt: "2023-12-19T08:42:40.888Z"
-      // description: "jjjjjj"
-      // image: "6581577f49b2da2bfca792ce"
-      // isAlive: true
-      // level: "professional"
-      // slug: "hhhh"
-      // title: "jjjj"
-      // updatedAt: "2023-12-19T08:42:40.888Z"
-
       setData(prevState => ({
         ...prevState,
-        ...res.data.exercise
+        ...res.product
       }));
       setIsloading(false);
       return data;
@@ -73,22 +58,22 @@ function ProductAdd({ ...props }) {
 
     try {
       setProcessing(true);
-      const fileId = await uploadImage({ image: data.imageHolder });
+      // const fileId = await uploadImage({ image: data.imageHolder });
 
 
       const res = await axios.post(`${process.env.REACT_APP_API_URL}${path}`, {
         ...data,
-        image: fileId
+        // image: fileId
       }, {
         headers: { "authorization": `bearer ${auth.token}` }
       });
 
-      console.log("exercise-res", res);
+      console.log("product-res", res);
 
 
       if (res.data.statusCode === 200) {
-        toast.success("تمرین جدید با موفقیت ثبت شد")
-        navigate(`/exercise-list`);
+        toast.success("محصول جدید با موفقیت ثبت شد")
+        navigate(`/products-list`);
       }
 
       setProcessing(false);
@@ -106,23 +91,26 @@ function ProductAdd({ ...props }) {
 
       setProcessing(true);
       let _data = { ...data };
-      let fileId;
-      delete _data.imagePreview;
-      delete _data.imageHolder;
+      // let fileId;
+      // delete _data.imagePreview;
+      // delete _data.imageHolder;
 
-      console.log("image-in-upload", data.imageHolder);
-      if (data.imageHolder.length !== 0) {
-        fileId = await uploadImage({ image: data.imageHolder });
-      }
+      // console.log("image-in-upload", data.imageHolder);
+      // if (data.imageHolder.length !== 0) {
+      //   fileId = await uploadImage({ image: data.imageHolder });
+      // }
       const res = await axios.patch(`${process.env.REACT_APP_API_URL}${path}/${id}`,
-        { ..._data, image: fileId || data.image },
+        {
+          ..._data,
+          // image: fileId || data.image
+        },
         { headers: { "authorization": `bearer ${auth.token}` } }
       );
 
 
       if(res.status === 200){
-        toast.success("تمرین مورد نظر با موفقیت بروزرسانی شد")
-        navigate(`/exercise-list`);
+        toast.success("محصول مورد نظر با موفقیت بروزرسانی شد")
+        navigate(`/products-list`);
         setProcessing(false);
       }
 
@@ -191,7 +179,7 @@ function ProductAdd({ ...props }) {
             fields={formStructure}
             statics={formStatics}
             isloading={processing}
-            submitButtonText={"ایجاد تمرین"}
+            submitButtonText={"ایجاد محصول"}
             onFieldChange={handleOnFieldChange}
             onFormSubmit={handleOnSubmit}
           />

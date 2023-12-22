@@ -3,8 +3,7 @@ import Table from "../../../components/fouladyar/table";
 import { useDispatch, useSelector } from "react-redux";
 import { filterStructure, tableStatics, tableStructure } from "./index";
 import { ConvertFilterObjectToUrlParam } from "../../../redux/store/shared/shared";
-import { selectPending } from "../../../redux/store/services/general/store";
-import { getItems } from "../../../redux/store/services/fitness-academic/exercise/store/exerciseItems";
+import { getItems } from "../../../redux/store/services/fitness-academic/product/store/productItems";
 
 
 
@@ -31,7 +30,7 @@ const ProductsList = () => {
 
     console.log('plane', res);
     if(res.data.statusCode === 200 || res.status === 200 ){
-      setData(res.data.exercises)
+      setData(res.data.products)
       setPagination({...pagination, totalItems: res.data.totalItems || 9, lastUpdateBy: 'initializer'})
     }
 
@@ -49,7 +48,7 @@ const ProductsList = () => {
 
 
     if(res.statusCode === 200){
-      setData(res.data.exercises)
+      setData(res.data.products)
       if(updater === 'filter')
         setPagination({
           ...pagination,

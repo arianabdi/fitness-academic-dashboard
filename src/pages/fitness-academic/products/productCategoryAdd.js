@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { formStatics, formStaticsOfCategories, formStructure, formStructureOfCategories } from "./index";
 import axios from "axios";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { getItemById } from "../../../redux/store/services/fitness-academic/exercise/store/exerciseCategories";
+import { getItemById } from "../../../redux/store/services/fitness-academic/product/store/productCategories";
 import { ErrorToaster } from "../../../shared/toaster";
 import toast from "react-hot-toast";
 
