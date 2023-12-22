@@ -17,7 +17,7 @@ export function getItems(pagination, filter) {
     return async (dispatch, getState, {axios}) => {
         try {
             dispatch(setItemsPending(true));
-            return (await axios.get(`${path}?limit=${pagination.itemPerPage}&page=${pagination.currentPage}&${filter}`))
+            return (await axios.get(`${path}/list?limit=${pagination.itemPerPage}&page=${pagination.currentPage}&${filter}`))
         } catch (error) {
             ErrorToaster(error)
             console.log(error.message);

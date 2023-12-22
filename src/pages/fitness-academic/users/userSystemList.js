@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import Table from "../../../components/fouladyar/table";
 import { useDispatch, useSelector } from "react-redux";
 import { selectPending } from "../../../redux/store/services/general/store";
-import { getItems } from "../../../redux/store/services/fitness-academic/exercise/store/exerciseItems";
+import { getItems } from "../../../redux/store/services/fitness-academic/users/store/userSystem";
 import { filterStructure, tableHeading, tableStructure } from "./index";
 import { ConvertFilterObjectToUrlParam } from "../../../redux/store/shared/shared";
 
@@ -24,8 +24,10 @@ const UserSystemList = () => {
     const res = await dispatch(getItems(
       pagination
     ));
+
+    console.log('user-system-list', res)
     if(res.statusCode === 200){
-      setData(res.data.exercises)
+      setData(res.data.users)
       setPagination({...pagination, totalItems: res.data.totalItems, lastUpdateBy: 'initializer'})
     }
 
@@ -37,7 +39,7 @@ const UserSystemList = () => {
       ConvertFilterObjectToUrlParam(filter)
     ));
     if(res.statusCode === 200){
-      setData(res.data.exercises)
+      setData(res.data.users)
       if(updater === 'filter')
         setPagination({
           ...pagination,
