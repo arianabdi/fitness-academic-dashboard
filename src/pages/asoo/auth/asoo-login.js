@@ -4,7 +4,7 @@ import Slider from "react-slick";
 import "./login-rtl.css";
 import { makeStyles } from "@material-ui/styles";
 import Logo from "../../../assets/images/logo.png";
-import Slider1 from "../../../assets/images/asso-auth-slider-1.png";
+import Slider1 from "../../../assets/images/fitness-academic-slider.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -115,19 +115,25 @@ const AsooLogin = () => {
   const sliderItems = [
     {
       image: Slider1,
-      title: "مدرسه پرواز آسو",
-      content: "خوش آمدید به داشبورد ادمین مدرسه پرواز آسو. در اینجا می‌توانید به بهترین شکل ممکن مدیریت و کنترل عملیات شرکت خود را انجام دهید."
+      title: "فیتنس آکادمیک",
+      content: "به داشبورد فیتنس آکادمیک خوش آمدید. در اینجا می‌توانید به بهترین شکل ممکن مدیریت و کنترل عملیات اپلیکیشن خود را انجام دهید."
     },
     {
       image: Slider1,
-      title: "مدرسه پرواز آسو",
-      content: "خوش آمدید به داشبورد ادمین مدرسه پرواز آسو. در اینجا می‌توانید به بهترین شکل ممکن مدیریت و کنترل عملیات شرکت خود را انجام دهید."
+      title: "فیتنس آکادمیک",
+      content: "به داشبورد فیتنس آکادمیک خوش آمدید. در اینجا می‌توانید به بهترین شکل ممکن مدیریت و کنترل عملیات اپلیکیشن خود را انجام دهید."
     },
     {
       image: Slider1,
-      title: "مدرسه پرواز آسو",
-      content: "خوش آمدید به داشبورد ادمین مدرسه پرواز آسو. در اینجا می‌توانید به بهترین شکل ممکن مدیریت و کنترل عملیات شرکت خود را انجام دهید."
+      title: "فیتنس آکادمیک",
+      content: "به داشبورد فیتنس آکادمیک خوش آمدید. در اینجا می‌توانید به بهترین شکل ممکن مدیریت و کنترل عملیات اپلیکیشن خود را انجام دهید."
     },
+    {
+      image: Slider1,
+      title: "فیتنس آکادمیک",
+      content: "به داشبورد فیتنس آکادمیک خوش آمدید. در اینجا می‌توانید به بهترین شکل ممکن مدیریت و کنترل عملیات اپلیکیشن خود را انجام دهید."
+    },
+
 
   ];
 
