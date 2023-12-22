@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Form, { FormIsLoading } from "../../../components/fouladyar/form";
 import { useDispatch, useSelector } from "react-redux";
-import { formStatics, formStructure } from "./index";
+import { formStatics, formStaticsOfCategories, formStructure, formStructureOfCategories } from "./index";
 import axios from "axios";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { getItemById } from "../../../redux/store/services/fitness-academic/exercise/store/exerciseCategories";
@@ -12,10 +12,10 @@ function ExerciseCategoryAdd({ ...props }) {
 
   const { id } = useParams();
   const location = useLocation();
-  const isEditing = location.pathname.includes("exercise-edit");
+  const isEditing = location.pathname.includes("post-exercise-edit");
   const navigate = useNavigate();
   const auth = useSelector((state) => state.auth);
-  const path = "/api/exercise";
+  const path = "/api/category/exercise";
   const dispatch = useDispatch();
   const [isLoading, setIsloading] = useState(isEditing ? true : false);
   const [processing, setProcessing] = useState(false);
@@ -181,8 +181,8 @@ function ExerciseCategoryAdd({ ...props }) {
           <Form
             form={data}
             isEditing={isEditing}
-            fields={formStructure}
-            statics={formStatics}
+            fields={formStructureOfCategories}
+            statics={formStaticsOfCategories}
             isloading={processing}
             submitButtonText={"ایجاد دسته بندی تمرین"}
             onFieldChange={handleOnFieldChange}

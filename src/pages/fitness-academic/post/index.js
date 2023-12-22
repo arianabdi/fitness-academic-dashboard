@@ -19,6 +19,14 @@ export const formStatics = {
   submitText: "ایجاد مقاله",
   editSubmitText: "ویرایش مقاله",
 }
+export const formStaticsOfCategories = {
+  title: "ایجاد دسته بندی مقاله",
+  editTitle: "ویرایش دسته بندی مقاله",
+  description: "از اینجا میتوانید اقدام به ایجاد دسته بندی مقاله کنید",
+  editDescription: "از اینجا میتوانید اقدام به ویرایش دسته بندی مقاله کنید",
+  submitText: "ایجاد دسته بندی مقاله",
+  editSubmitText: "ویرایش دسته بندی مقاله",
+}
 
 
 
@@ -107,7 +115,83 @@ export const tableStructure = [
   },
 ]
 
+export const formStructure = [
+  [
+    {
+      title: "عنوان مقاله",
+      slug: 'title',
+      type: "text",
+      placeholder: "عنوان مقاله را وارد کنید",
+      isRequired: true,
+    },
+    {
+      title: "شناسه مقاله",
+      slug: 'slug',
+      type: "text",
+      placeholder: "شناسه مقاله را وارد کنید",
+      isRequired: true,
+    },
+  ],
+  [
+    {
+      title: "سطح مقاله",
+      slug: 'level',
+      type: "select",
+      isJalali: true,
+      placeholder: "سطح مقاله را انتخاب کنید",
+      options: [
+        {label: 'مبتدی', value: 'beginner'},
+        {label: 'حرفه ای', value: 'professional'},
+      ],
+      isRequired: true,
 
+    },
+    {
+      title: "دسته بندی مقاله",
+      slug: 'categoryId',
+      isRequired: true,
+      type: "select",
+
+      chooseOptionsFromApi: true,
+      path: '/api/category/exercise',
+      key: 'categories',
+      chooseOptionsLabelFrom: 'title',
+      chooseOptionsValueFrom: '_id',
+      options: [],
+      placeholder: "دسته بندی مقاله را انتخاب کنید",
+    },
+  ],
+  [
+    {
+      title: "توضیحات",
+      slug: 'description',
+      type: "textarea",
+      placeholder: "توضیحات مقاله را وارد کنید",
+    }
+  ],
+  [
+    {
+      title: "عکس مقاله",
+      slug: 'imagePreview',
+      type: "image-preview",
+      placeholder: "عکس مقاله را انتخاب کنید",
+    },
+    {
+      isEmpty: true
+    },
+  ],
+  [
+    {
+      title: "عکس مقاله",
+      slug: 'imageHolder',
+      type: "file-upload",
+      placeholder: "عکس مقاله را انتخاب کنید",
+    },
+    {
+      isEmpty: true
+    },
+  ]
+]
 
 export const filterStructureOfCategories = [
   {
@@ -187,52 +271,21 @@ export const tableStructureOfCategories = [
     ]
   },
 ]
-
-
-export const formStructure = [
+export const formStructureOfCategories = [
   [
     {
-      title: "عنوان مقاله",
+      title: "عنوان تمرین",
       slug: 'title',
       type: "text",
-      placeholder: "عنوان مقاله را وارد کنید",
+      placeholder: "عنوان تمرین را وارد کنید",
       isRequired: true,
     },
     {
-      title: "شناسه مقاله",
+      title: "شناسه تمرین",
       slug: 'slug',
       type: "text",
-      placeholder: "شناسه مقاله را وارد کنید",
+      placeholder: "شناسه تمرین را وارد کنید",
       isRequired: true,
-    },
-  ],
-  [
-    {
-      title: "سطح مقاله",
-      slug: 'level',
-      type: "select",
-      isJalali: true,
-      placeholder: "سطح مقاله را انتخاب کنید",
-      options: [
-        {label: 'مبتدی', value: 'beginner'},
-        {label: 'حرفه ای', value: 'professional'},
-      ],
-      isRequired: true,
-
-    },
-    {
-      title: "دسته بندی مقاله",
-      slug: 'categoryId',
-      isRequired: true,
-      type: "select",
-
-      chooseOptionsFromApi: true,
-      path: '/api/category/exercise',
-      key: 'categories',
-      chooseOptionsLabelFrom: 'title',
-      chooseOptionsValueFrom: '_id',
-      options: [],
-      placeholder: "دسته بندی مقاله را انتخاب کنید",
     },
   ],
   [
@@ -240,29 +293,7 @@ export const formStructure = [
       title: "توضیحات",
       slug: 'description',
       type: "textarea",
-      placeholder: "توضیحات مقاله را وارد کنید",
+      placeholder: "توضیحات تمرین را وارد کنید",
     }
   ],
-  [
-    {
-      title: "عکس مقاله",
-      slug: 'imagePreview',
-      type: "image-preview",
-      placeholder: "عکس مقاله را انتخاب کنید",
-    },
-    {
-      isEmpty: true
-    },
-  ],
-  [
-    {
-      title: "عکس مقاله",
-      slug: 'imageHolder',
-      type: "file-upload",
-      placeholder: "عکس مقاله را انتخاب کنید",
-    },
-    {
-      isEmpty: true
-    },
-  ]
 ]

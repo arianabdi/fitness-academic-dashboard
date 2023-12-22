@@ -20,6 +20,14 @@ export const formStatics = {
   submitText: "ایجاد تمرین",
   editSubmitText: "ویرایش تمرین",
 }
+export const formStaticsOfCategories = {
+  title: "ایجاد دسته بندی تمرین",
+  editTitle: "ویرایش دسته بندی تمرین",
+  description: "از اینجا میتوانید اقدام به ایجاد دسته بندی تمرین کنید",
+  editDescription: "از اینجا میتوانید اقدام به ویرایش دسته بندی تمرین کنید",
+  submitText: "ایجاد دسته بندی تمرین",
+  editSubmitText: "ویرایش دسته بندی تمرین",
+}
 
 
 
@@ -106,9 +114,83 @@ export const tableStructure = [
     ]
   },
 ]
+export const formStructure = [
+  [
+    {
+      title: "عنوان تمرین",
+      slug: 'title',
+      type: "text",
+      placeholder: "عنوان تمرین را وارد کنید",
+      isRequired: true,
+    },
+    {
+      title: "شناسه تمرین",
+      slug: 'slug',
+      type: "text",
+      placeholder: "شناسه تمرین را وارد کنید",
+      isRequired: true,
+    },
+  ],
+  [
+    {
+      title: "سطح تمرین",
+      slug: 'level',
+      type: "select",
+      isJalali: true,
+      placeholder: "سطح تمرین را انتخاب کنید",
+      options: [
+        {label: 'مبتدی', value: 'beginner'},
+        {label: 'حرفه ای', value: 'professional'},
+      ],
+      isRequired: true,
 
+    },
+    {
+      title: "دسته بندی تمرین",
+      slug: 'categoryId',
+      isRequired: true,
+      type: "select",
 
-
+      chooseOptionsFromApi: true,
+      path: '/api/category/exercise',
+      key: 'categories',
+      chooseOptionsLabelFrom: 'title',
+      chooseOptionsValueFrom: '_id',
+      options: [],
+      placeholder: "دسته بندی تمرین را انتخاب کنید",
+    },
+  ],
+  [
+    {
+      title: "توضیحات",
+      slug: 'description',
+      type: "textarea",
+      placeholder: "توضیحات تمرین را وارد کنید",
+    }
+  ],
+  [
+    {
+      title: "عکس تمرین",
+      slug: 'imagePreview',
+      type: "image-preview",
+      placeholder: "عکس تمرین را انتخاب کنید",
+    },
+    {
+      isEmpty: true
+    },
+  ],
+  [
+    {
+      title: "عکس تمرین",
+      slug: 'imageHolder',
+      type: "file-upload",
+      placeholder: "عکس تمرین را انتخاب کنید",
+    },
+    {
+      isEmpty: true
+    },
+  ]
+]
 
 export const filterStructureOfCategories = [
   {
@@ -189,8 +271,7 @@ export const tableStructureOfCategories = [
     ]
   },
 ]
-
-export const formStructure = [
+export const formStructureOfCategories = [
   [
     {
       title: "عنوان تمرین",
@@ -209,61 +290,10 @@ export const formStructure = [
   ],
   [
     {
-      title: "سطح تمرین",
-      slug: 'level',
-      type: "select",
-      isJalali: true,
-      placeholder: "سطح تمرین را انتخاب کنید",
-      options: [
-        {label: 'مبتدی', value: 'beginner'},
-        {label: 'حرفه ای', value: 'professional'},
-      ],
-      isRequired: true,
-
-    },
-    {
-      title: "دسته بندی تمرین",
-      slug: 'categoryId',
-      isRequired: true,
-      type: "select",
-
-      chooseOptionsFromApi: true,
-      path: '/api/category/exercise',
-      key: 'categories',
-      chooseOptionsLabelFrom: 'title',
-      chooseOptionsValueFrom: '_id',
-      options: [],
-      placeholder: "دسته بندی تمرین را انتخاب کنید",
-    },
-  ],
-  [
-    {
       title: "توضیحات",
       slug: 'description',
       type: "textarea",
       placeholder: "توضیحات تمرین را وارد کنید",
     }
   ],
-  [
-    {
-      title: "عکس تمرین",
-      slug: 'imagePreview',
-      type: "image-preview",
-      placeholder: "عکس تمرین را انتخاب کنید",
-    },
-    {
-      isEmpty: true
-    },
-  ],
-  [
-    {
-      title: "عکس تمرین",
-      slug: 'imageHolder',
-      type: "file-upload",
-      placeholder: "عکس تمرین را انتخاب کنید",
-    },
-    {
-      isEmpty: true
-    },
-  ]
 ]
