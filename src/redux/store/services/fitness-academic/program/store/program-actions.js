@@ -1,7 +1,8 @@
 import {createAction} from 'redux-actions';
+import { ErrorToaster } from "../../../../../../shared/toaster";
 
 export const SET_ITEM_PENDING = "PROGRAM/SET_PENDING";
-export const path = '/programs'
+export const path = '/api/programs'
 export const setItemPending = createAction(SET_ITEM_PENDING, (section = 'list', status = false) => ({
     section,
     status,
@@ -16,9 +17,9 @@ export function getItems(pagination, filter) {
     return async (dispatch, getState, {axios}) => {
         try {
             dispatch(setItemsPending(true));
-            const response = await axios.get(`${path}?limit=${pagination.itemPerPage}&page=${pagination.currentPage}&${filter}`);
-            return response.data;
+            return (await axios.get(`${path}?limit=${pagination.itemPerPage}&page=${pagination.currentPage}&${filter}`))
         } catch (error) {
+            ErrorToaster(error)
             console.log(error.message);
         } finally {
             dispatch(setItemsPending(false));
@@ -34,8 +35,8 @@ export function addNewItem(body) {
             return response;
 
         } catch (error) {
+            ErrorToaster(error)
             console.log(error.message);
-            return error
 
         } finally {
             dispatch(setItemsPending(false));
@@ -52,6 +53,7 @@ export function updateItem(body) {
             return response.data.items;
 
         } catch (error) {
+            ErrorToaster(error)
             console.log(error.message);
             return error
 
@@ -68,6 +70,7 @@ export function getItemById(id) {
             const response = await axios.get(`${path}/${id}`);
             return response.data.post;
         } catch (error) {
+            ErrorToaster(error)
             console.log(error.message);
         } finally {
             dispatch(setItemsPending(false));
@@ -83,6 +86,7 @@ export function getPostCategorySelectOptions() {
             const response = await axios.get(`/admin/posts/category-select-options`);
             return response.data.categories;
         } catch (error) {
+            ErrorToaster(error)
             console.log(error.message);
         } finally {
             dispatch(setItemsPending(false));

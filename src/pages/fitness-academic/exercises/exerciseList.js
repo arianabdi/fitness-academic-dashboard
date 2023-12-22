@@ -32,7 +32,7 @@ const ExerciseList = () => {
     console.log('plane', res);
     if(res.data.statusCode === 200 || res.status === 200 ){
       setData(res.data.exercises)
-      setPagination({...pagination, totalItems: res.count || 9, lastUpdateBy: 'initializer'})
+      setPagination({...pagination, totalItems: res.data.totalItems || 9, lastUpdateBy: 'initializer'})
     }
 
     setIsLoading(false)
@@ -53,7 +53,7 @@ const ExerciseList = () => {
       if(updater === 'filter')
         setPagination({
           ...pagination,
-          totalItems: res.data.count,
+          totalItems: res.data.totalItems,
           currentPage: 1,
           lastUpdateBy: updater
         })

@@ -19,6 +19,7 @@ export function getItems(pagination, filter) {
             dispatch(setItemsPending(true));
             return (await axios.get(`${path}?limit=${pagination.itemPerPage}&page=${pagination.currentPage}&${filter}`));
         } catch (error) {
+            ErrorToaster(error)
             console.log(error.message);
         } finally {
             dispatch(setItemsPending(false));
@@ -35,6 +36,7 @@ export function addNewItem(body) {
             return response;
 
         } catch (error) {
+            ErrorToaster(error)
             console.log(error.message);
             return error
 
@@ -53,6 +55,7 @@ export function updateItem(body) {
             return response.data.items;
 
         } catch (error) {
+            ErrorToaster(error)
             console.log(error.message);
             return error
 
@@ -86,6 +89,7 @@ export function getPostCategorySelectOptions() {
             const response = await axios.get(`/admin/posts/category-select-options`);
             return response.data.categories;
         } catch (error) {
+            ErrorToaster(error)
             console.log(error.message);
         } finally {
             dispatch(setItemsPending(false));

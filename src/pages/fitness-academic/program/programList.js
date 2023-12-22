@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { filterStructure, tableStatics, tableStructure } from "./index";
 import { ConvertFilterObjectToUrlParam } from "../../../redux/store/shared/shared";
 import { selectPending } from "../../../redux/store/services/general/store";
-import { getItems } from "../../../redux/store/services/fitness-academic/exercise/store";
+import { getItems } from "../../../redux/store/services/fitness-academic/program/store/program-actions";
 
 
 
@@ -29,10 +29,10 @@ const ProgramList = () => {
       pagination
     ));
 
-    console.log('plane', res);
+    console.log('programs', res);
     if(res.data.statusCode === 200 || res.status === 200 ){
-      setData(res.data.exercises)
-      setPagination({...pagination, totalItems: res.count || 9, lastUpdateBy: 'initializer'})
+      setData(res.data.programs)
+      setPagination({...pagination, totalItems: res.totalItems || 9, lastUpdateBy: 'initializer'})
     }
 
     setIsLoading(false)
@@ -49,11 +49,11 @@ const ProgramList = () => {
 
 
     if(res.statusCode === 200){
-      setData(res.data.exercises)
+      setData(res.data.programs)
       if(updater === 'filter')
         setPagination({
           ...pagination,
-          totalItems: res.data.count,
+          totalItems: res.data.totalItems,
           currentPage: 1,
           lastUpdateBy: updater
         })

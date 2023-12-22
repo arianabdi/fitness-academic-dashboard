@@ -18,11 +18,46 @@ const menu = [
     heading: "فیتنس آکادمیک"
   },
   {
-    icon: <MdOutlineHome size={fontSize} color={color} />,
-    text: "تمرین ها",
-    link: "/exercise-list",
+    icon: <LuUsers size={fontSize-1} color={color} />,
+    text: "تمرین",
     roles: ["admin"],
-
+    active: false,
+    subMenu: [
+      {
+        text: "تمرین ها",
+        link: "/exercise-list",
+        roles: ["admin"],
+      },
+      {
+        text: "دسته بندی تمرین ها",
+        link: "/user-add-2",
+        roles: ["admin"],
+      }
+    ]
+  },
+  {
+    icon: <LuUsers size={fontSize-1} color={color} />,
+    text: "مقاله",
+    roles: ["admin"],
+    active: false,
+    subMenu: [
+      {
+        text: "مقاله ها",
+        link: "/exercise-list",
+        roles: ["admin"],
+      },
+      {
+        text: "دسته بندی مقاله ها",
+        link: "/user-add-2",
+        roles: ["admin"],
+      }
+    ]
+  },
+  {
+    icon: <MdOutlineHome size={fontSize} color={color} />,
+    text: "برنامه ها",
+    link: "/program-list",
+    roles: ["admin"],
   },
   {
     heading: "مدرسه پرواز آسو"

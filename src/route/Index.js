@@ -54,6 +54,7 @@ const Pages = () => {
         <Route>
           <Route path="exercise-list" element={<ExerciseList />}></Route>
           <Route path="exercise-add" element={<ExerciseAdd />}></Route>
+          <Route path="exercise-categories" element={<ExerciseAdd />}></Route>
           <Route path="exercise-edit/:id" element={<ExerciseAdd />}></Route>
         </Route>
 
@@ -62,6 +63,13 @@ const Pages = () => {
         <Route>
           <Route path="program-list" element={<ProgramList />}></Route>
           <Route path="program-edit/:id" element={<ProgramAdd />}></Route>
+        </Route>
+
+        {/*FitnessAcademic*/}
+        <Route>
+          <Route path="post-list" element={<ProgramList />}></Route>
+          <Route path="post-add" element={<ExerciseAdd />}></Route>
+          <Route path="post-edit/:id" element={<ProgramAdd />}></Route>
         </Route>
 
         {/*Asoo*/}

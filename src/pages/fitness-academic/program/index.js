@@ -53,16 +53,16 @@ export const tableStructure = [
     slug: '_id',
   },
   {
-    title: "عنوان",
-    slug: 'title',
+    title: "نوع برنامه",
+    slug: 'packageSlug',
   },
   {
-    title: "سطح",
-    slug: 'level',
+    title: "نام کاربر",
+    slug: 'full_name',
   },
   {
-    title: "دسته بندی",
-    slug: 'category'
+    title: "وضعیت برنامه",
+    slug: 'status'
   },
   {
     title: "تاریخ ایجاد",
@@ -76,21 +76,21 @@ export const tableStructure = [
     actions: [
       {
         title: "ویرایش برنامه",
-        slug: "edit-exercise",
+        slug: "edit-program",
         icon: <TbEdit size={18} color={"#526484"}/>,
 
         useRoute: true,
-        route: "/exercise-edit/:_id"
+        route: "/program-edit/:_id"
       },
       {
         title: "حذف برنامه",
-        slug: 'delete-exercise',
+        slug: 'delete-program',
         icon: <RiDeleteBinLine size={18} color={"#526484"}/>,
 
         useYesOrNoModal: true,
         modalCancelText: 'بستن پنجره',
         modalType: "delete",
-        modalPath: '/api/exercise/:_id',
+        modalPath: '/api/programs/:_id',
         modalSubmitText: 'حذف برنامه',
         modalTitle: 'حذف برنامه',
         modalContent: 'ایا از حذف این برنامه اطمینان دارید؟ با حذف این برنامه داده ها دیگر در دسترس نخواهند بود',
