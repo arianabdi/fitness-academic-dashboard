@@ -252,7 +252,7 @@ export const tableStructureOfCategories = [
         icon: <TbEdit size={18} color={"#526484"}/>,
 
         useRoute: true,
-        route: "/post-edit/:_id"
+        route: "/post-category-edit/:_id"
       },
       {
         title: "حذف دسته بندی مقاله",
@@ -274,17 +274,17 @@ export const tableStructureOfCategories = [
 export const formStructureOfCategories = [
   [
     {
-      title: "عنوان تمرین",
+      title: "عنوان دسته بندی مقاله",
       slug: 'title',
       type: "text",
-      placeholder: "عنوان تمرین را وارد کنید",
+      placeholder: "عنوان دسته بندی مقاله را وارد کنید",
       isRequired: true,
     },
     {
-      title: "شناسه تمرین",
+      title: "شناسه دسته بندی مقاله",
       slug: 'slug',
       type: "text",
-      placeholder: "شناسه تمرین را وارد کنید",
+      placeholder: "شناسه دسته بندی مقاله را وارد کنید",
       isRequired: true,
     },
   ],
@@ -293,7 +293,7 @@ export const formStructureOfCategories = [
       title: "توضیحات",
       slug: 'description',
       type: "textarea",
-      placeholder: "توضیحات تمرین را وارد کنید",
+      placeholder: "توضیحات دسته بندی مقاله را وارد کنید",
     }
   ],
 ]

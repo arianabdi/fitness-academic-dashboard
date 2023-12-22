@@ -41,6 +41,7 @@ import PostAdd from "../pages/fitness-academic/post/postAdd";
 import PostCategoriesList from "../pages/fitness-academic/post/postCategoriesList";
 import ExerciseCategoryList from "../pages/fitness-academic/exercises/exerciseCategoryList";
 import ExerciseCategoryAdd from "../pages/fitness-academic/exercises/exerciseCategoryAdd";
+import PostCategoryAdd from "../pages/fitness-academic/post/postCategoryAdd";
 
 
 const Pages = () => {
@@ -78,8 +79,8 @@ const Pages = () => {
           <Route path="post-add" element={<PostAdd />}></Route>
           <Route path="post-edit/:id" element={<PostAdd />}></Route>
           <Route path="post-category-list" element={<PostCategoriesList />}></Route>
-          <Route path="post-category-add" element={<PostCategoriesList />}></Route>
-          <Route path="post-category-edit/:id" element={<PostCategoriesList />}></Route>
+          <Route path="post-category-add" element={<PostCategoryAdd />}></Route>
+          <Route path="post-category-edit/:id" element={<PostCategoryAdd />}></Route>
         </Route>
 
         {/*Asoo*/}

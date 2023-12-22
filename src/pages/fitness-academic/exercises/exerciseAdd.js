@@ -6,6 +6,7 @@ import axios from "axios";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { getItemById } from "../../../redux/store/services/fitness-academic/exercise/store/exerciseItems/";
 import { ErrorToaster } from "../../../shared/toaster";
+import toast from "react-hot-toast";
 
 
 function ExerciseAdd({ ...props }) {
@@ -86,6 +87,7 @@ function ExerciseAdd({ ...props }) {
 
 
       if (res.data.statusCode === 200) {
+        toast.success("تمرین جدید با موفقیت ثبت شد")
         navigate(`/exercise-list`);
       }
 
@@ -118,7 +120,12 @@ function ExerciseAdd({ ...props }) {
       );
 
 
-      setProcessing(false);
+      if(res.status === 200){
+        toast.success("تمرین مورد نظر با موفقیت بروزرسانی شد")
+        navigate(`/exercise-list`);
+        setProcessing(false);
+      }
+
     } catch (e) {
       ErrorToaster(e);
       setProcessing(false);

@@ -1,24 +1,21 @@
 import React, { useEffect, useState } from "react";
 import Form, { FormIsLoading } from "../../../components/fouladyar/form";
 import { useDispatch, useSelector } from "react-redux";
-import { formStatics, formStaticsOfCategories, formStructure, formStructureOfCategories } from "./index";
+import { formStatics, formStaticsOfCategories, formStructureOfCategories } from "./index";
 import axios from "axios";
-import { convertDate } from "../../../shared/shared";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { getItemById } from "../../../redux/store/services/fitness-academic/posts/store/postCategories";
-
 import { ErrorToaster } from "../../../shared/toaster";
-
+import toast from "react-hot-toast";
 
 
 function PostCategoryAdd({ ...props }) {
-
   const { id } = useParams();
   const location = useLocation();
   const isEditing = location.pathname.includes("post-category-edit");
   const navigate = useNavigate();
   const auth = useSelector((state) => state.auth);
-  const path = '/api/category/post'
+  const path = "/api/category/post";
   const dispatch = useDispatch();
   const [isLoading, setIsloading] = useState(isEditing ? true : false);
   const [processing, setProcessing] = useState(false);
@@ -26,35 +23,17 @@ function PostCategoryAdd({ ...props }) {
   const [data, setData] = useState({
     "title": "",
     "slug": "",
-    "categoryId": "",
-    "level": "",
-    "description": "",
-    "image": null, // در زمان update مقدار fileId فایل آپلود شده قبلی رو نگه میداره
-    "imageHolder": null, // در زمان create و update فایل عکس رو نگه میداره
-    "imagePreview": null, // در زمان update آدرس عکسی که قبلا آپلود شده رو نگه میداره
-    "video": null,
+    "description": ""
   });
-
 
 
   async function loadData() {
     const res = await dispatch(getItemById(id));
-    console.log('exercise load ', res);
+    console.log("post-category-load ", res);
     if (res.statusCode === 200) {
-      // _id: "6581578049b2da2bfca792d3"
-      // categoryId: "64ac2e32a19a70a65c8f4465"
-      // createdAt: "2023-12-19T08:42:40.888Z"
-      // description: "jjjjjj"
-      // image: "6581577f49b2da2bfca792ce"
-      // isAlive: true
-      // level: "professional"
-      // slug: "hhhh"
-      // title: "jjjj"
-      // updatedAt: "2023-12-19T08:42:40.888Z"
-
       setData(prevState => ({
         ...prevState,
-        ...res.data.categories
+        ...res.data
       }));
       setIsloading(false);
       return data;
@@ -72,92 +51,42 @@ function PostCategoryAdd({ ...props }) {
 
 
   async function onCreate() {
-
-
     try {
-      setProcessing(true)
-      const fileId = await uploadImage({ image: data.imageHolder })
-
-
-
-      const res = await axios.post(`${process.env.REACT_APP_API_URL}${path}`, {
-        ...data,
-        image: fileId
-      }, {
-          headers: { "authorization": `bearer ${auth.token}` }
+      setProcessing(true);
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}${path}`, data, {
+        headers: { "authorization": `bearer ${auth.token}` }
       });
-
-      console.log('exercise-res', res)
-
-
-
-      if(res.data.statusCode === 200){
-        navigate(`/exercise-list`);
+      console.log("exercise-res", res);
+      if (res.status === 200) {
+        toast.success("دسته بندی مقاله با موفقیت ثبت شد")
+        navigate(`/post-category-list`);
       }
-
-      setProcessing(false)
+      setProcessing(false);
 
     } catch (e) {
-      ErrorToaster(e)
+      ErrorToaster(e);
       console.log("Error: ", e);
-      setProcessing(false)
+      setProcessing(false);
     }
   }
-
 
 
   async function onUpdate() {
     try {
+      setProcessing(true);
+      const res = await axios.patch(`${process.env.REACT_APP_API_URL}${path}/${id}`, data,
+        { headers: { "authorization": `bearer ${auth.token}` } }
+      );
 
-      setProcessing(true)
-      let _data = {...data}
-      let fileId;
-      delete _data.imagePreview;
-      delete _data.imageHolder;
-
-      console.log('image-in-upload', data.imageHolder)
-      if(data.imageHolder.length !== 0){
-        fileId = await uploadImage({ image: data.imageHolder })
+      console.log('update-post-category', res)
+      if(res.status === 200){
+        toast.success("دسته بندی مقاله با موفقیت بروزرسانی شد")
+        navigate(`/post-category-list`);
       }
-      const res = await axios.patch(`${process.env.REACT_APP_API_URL}${path}/${id}`,
-        { ..._data, image: fileId || data.image },
-        { headers: { "authorization": `bearer ${auth.token}` }}
-      );
-
-
-
-      setProcessing(false)
+      setProcessing(false);
     } catch (e) {
-      ErrorToaster(e)
-      setProcessing(false)
-    }
-  }
-
-  async function uploadImage({image}) {
-    try {
-
-      const formData = new FormData();
-      formData.append('image', image[0].file);
-
-      const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/file/upload/image`,
-        formData, {
-          headers: {
-            "authorization": `bearer ${auth.token}`,
-            "Content-Type": "multipart/form-data"
-          },
-
-        }
-      );
-
-      console.log('fileUpload',res)
-
-      if(res.status === 200)
-        return res.data.fileId;
-
-
-    } catch (e) {
-      ErrorToaster(e)
-      console.log("Error: ", e);
+      ErrorToaster(e);
+      setProcessing(false);
     }
   }
 
@@ -167,13 +96,11 @@ function PostCategoryAdd({ ...props }) {
       ...prevData,
       ...change
     }));
-    console.log("setValue", change);
   }
 
   async function handleOnSubmit() {
     console.log("form", data);
     !isEditing ? await onCreate() : await onUpdate();
-
   }
 
   return (

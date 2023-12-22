@@ -67,8 +67,7 @@ export function getItemById(id) {
    return async (dispatch, getState, {axios}) => {
         try {
             dispatch(setItemsPending(true));
-            const response = await axios.get(`${path}/${id}`);
-            return response.data.post;
+            return (await axios.get(`${path}/${id}`))
         } catch (error) {
             ErrorToaster(error)
             console.log(error.message);

@@ -274,17 +274,17 @@ export const tableStructureOfCategories = [
 export const formStructureOfCategories = [
   [
     {
-      title: "عنوان تمرین",
+      title: "عنوان دسته بندی تمرین",
       slug: 'title',
       type: "text",
-      placeholder: "عنوان تمرین را وارد کنید",
+      placeholder: "عنوان دسته بندی تمرین را وارد کنید",
       isRequired: true,
     },
     {
       title: "شناسه تمرین",
       slug: 'slug',
       type: "text",
-      placeholder: "شناسه تمرین را وارد کنید",
+      placeholder: "شناسه دسته بندی تمرین را وارد کنید",
       isRequired: true,
     },
   ],
@@ -293,7 +293,7 @@ export const formStructureOfCategories = [
       title: "توضیحات",
       slug: 'description',
       type: "textarea",
-      placeholder: "توضیحات تمرین را وارد کنید",
+      placeholder: "توضیحات دسته بندی تمرین را وارد کنید",
     }
   ],
 ]

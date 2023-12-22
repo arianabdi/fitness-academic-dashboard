@@ -8,6 +8,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { getItemById } from "../../../redux/store/services/fitness-academic/posts/store/postItems";
 
 import { ErrorToaster } from "../../../shared/toaster";
+import toast from "react-hot-toast";
 
 
 
@@ -92,7 +93,8 @@ function PostAdd({ ...props }) {
 
 
       if(res.data.statusCode === 200){
-        navigate(`/exercise-list`);
+        toast.success("مقاله جدید با موفقیت ثبت شد")
+        navigate(`/post-list`);
       }
 
       setProcessing(false)
@@ -124,6 +126,11 @@ function PostAdd({ ...props }) {
         { headers: { "authorization": `bearer ${auth.token}` }}
       );
 
+      if(res.status === 200){
+        toast.success("مقاله جدید با موفقیت ثبت شد")
+        navigate(`/post-list`);
+        setProcessing(false)
+      }
 
 
       setProcessing(false)
