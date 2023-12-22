@@ -7,7 +7,7 @@ import { filterStructure, tableHeading, tableStructure } from "./index";
 import { ConvertFilterObjectToUrlParam } from "../../../redux/store/shared/shared";
 
 
-const UserList2 = () => {
+const UserSystemList = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const isLoading = useSelector(selectPending("program", "list"));
@@ -91,4 +91,4 @@ const UserList2 = () => {
   );
 };
 
-export default UserList2;
+export default UserSystemList;

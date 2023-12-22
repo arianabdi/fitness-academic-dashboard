@@ -1,11 +1,14 @@
+import { TbEdit } from "react-icons/tb";
+import { RiDeleteBinLine } from "react-icons/ri";
+
 export const tableHeading = {
-  title: "مدیریت کاربران",
-  description: "شما از این بخش میتوانید تمامی تمرین های مورد نظر خود را ثبت کرده و در بخش ایجاد برنامه به آن ها دسترسی داشته باشید.",
-  addNewItemButtonLink: 'user-add-2'
+  title: "کاربران سیستم",
+  description: "شما از این بخش میتوانید تمامی کاربر های مورد نظر خود را ثبت کرده و در بخش ایجاد برنامه به آن ها دسترسی داشته باشید.",
+  addNewItemButtonLink: 'user-system-add'
 }
 export const itemAddHeader = {
-  title: "ایجاد کاربر",
-  description: "شما از این بخش میتوانید تمامی تمرین های مورد نظر خود را ثبت کرده و در بخش ایجاد برنامه به آن ها دسترسی داشته باشید.",
+  title: "ایجاد کاربر سیستم",
+  description: "شما از این بخش میتوانید برای سیستم ادمین خود یک کاربر جدید ایجاد کنید",
 
 }
 export const filterStructure = [
@@ -48,23 +51,28 @@ export const filterStructure = [
 
 export const tableStructure = [
   {
-    title: "عنوان",
-    slug: 'title',
+    title: "شناسه",
+    slug: '_id',
+  },
+  {
+    title: "نام و نام خانوادگی",
+    slug: 'full_name',
     useImage: true,
   },
-  // {
-  //   title: "شناسه",
-  //   slug: '_id',
-  // },
   {
-    title: "سطح",
-    slug: 'level',
+    title: "ایمیل",
+    slug: 'email',
     useTranslate: true
   },
   {
-    title: "دسته بندی",
-    slug: 'category',
+    title: "شماره تماس",
+    slug: 'mobile',
     useTranslate: true,
+  },
+  {
+    title: "نقش ها",
+    slug: 'roles',
+    useTranslate: true
   },
   {
     title: "تاریخ ایجاد",
@@ -74,16 +82,29 @@ export const tableStructure = [
   },
   {
     useActionsButton: true, //use delete-item class to automatic implement the removing item.
+    slug: '',
     actions: [
       {
-        title: "ویرایش تمرین",
-        slug: 'edit',
-        icon: "edit",
+        title: "ویرایش کاربر سیستم",
+        slug: "edit-system-user",
+        icon: <TbEdit size={18} color={"#526484"}/>,
+
+        useRoute: true,
+        route: "/post-category-edit/:_id"
       },
       {
-        title: "حذف تمرین",
-        slug: 'delete',
-        icon: "trash",
+        title: "حذف کاربر سیستم",
+        slug: 'delete-system-user',
+        icon: <RiDeleteBinLine size={18} color={"#526484"}/>,
+
+        useYesOrNoModal: true,
+        modalCancelText: 'بستن پنجره',
+        modalType: "delete",
+        modalPath: '/api/user/:_id',
+        modalSubmitText: 'حذف کاربر سیستم',
+        modalTitle: 'حذف کاربر سیستم',
+        modalContent: 'ایا از حذف این کاربر اطمینان دارید؟ با حذف این کاربر داده های او دیگر در دسترس نخواهند بود',
+
       },
     ]
   },
@@ -93,30 +114,30 @@ export const formStructure = [
   [
 
     {
-      title: "عنوان تمرین",
+      title: "عنوان کاربر",
       slug: 'title',
       type: "text",
-      placeholder: "لطفا عنوان تمرین را وارد کنید",
+      placeholder: "لطفا عنوان کاربر را وارد کنید",
       regex: /^[A-Za-z\u0600-\u06FF\s]+$/,
       isRequired: true,
-      alert: 'مقدار عنوان تمرین باید شامل حروف انگلیسی یا فارسی یا عدد باشد ',
+      alert: 'مقدار عنوان کاربر باید شامل حروف انگلیسی یا فارسی یا عدد باشد ',
       value: "",
     },
 
     {
-      title: "شناسه تمرین",
+      title: "شناسه کاربر",
       slug: 'slug',
       type: "text",
       isRequired: true,
       regex: /^[A-Za-z0-9_]+$/,
-      alert: 'مقدار شناسه تمرین باید شامل عدد، حروف و underline باشد.',
+      alert: 'مقدار شناسه کاربر باید شامل عدد، حروف و underline باشد.',
       value: "",
     },
   ],
   [
 
     {
-      title: "سطح تمرین",
+      title: "سطح کاربر",
       slug: 'level',
       type: "select",
       isRequired: true,
@@ -127,7 +148,7 @@ export const formStructure = [
       value: "",
     },
     {
-      title: "دسته بندی تمرین",
+      title: "دسته بندی کاربر",
       slug: 'categoryId',
       type: "select",
       isRequired: true,
@@ -166,7 +187,7 @@ export const formStructure = [
   ],
   [
     {
-      title: "ویدیو تمرین",
+      title: "ویدیو کاربر",
       slug: 'video',
       type: "video",
       value: "",
@@ -174,7 +195,7 @@ export const formStructure = [
   ],
   [
     {
-      title: "عکس تمرین",
+      title: "عکس کاربر",
       slug: 'image',
       type: "image",
       value: "",

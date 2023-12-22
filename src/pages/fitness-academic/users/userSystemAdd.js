@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectPending } from "../../../redux/store/services/general/store";
 import { formStructure, itemAddHeader } from "./index";
 
-const UserAdd2 = ({ ...props }) => {
+const UserSystemAdd = ({ ...props }) => {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const isLoading = useSelector(selectPending("program", "list"));
@@ -51,4 +51,4 @@ const UserAdd2 = ({ ...props }) => {
   );
 };
 
-export default UserAdd2;
+export default UserSystemAdd;

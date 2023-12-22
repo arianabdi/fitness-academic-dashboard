@@ -60,6 +60,47 @@ const menu = [
     roles: ["admin"],
   },
   {
+    icon: <LuUsers size={fontSize-1} color={color} />,
+    text: "کاربران",
+    roles: ["admin"],
+    active: false,
+    subMenu: [
+      {
+        text: "کاربران سیستم",
+        link: "/user-system-list",
+        roles: ["admin"],
+      },
+      {
+        text: "مشتریان",
+        link: "/customer-list",
+        roles: ["admin"],
+      }
+    ]
+  },
+  {
+    icon: <LuUsers size={fontSize-1} color={color} />,
+    text: "فروشگاه",
+    roles: ["admin"],
+    active: false,
+    subMenu: [
+      {
+        text: "محصولات",
+        link: "/products",
+        roles: ["admin"],
+      },
+      {
+        text: "دسته بندی محصولات",
+        link: "/products-category-list",
+        roles: ["admin"],
+      },
+      {
+        text: "درگاه های بانکی",
+        link: "/payment-gateways",
+        roles: ["admin"],
+      }
+    ]
+  },
+  {
     heading: "مدرسه پرواز آسو"
   },
   {

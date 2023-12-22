@@ -4,7 +4,7 @@ import { RiDeleteBinLine } from "react-icons/ri";
 export const tableStatics = {
   title: "برنامه ها",
   description: "",
-  addNewItemButtonLink: '/exercise-add'
+
 }
 export const formStatics = {
   title: "ایجاد برنامه",
