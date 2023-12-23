@@ -21,6 +21,7 @@ import toast from "react-hot-toast";
 import classnames from "classnames";
 import { IoMdClose } from "react-icons/io";
 import { preventDefault } from "@fullcalendar/react";
+import { LuPlus } from "react-icons/lu";
 
 
 
@@ -77,7 +78,6 @@ function ProgramAdd({ ...props }) {
 
 
   const [diet, setDiet] = useState([])
-  const [dietSuggestion, setDietSuggestion] = useState([])
   const [exercises, setExercises] = useState([])
 
   const [data, setData] = useState({
@@ -357,6 +357,16 @@ function ProgramAdd({ ...props }) {
       // Create a new array without the specified cell
       const newGrid = prevGrid.map((row, i) =>
         i === rowIndex ? [...row.filter((_, j) => j !== colIndex)] : row
+      );
+
+      return newGrid;
+    });
+  };
+  const addCell = (rowIndex) => {
+    setDietSuggestion((prevGrid) => {
+      // Create a new array without the specified cell
+      const newGrid = prevGrid.map((row, i) =>
+        i === rowIndex ? [...row, ''] : row
       );
 
       return newGrid;
@@ -716,6 +726,25 @@ function ProgramAdd({ ...props }) {
                                         />
                                       </div>
                                     </div>
+
+
+
+                                    <div key={Math.random().toString()}   className={`d-flex flex-row justify-content-between m-0 add-new-suggestion-container`} >
+                                      <h6 className="title add-new-suggestion-title" >موارد پیشنهادی</h6>
+                                      <Button
+                                        key={Math.random().toString()}
+                                        outline
+                                        color="light"
+                                        className="dana-font m-0 d-flex justify-content-center add-new-suggestion-button"
+                                        onClick={(e)=>{
+                                          addCell(itemIndex)
+                                        }}>
+                                        <LuPlus  size={16} className="me-1 ms-1" color={"#526484"}/> افزودن پیشنهاد جدید
+                                      </Button>
+                                    </div>
+
+
+
                                     {
                                       dietSuggestion[itemIndex].map((dietSuggItem, dietSuggItemIndex)=>{
 
