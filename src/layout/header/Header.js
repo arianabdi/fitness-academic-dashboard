@@ -4,7 +4,6 @@ import Toggle from "../sidebar/Toggle";
 import User from "./dropdown/user/User";
 import Notification from "./dropdown/notification/Notification";
 import { useTheme, useThemeUpdate } from '../provider/Theme';
-import headerLogo from "../../assets/images/headerLogo.png";
 import { IoMenuOutline } from "react-icons/io5";
 
 const Header = ({ fixed, className }) => {
@@ -37,7 +36,7 @@ const Header = ({ fixed, className }) => {
 
           <div className="nk-header-app-name">
             <div className="nk-header-app-logo">
-              <img src={headerLogo} alt="" />
+              <div className="">فیتنس آکادمیک</div>
             </div>
           </div>
 
