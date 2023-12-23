@@ -77,6 +77,7 @@ function ProgramAdd({ ...props }) {
   };
 
 
+  const [status, setStatus] = useState()
   const [diet, setDiet] = useState([])
   const [exercises, setExercises] = useState([])
 
@@ -158,10 +159,12 @@ function ProgramAdd({ ...props }) {
       if (res.status === 200) {
 
         if(res.data.data.program){
+          console.log('program', res.data.data.program)
           const p = {...res.data.data.program}
           delete p.diet;
           delete p.exercises;
           setProgram(p)
+          setStatus(p.status)
         }
 
         if(res.data.data.program.exercises.length > 0){
@@ -467,12 +470,11 @@ function ProgramAdd({ ...props }) {
                       </p>
                       <div className={[`accordion`]} key={`accordion-1`}  >
                         {
-                          exercises.map((item, index) => {
-
+                          exercises.map((itemIndex, index) => {
                             return(
-                              <div className="accordion-item" key={Math.random().toString()}  >
-                                <div key={Math.random().toString()}   className={[`d-flex flex-row justify-content-between accordion-head${isOpen !== index ? " collapsed" : ""}`]} >
-                                  <h6 className="title" onClick={() => toggleCollapse(index)}>{`${toFarsiNumber(index + 1)}. ${(exerciseListOptions.length > 0 && item.exerciseId) ? (exerciseListOptions.find(i=>i.value === item.exerciseId))?.label : 'ثبت نشده'}`}</h6>
+                              <div className="accordion-item"  key={`accordion-item-${itemIndex}`}  >
+                                <div   className={[`d-flex flex-row justify-content-between accordion-head${isOpen !== index ? " collapsed" : ""}`]} >
+                                  <h6 className="title" onClick={() => toggleCollapse(index)}>{`${toFarsiNumber(index + 1)}. ${(exerciseListOptions.length > 0 && itemIndex.exerciseId) ? (exerciseListOptions.find(i=>i.value === itemIndex.exerciseId))?.label : 'ثبت نشده'}`}</h6>
                                   <span className="icon" onClick={() => {
                                     setExercises(exercises.filter((i, indx) => {
                                       if(indx !== index)
@@ -482,22 +484,22 @@ function ProgramAdd({ ...props }) {
                                     <IoClose size={18} color={"#526484"}/>
                                   </span>
                                 </div>
-                                <Collapse key={Math.random().toString()}   className="accordion-body justify-content-between"  isOpen={isOpen === index ? true : false}>
-                                  <div className="accordion-inner" key={Math.random().toString()}  >
-                                    <div className="d-flex flex-row " key={Math.random().toString()}  >
-                                      <div className="w-100 p-1" key={Math.random().toString()}  >
+                                <Collapse className="accordion-body justify-content-between"  isOpen={isOpen === index ? true : false}>
+                                  <div className="accordion-inner"  key={`accordion-inner-${itemIndex}`}  >
+                                    <div className="d-flex flex-row "   >
+                                      <div className="w-100 p-1"  key={`sets-${itemIndex}`}   >
                                         <Field
                                           id={"sets"}
                                           name={"sets"}
                                           label={"تعداد ست"}
                                           type={"number"}
-                                          value={item.sets}
+                                          value={itemIndex.sets}
                                           onChange={(e) => {
 
                                             setExercises(exercises.map((i, indx) => {
                                               if(index === indx){
                                                 return {
-                                                  ...item,
+                                                  ...itemIndex,
                                                   sets: e
                                                 }
                                               }
@@ -508,18 +510,18 @@ function ProgramAdd({ ...props }) {
                                           }}
                                         />
                                       </div>
-                                      <div className="w-100 p-2" key={Math.random().toString()}  >
+                                      <div className="w-100 p-2" key={`reps-${itemIndex}`}  >
                                         <Field
                                           id={"reps"}
                                           name={"reps"}
                                           label={"تعداد تکرار"}
                                           type={"number"}
-                                          value={item.reps}
+                                          value={itemIndex.reps}
                                           onChange={(e) => {
                                             setExercises(exercises.map((i, indx) => {
                                               if(index === indx){
                                                 return {
-                                                  ...item,
+                                                  ...itemIndex,
                                                   reps: e
                                                 }
                                               }
@@ -530,19 +532,19 @@ function ProgramAdd({ ...props }) {
                                         />
                                       </div>
                                     </div>
-                                    <div className="d-flex flex-row " key={Math.random().toString()}  >
-                                      <div className="w-100 p-1">
+                                    <div className="d-flex flex-row "  >
+                                      <div className="w-100 p-1" key={`rest-${itemIndex}`} >
                                         <Field
                                           id={"rest"}
                                           name={"rest"}
                                           label={"استراحت بین ست"}
                                           type={"number"}
-                                          value={item.rest}
+                                          value={itemIndex.rest}
                                           onChange={(e) => {
                                             setExercises(exercises.map((i, indx) => {
                                               if(index === indx){
                                                 return {
-                                                  ...item,
+                                                  ...itemIndex,
                                                   rest: e
                                                 }
                                               }
@@ -552,18 +554,18 @@ function ProgramAdd({ ...props }) {
                                           }}
                                         />
                                       </div>
-                                      <div className="w-100 p-1" key={Math.random().toString()}  >
+                                      <div className="w-100 p-1" key={`weight-${itemIndex}`}  >
                                         <Field
                                           id={"weight"}
                                           name={"weight"}
                                           label={"وزن"}
                                           type={"number"}
-                                          value={item.weight}
+                                          value={itemIndex.weight}
                                           onChange={(e) => {
                                             setExercises(exercises.map((i, indx) => {
                                               if(index === indx){
                                                 return {
-                                                  ...item,
+                                                  ...itemIndex,
                                                   weight: e
                                                 }
                                               }
@@ -576,7 +578,7 @@ function ProgramAdd({ ...props }) {
 
 
                                     </div>
-                                    <div className="d-flex flex-row " key={Math.random().toString()}  >
+                                    <div className="d-flex flex-row "  key={`categoryId-${itemIndex}`}   >
                                       <div className="w-100 p-1">
                                         <Field
                                           id={"categoryId"}
@@ -585,12 +587,12 @@ function ProgramAdd({ ...props }) {
                                           disabled={exerciseCategoriesOptions.length === 0}
                                           options={exerciseCategoriesOptions}
                                           type={"select"}
-                                          value={item.categoryId}
+                                          value={itemIndex.categoryId}
                                           onChange={(e) => {
                                             setExercises(exercises.map((i, indx) => {
                                               if(index === indx){
                                                 return {
-                                                  ...item,
+                                                  ...itemIndex,
                                                   categoryId: e,
                                                   exerciseId: ''
                                                 }
@@ -601,20 +603,20 @@ function ProgramAdd({ ...props }) {
                                           }}
                                         />
                                       </div>
-                                      <div className="w-100 p-1" key={Math.random().toString()}  >
+                                      <div className="w-100 p-1"  key={`exerciseId-${itemIndex}`}  >
                                         <Field
                                           id={"exerciseId"}
                                           name={"exerciseId"}
                                           disabled={exerciseListOptions.length === 0}
-                                          options={loadExerciseOptionsByCategoryId(item.categoryId)}
+                                          options={loadExerciseOptionsByCategoryId(itemIndex.categoryId)}
                                           label={"عنوان تمرین"}
                                           type={"select"}
-                                          value={item.exerciseId}
+                                          value={itemIndex.exerciseId}
                                           onChange={(e) => {
                                             setExercises(exercises.map((i, indx) => {
                                               if(index === indx){
                                                 return {
-                                                  ...item,
+                                                  ...itemIndex,
                                                   exerciseId: e
                                                 }
                                               }
@@ -625,19 +627,19 @@ function ProgramAdd({ ...props }) {
                                         />
                                       </div>
                                     </div>
-                                    <div className="d-flex flex-row " key={Math.random().toString()}  >
+                                    <div className="d-flex flex-row "  key={`description-${itemIndex}`}   >
                                       <div className="w-100 p-1">
                                         <Field
                                           id={"description"}
                                           name={"description"}
                                           label={"توضیحات"}
-                                          type={"text"}
-                                          value={item.description}
+                                          type={"textarea"}
+                                          value={itemIndex.description}
                                           onChange={(e) => {
                                             setExercises(exercises.map((i, indx) => {
                                               if(index === indx){
                                                 return {
-                                                  ...item,
+                                                  ...itemIndex,
                                                   description: e
                                                 }
                                               }
@@ -664,7 +666,7 @@ function ProgramAdd({ ...props }) {
                         افزودن تمرین جدید
                       </Button>
                     </TabPane>
-                    <TabPane tabId="2"   >
+                    <TabPane tabId="2" >
                       <p>
                         اادمین عزیز! در اینجا شما می‌توانید برنامه های غذایی را اضافه کرده و  ویرایش کنید. از فرم زیر برای افزودن آیتم های غذایی هدف و نوع وعده غذایی را تعیین کنید:
                       </p>
@@ -804,11 +806,50 @@ function ProgramAdd({ ...props }) {
                   </TabContent>
 
 
-
                 </PreviewCard>
 
 
               </Block>
+              <Block size="lg">
+                <BlockHead>
+                  <BlockHeadContent>
+                    <BlockTitle tag="h5" className="block-title">وضعیت برنامه</BlockTitle>
+                    <p>از این بخش میتوانید وضعیت برنامه تغییر دهید</p>
+                  </BlockHeadContent>
+                </BlockHead>
+                <PreviewCard className="pt-0 pb-0">
+
+                  <div className="container">
+                    <div className="row d-flex flex-row">
+                      <div className="col-6 d-flex flex-column">
+                        <div className="status-title">تغییر وضعیت برنامه</div>
+                        <span>با تغییر وضعیت برنامه، ممکن است دسترسی کاربر به برنامه تغییر کند</span>
+                      </div>
+                      <div className="col-6" >
+                        <Field
+                          id={"status"}
+                          name={"status"}
+                          label={"وضعیت برنامه"}
+                          type={"select"}
+                          options={[
+                            {label: 'پرداخت نشده', value: 'unpaid'},
+                            {label: 'تکمیل اطلاعات', value: 'fill_info'},
+                            {label: 'در حال آماده سازی', value: 'pending'},
+                            {label: 'فعال', value: 'active'},
+                            {label: 'منقضی شده', value: 'expired'},
+                          ]}
+                          value={status}
+                          onChange={(e) => {
+                            setStatus(e)
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                </PreviewCard>
+              </Block>
+
               <Block size="lg">
                 <BlockHead>
                   <BlockHeadContent>
