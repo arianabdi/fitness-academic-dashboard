@@ -344,6 +344,21 @@ function ProgramAdd({ ...props }) {
 
   }
 
+
+  const updateSuggestions = (rowIndex, index, value) => {
+    setDiet((prevGrid) => {
+      const newGrid = [...prevGrid];
+      newGrid[rowIndex] = {
+        ...prevGrid[rowIndex],
+        suggestions: [
+          ...prevGrid[rowIndex].suggestions.slice(0, index),
+          value,
+          ...prevGrid[rowIndex].suggestions.slice(index + 1),
+        ],
+      };
+      return newGrid;
+    });
+  };
   const removeDietSuggestionCell = (rowIndex, colIndex) => {
     setDiet(diet.map((row, i) => {
       if(rowIndex === i){
@@ -450,7 +465,7 @@ function ProgramAdd({ ...props }) {
                       <p>
                         ادمین عزیز! در اینجا شما می‌توانید برنامه حرکت های ورزشی را اضافه کرده و  ویرایش کنید. از فرم زیر برای افزودن حرکات ورزشی، انتخاب دسته بندی و انتخاب عنوان حرکت و تعیین تعداد تکرار و ست‌ها استفاده کنید:
                       </p>
-                      <div className={[`accordion`]} key={Math.random().toString()}  >
+                      <div className={[`accordion`]} key={`accordion-1`}  >
                         {
                           exercises.map((item, index) => {
 
@@ -649,18 +664,18 @@ function ProgramAdd({ ...props }) {
                         افزودن تمرین جدید
                       </Button>
                     </TabPane>
-                    <TabPane tabId="2" key={Math.random().toString()}  >
+                    <TabPane tabId="2"   >
                       <p>
                         اادمین عزیز! در اینجا شما می‌توانید برنامه های غذایی را اضافه کرده و  ویرایش کنید. از فرم زیر برای افزودن آیتم های غذایی هدف و نوع وعده غذایی را تعیین کنید:
                       </p>
-                      <div className={[`accordion`]} key={Math.random().toString()}  >
+                      <div className={[`accordion`]} key={`accordion-2`}  >
                         {
                           diet.map((item, itemIndex) => {
                             return(
-                              <div className="accordion-item" key={Math.random().toString()}  >
-                                  <div key={Math.random().toString()}   className={[`d-flex flex-row justify-content-between accordion-head${isOpen !== itemIndex ? " collapsed" : ""}`]} >
-                                    <h6 className="title" onClick={() => toggleCollapse(itemIndex)}>{`${toFarsiNumber(itemIndex + 1)}. ${item.title ? item.title : 'ثبت نشده'}`}</h6>
-                                    <span className="icon" onClick={() => {
+                              <div className="accordion-item"  key={`accordion-item-${itemIndex}`}>
+                                <div key={`accordion-head-${itemIndex}`} className={[`d-flex flex-row justify-content-between accordion-head${isOpen !== itemIndex ? " collapsed" : ""}`]} >
+                                  <h6 className="title" onClick={() => toggleCollapse(itemIndex)}>{`${toFarsiNumber(itemIndex + 1)}. ${item.title ? item.title : 'ثبت نشده'}`}</h6>
+                                  <span className="icon" onClick={() => {
                                       setDiet(diet.filter((i, indx) => {
                                         if(indx !== itemIndex)
                                           return i
@@ -669,9 +684,9 @@ function ProgramAdd({ ...props }) {
                                     <IoClose size={18} color={"#526484"}/>
                                   </span>
                                 </div>
-                                <Collapse className="accordion-body justify-content-between" key={Math.random().toString()}   isOpen={isOpen === itemIndex ? true : false}>
-                                  <div className="accordion-inner" key={Math.random().toString()}  >
-                                    <div className="d-flex flex-row " key={Math.random().toString()}  >
+                                <Collapse className="accordion-body justify-content-between"  key={`accordion-body-${itemIndex}`}  isOpen={isOpen === itemIndex ? true : false}>
+                                  <div className="accordion-inner"  key={`accordion-inner-${itemIndex}`}>
+                                    <div className="d-flex flex-row " key={`accordion-inner-head-${itemIndex}`}  >
                                       <div className="w-100 p-1">
                                         <Field
                                           id={"title"}
@@ -724,11 +739,9 @@ function ProgramAdd({ ...props }) {
                                     </div>
 
 
-
-                                    <div key={Math.random().toString()}   className={`d-flex flex-row justify-content-between m-0 add-new-suggestion-container`} >
+                                    <div key={`accordion-inner-add-item-container-${itemIndex}`} className={`d-flex flex-row justify-content-between m-0 add-new-suggestion-container`} >
                                       <h6 className="title add-new-suggestion-title" >موارد پیشنهادی</h6>
                                       <Button
-                                        key={Math.random().toString()}
                                         outline
                                         color="light"
                                         className="dana-font m-0 d-flex justify-content-center add-new-suggestion-button"
@@ -740,39 +753,38 @@ function ProgramAdd({ ...props }) {
                                     </div>
 
 
+                                    <div key={`accordion-inner-suggestions-container-${itemIndex}`}>
+                                      {
+                                        item.suggestions.map((dietSuggItem, dietSuggItemIndex)=>{
 
-                                    {
-                                      item.suggestions.map((dietSuggItem, dietSuggItemIndex)=>{
+                                          return(
+                                            <div className="d-flex flex-row " key={`accordion-inner-suggestions-item-${itemIndex}-${dietSuggItemIndex}`} >
+                                              <div className="d-flex flex-row w-100 p-2"   >
+                                                <Field
+                                                  label={`پیشنهاد ${dietSuggItemIndex + 1}`}
+                                                  type={"text"}
+                                                  value={item.suggestions[dietSuggItemIndex]}
+                                                  onChange={(e) => {
+                                                    updateSuggestions (itemIndex, dietSuggItemIndex, e)
 
-                                        return(
-                                          <div className="d-flex flex-row " key={Math.random().toString()}  >
-                                            <div className="d-flex flex-row w-100 p-2" key={Math.random().toString()}  >
-                                              <Field
-                                                key={Math.random().toString()}
-                                                name={`suggestion${itemIndex}-${dietSuggItemIndex}`}
-                                                label={`پیشنهاد ${dietSuggItemIndex + 1}`}
-                                                type={"text"}
-                                                value={dietSuggItem}
-                                                onChange={(e) => {
+                                                  }}
+                                                />
 
-                                                }}
-                                              />
-
-                                              <Button
-                                                key={Math.random().toString()}
-                                                outline
-                                                color="light"
-                                                className="dana-font mt-5 me-3 d-flex justify-content-center diet-cancel-btn"
-                                                onClick={(e)=>{
-                                                  removeDietSuggestionCell(itemIndex, dietSuggItemIndex)
-                                                }}>
-                                                <IoMdClose size={19} color={"#526484"}/>
-                                              </Button>
+                                                <Button
+                                                  outline
+                                                  color="light"
+                                                  className="dana-font mt-5 me-3 d-flex justify-content-center diet-cancel-btn"
+                                                  onClick={(e)=>{
+                                                    removeDietSuggestionCell(itemIndex, dietSuggItemIndex)
+                                                  }}>
+                                                  <IoMdClose size={19} color={"#526484"}/>
+                                                </Button>
+                                              </div>
                                             </div>
-                                          </div>
-                                        )
-                                      })
-                                    }
+                                          )
+                                        })
+                                      }
+                                    </div>
                                   </div>
                                 </Collapse>
                               </div>

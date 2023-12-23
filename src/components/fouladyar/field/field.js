@@ -12,6 +12,7 @@ export const Field = ({
     id,
     ref,
     name,
+    key,
     type,
     label,
     value,
@@ -99,7 +100,7 @@ export const Field = ({
 
     if(type === "text" || type === "password"){
         return (
-            <div className="form-group w-100 mb-0">
+            <div className="form-group w-100 mb-0" key={key}>
                 <FieldLabel/>
                 <div className={`form-control-group form-group ${formControlClassName}`}>
                     <input
@@ -110,8 +111,8 @@ export const Field = ({
                         name={name}
                         placeholder={placeholder}
                         disabled={disabled}
-                        defaultValue={value}
-                        // value={value}
+                        // defaultValue={value}
+                        value={value}
                         onChange={(e)=> {onChange(e.target.value)}}
                         onBlur={onBlur}
                         onFocus={onFocus}
