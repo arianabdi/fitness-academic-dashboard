@@ -172,14 +172,6 @@ function ProgramAdd({ ...props }) {
         if(res.data.data.program.diet.length > 0){
           console.log('diet',res.data.data.program.diet )
           setDiet(res.data.data.program.diet)
-
-          //set suggestions
-          res.data.data.program.diet.map(i=>{
-            setDietSuggestion(prevState => ([
-              ...prevState,
-              (i.suggestions.length > 0 ? i.suggestions : [])
-            ]))
-          })
         }
       }
     }catch (e){
@@ -352,25 +344,29 @@ function ProgramAdd({ ...props }) {
 
   }
 
-  const removeCell = (rowIndex, colIndex) => {
-    setDietSuggestion((prevGrid) => {
-      // Create a new array without the specified cell
-      const newGrid = prevGrid.map((row, i) =>
-        i === rowIndex ? [...row.filter((_, j) => j !== colIndex)] : row
-      );
+  const removeDietSuggestionCell = (rowIndex, colIndex) => {
+    setDiet(diet.map((row, i) => {
+      if(rowIndex === i){
+        return {
+          ...row,
+          suggestions: row.suggestions.filter((_, j) => j !== colIndex)
+        }
+      }
+      return row;
+    }))
 
-      return newGrid;
-    });
   };
-  const addCell = (rowIndex) => {
-    setDietSuggestion((prevGrid) => {
-      // Create a new array without the specified cell
-      const newGrid = prevGrid.map((row, i) =>
-        i === rowIndex ? [...row, ''] : row
-      );
+  const addNewSuggestionCell = (rowIndex) => {
+    setDiet(diet.map((row, i) => {
+      if(rowIndex === i){
+        return {
+          ...row,
+          suggestions:  [...row.suggestions, '']
+        }
+      }
+      return row;
+    }))
 
-      return newGrid;
-    });
   };
 
   function validateform() {
@@ -737,7 +733,7 @@ function ProgramAdd({ ...props }) {
                                         color="light"
                                         className="dana-font m-0 d-flex justify-content-center add-new-suggestion-button"
                                         onClick={(e)=>{
-                                          addCell(itemIndex)
+                                          addNewSuggestionCell(itemIndex)
                                         }}>
                                         <LuPlus  size={16} className="me-1 ms-1" color={"#526484"}/> افزودن پیشنهاد جدید
                                       </Button>
@@ -746,7 +742,7 @@ function ProgramAdd({ ...props }) {
 
 
                                     {
-                                      dietSuggestion[itemIndex].map((dietSuggItem, dietSuggItemIndex)=>{
+                                      item.suggestions.map((dietSuggItem, dietSuggItemIndex)=>{
 
                                         return(
                                           <div className="d-flex flex-row " key={Math.random().toString()}  >
@@ -768,7 +764,7 @@ function ProgramAdd({ ...props }) {
                                                 color="light"
                                                 className="dana-font mt-5 me-3 d-flex justify-content-center diet-cancel-btn"
                                                 onClick={(e)=>{
-                                                  removeCell(itemIndex, dietSuggItemIndex)
+                                                  removeDietSuggestionCell(itemIndex, dietSuggItemIndex)
                                                 }}>
                                                 <IoMdClose size={19} color={"#526484"}/>
                                               </Button>
