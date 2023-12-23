@@ -76,46 +76,9 @@ function ProgramAdd({ ...props }) {
   };
 
 
-  const [diet, setDiet] = useState([
-    {
-      suggestions: [
-        "ماهی قزل آلا،‌الشیر گریل شده ۱۵۰ گرم + ۸ قاشق برنج قهوه ای +‌یک بشقاب سبزیجات بخارپز (انتخاب سبزیجات به دلخواه) ",
-        "ماهی قزل آلا،‌الشیر گریل شده ۱۵۰ گرم + ۸ قاشق برنج قهوه ای +‌یک بشقاب سبزیجات بخارپز (انتخاب سبزیجات به دلخواه) ",
-        "ماهی قزل آلا،‌الشیر گریل شده ۱۵۰ گرم + ۸ قاشق برنج قهوه ای +‌یک بشقاب سبزیجات بخارپز (انتخاب سبزیجات به دلخواه) "
-      ],
-      title: "ناهار",
-      type: "meal",
-    }
-  ])
-  const [exercises, setExercises] = useState([
-    {
-      sets: "3",
-      reps: "10",
-      rest: "1",
-      weight: "0",
-      categoryId: "64ac3d35a19a70a65c8f44a5",
-      exerciseId: "6508119b38c1fe2b0eb5ee5b",
-      description: "این یک توضیح تستی برای شکم کرانچ نیمه است "
-    },
-    {
-      sets: "3",
-      reps: "10",
-      rest: "1",
-      weight: "0",
-      categoryId: "64ac3d35a19a70a65c8f44a5",
-      exerciseId: "6508119b38c1fe2b0eb5ee5b",
-      description: "این یک توضیح تستی برای شکم کرانچ نیمه است "
-    },
-    {
-      sets: "3",
-      reps: "10",
-      rest: "1",
-      weight: "0",
-      categoryId: "64ac3d35a19a70a65c8f44a5",
-      exerciseId: "6508119b38c1fe2b0eb5ee5b",
-      description: "این یک توضیح تستی برای شکم کرانچ نیمه است "
-    }
-  ])
+  const [diet, setDiet] = useState([])
+  const [dietSuggestion, setDietSuggestion] = useState([])
+  const [exercises, setExercises] = useState([])
 
   const [data, setData] = useState({
     "title": "",
@@ -132,17 +95,6 @@ function ProgramAdd({ ...props }) {
     const res = await dispatch(getItemById(id));
 
     if (res.statusCode === 200) {
-      // _id: "6581578049b2da2bfca792d3"
-      // categoryId: "64ac2e32a19a70a65c8f4465"
-      // createdAt: "2023-12-19T08:42:40.888Z"
-      // description: "jjjjjj"
-      // image: "6581577f49b2da2bfca792ce"
-      // isAlive: true
-      // level: "professional"
-      // slug: "hhhh"
-      // title: "jjjj"
-      // updatedAt: "2023-12-19T08:42:40.888Z"
-
       setData(prevState => ({
         ...prevState,
         ...res.data.exercise
@@ -220,6 +172,14 @@ function ProgramAdd({ ...props }) {
         if(res.data.data.program.diet.length > 0){
           console.log('diet',res.data.data.program.diet )
           setDiet(res.data.data.program.diet)
+
+          //set suggestions
+          res.data.data.program.diet.map(i=>{
+            setDietSuggestion(prevState => ([
+              ...prevState,
+              (i.suggestions.length > 0 ? i.suggestions : [])
+            ]))
+          })
         }
       }
     }catch (e){
@@ -380,7 +340,6 @@ function ProgramAdd({ ...props }) {
 
         if(currentCategory)
           if(exerciseItem.category === currentCategory.slug ){
-            console.log('loadExerciseOptionsByCategoryId', categoryId, exerciseItem.category, currentCategory.slug)
             return exerciseItem
           }
 
@@ -392,6 +351,17 @@ function ProgramAdd({ ...props }) {
     return []
 
   }
+
+  const removeCell = (rowIndex, colIndex) => {
+    setDietSuggestion((prevGrid) => {
+      // Create a new array without the specified cell
+      const newGrid = prevGrid.map((row, i) =>
+        i === rowIndex ? [...row.filter((_, j) => j !== colIndex)] : row
+      );
+
+      return newGrid;
+    });
+  };
 
   function validateform() {
     let ErrorMessages = []
@@ -418,21 +388,6 @@ function ProgramAdd({ ...props }) {
     console.log('diet', diet)
     console.log('exercise', exercises)
     validateform()
-  }
-  function deleteSkill(e, index, index1){
-    e.preventDefault()
-    setDiet(prev=>(
-      prev.map((item,i)=>{
-        if(i === index){
-          return {...item,
-            suggestions:item.suggestions.filter((_,j)=>j!==index1)
-          }
-        }
-        //not the index, just return the item
-        return item
-      })
-      )
-    )
   }
 
   return (
@@ -489,13 +444,13 @@ function ProgramAdd({ ...props }) {
                       <p>
                         ادمین عزیز! در اینجا شما می‌توانید برنامه حرکت های ورزشی را اضافه کرده و  ویرایش کنید. از فرم زیر برای افزودن حرکات ورزشی، انتخاب دسته بندی و انتخاب عنوان حرکت و تعیین تعداد تکرار و ست‌ها استفاده کنید:
                       </p>
-                      <div className={[`accordion`]}>
+                      <div className={[`accordion`]} key={Math.random().toString()}  >
                         {
                           exercises.map((item, index) => {
 
                             return(
-                              <div className="accordion-item">
-                                <div className={[`d-flex flex-row justify-content-between accordion-head${isOpen !== index ? " collapsed" : ""}`]} >
+                              <div className="accordion-item" key={Math.random().toString()}  >
+                                <div key={Math.random().toString()}   className={[`d-flex flex-row justify-content-between accordion-head${isOpen !== index ? " collapsed" : ""}`]} >
                                   <h6 className="title" onClick={() => toggleCollapse(index)}>{`${toFarsiNumber(index + 1)}. ${(exerciseListOptions.length > 0 && item.exerciseId) ? (exerciseListOptions.find(i=>i.value === item.exerciseId))?.label : 'ثبت نشده'}`}</h6>
                                   <span className="icon" onClick={() => {
                                     setExercises(exercises.filter((i, indx) => {
@@ -503,13 +458,13 @@ function ProgramAdd({ ...props }) {
                                         return i
                                     }))
                                   }}>
-                                <IoClose size={18} color={"#526484"}/>
-                              </span>
+                                    <IoClose size={18} color={"#526484"}/>
+                                  </span>
                                 </div>
-                                <Collapse className="accordion-body justify-content-between"  isOpen={isOpen === index ? true : false}>
-                                  <div className="accordion-inner">
-                                    <div className="d-flex flex-row ">
-                                      <div className="w-100 p-1">
+                                <Collapse key={Math.random().toString()}   className="accordion-body justify-content-between"  isOpen={isOpen === index ? true : false}>
+                                  <div className="accordion-inner" key={Math.random().toString()}  >
+                                    <div className="d-flex flex-row " key={Math.random().toString()}  >
+                                      <div className="w-100 p-1" key={Math.random().toString()}  >
                                         <Field
                                           id={"sets"}
                                           name={"sets"}
@@ -532,7 +487,7 @@ function ProgramAdd({ ...props }) {
                                           }}
                                         />
                                       </div>
-                                      <div className="w-100 p-2">
+                                      <div className="w-100 p-2" key={Math.random().toString()}  >
                                         <Field
                                           id={"reps"}
                                           name={"reps"}
@@ -554,7 +509,7 @@ function ProgramAdd({ ...props }) {
                                         />
                                       </div>
                                     </div>
-                                    <div className="d-flex flex-row ">
+                                    <div className="d-flex flex-row " key={Math.random().toString()}  >
                                       <div className="w-100 p-1">
                                         <Field
                                           id={"rest"}
@@ -576,7 +531,7 @@ function ProgramAdd({ ...props }) {
                                           }}
                                         />
                                       </div>
-                                      <div className="w-100 p-1">
+                                      <div className="w-100 p-1" key={Math.random().toString()}  >
                                         <Field
                                           id={"weight"}
                                           name={"weight"}
@@ -600,7 +555,7 @@ function ProgramAdd({ ...props }) {
 
 
                                     </div>
-                                    <div className="d-flex flex-row ">
+                                    <div className="d-flex flex-row " key={Math.random().toString()}  >
                                       <div className="w-100 p-1">
                                         <Field
                                           id={"categoryId"}
@@ -625,7 +580,7 @@ function ProgramAdd({ ...props }) {
                                           }}
                                         />
                                       </div>
-                                      <div className="w-100 p-1">
+                                      <div className="w-100 p-1" key={Math.random().toString()}  >
                                         <Field
                                           id={"exerciseId"}
                                           name={"exerciseId"}
@@ -649,7 +604,7 @@ function ProgramAdd({ ...props }) {
                                         />
                                       </div>
                                     </div>
-                                    <div className="d-flex flex-row ">
+                                    <div className="d-flex flex-row " key={Math.random().toString()}  >
                                       <div className="w-100 p-1">
                                         <Field
                                           id={"description"}
@@ -688,29 +643,29 @@ function ProgramAdd({ ...props }) {
                         افزودن تمرین جدید
                       </Button>
                     </TabPane>
-                    <TabPane tabId="2">
+                    <TabPane tabId="2" key={Math.random().toString()}  >
                       <p>
                         اادمین عزیز! در اینجا شما می‌توانید برنامه های غذایی را اضافه کرده و  ویرایش کنید. از فرم زیر برای افزودن آیتم های غذایی هدف و نوع وعده غذایی را تعیین کنید:
                       </p>
-                      <div className={[`accordion`]}>
+                      <div className={[`accordion`]} key={Math.random().toString()}  >
                         {
                           diet.map((item, itemIndex) => {
                             return(
-                              <div className="accordion-item">
-                                <div className={[`d-flex flex-row justify-content-between accordion-head${isOpen !== itemIndex ? " collapsed" : ""}`]} >
-                                  <h6 className="title" onClick={() => toggleCollapse(itemIndex)}>{`${toFarsiNumber(itemIndex + 1)}. ${item.title ? item.title : 'ثبت نشده'}`}</h6>
-                                  <span className="icon" onClick={() => {
-                                    setDiet(diet.filter((i, indx) => {
-                                      if(indx !== itemIndex)
-                                        return i
-                                    }))
-                                  }}>
-                                <IoClose size={18} color={"#526484"}/>
-                              </span>
+                              <div className="accordion-item" key={Math.random().toString()}  >
+                                  <div key={Math.random().toString()}   className={[`d-flex flex-row justify-content-between accordion-head${isOpen !== itemIndex ? " collapsed" : ""}`]} >
+                                    <h6 className="title" onClick={() => toggleCollapse(itemIndex)}>{`${toFarsiNumber(itemIndex + 1)}. ${item.title ? item.title : 'ثبت نشده'}`}</h6>
+                                    <span className="icon" onClick={() => {
+                                      setDiet(diet.filter((i, indx) => {
+                                        if(indx !== itemIndex)
+                                          return i
+                                      }))
+                                    }}>
+                                    <IoClose size={18} color={"#526484"}/>
+                                  </span>
                                 </div>
-                                <Collapse className="accordion-body justify-content-between"  isOpen={isOpen === itemIndex ? true : false}>
-                                  <div className="accordion-inner">
-                                    <div className="d-flex flex-row ">
+                                <Collapse className="accordion-body justify-content-between" key={Math.random().toString()}   isOpen={isOpen === itemIndex ? true : false}>
+                                  <div className="accordion-inner" key={Math.random().toString()}  >
+                                    <div className="d-flex flex-row " key={Math.random().toString()}  >
                                       <div className="w-100 p-1">
                                         <Field
                                           id={"title"}
@@ -762,44 +717,30 @@ function ProgramAdd({ ...props }) {
                                       </div>
                                     </div>
                                     {
-                                      item.suggestions.map((sugg, indx) => {
+                                      dietSuggestion[itemIndex].map((dietSuggItem, dietSuggItemIndex)=>{
+
                                         return(
-                                          <div className="d-flex flex-row " key={`suggestion${itemIndex}-${indx}`}>
-                                            <div className="d-flex flex-row w-100 p-2">
+                                          <div className="d-flex flex-row " key={Math.random().toString()}  >
+                                            <div className="d-flex flex-row w-100 p-2" key={Math.random().toString()}  >
                                               <Field
-                                                id={`suggestion${itemIndex}-${indx}`}
-                                                name={`suggestion${itemIndex}-${indx}`}
-                                                label={`پیشنهاد ${indx}`}
+                                                key={Math.random().toString()}
+                                                name={`suggestion${itemIndex}-${dietSuggItemIndex}`}
+                                                label={`پیشنهاد ${dietSuggItemIndex + 1}`}
                                                 type={"text"}
-                                                value={sugg}
+                                                value={dietSuggItem}
                                                 onChange={(e) => {
-                                                  setDiet(prevState => (
-                                                    prevState.map((i, dietIndx) => {
-                                                      if(itemIndex === dietIndx){
-                                                        return {
-                                                          ...item,
-                                                          suggestions: item.suggestions.map((j, sugIndx)=>{
-                                                            if(indx === sugIndx )
-                                                              return e;
 
-                                                            return  j
-                                                          })
-                                                        }
-                                                      }
-
-                                                      return i;
-                                                    })
-                                                  ) )
                                                 }}
                                               />
 
-                                              <Button outline
-                                                      color="light"
-                                                      className="dana-font mt-5 me-3 d-flex justify-content-center diet-cancel-btn"
-                                                      onClick={(e)=>{
-                                                        deleteSkill(e, itemIndex, indx)
-                                              }}>
-                                                {indx}
+                                              <Button
+                                                key={Math.random().toString()}
+                                                outline
+                                                color="light"
+                                                className="dana-font mt-5 me-3 d-flex justify-content-center diet-cancel-btn"
+                                                onClick={(e)=>{
+                                                  removeCell(itemIndex, dietSuggItemIndex)
+                                                }}>
                                                 <IoMdClose size={19} color={"#526484"}/>
                                               </Button>
                                             </div>
