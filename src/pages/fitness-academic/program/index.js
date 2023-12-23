@@ -55,6 +55,7 @@ export const tableStructure = [
   {
     title: "نوع برنامه",
     slug: 'packageSlug',
+    useTranslate: true
   },
   {
     title: "نام کاربر",
@@ -62,7 +63,8 @@ export const tableStructure = [
   },
   {
     title: "وضعیت برنامه",
-    slug: 'status'
+    slug: 'status',
+    useTranslate: true
   },
   {
     title: "تاریخ ایجاد",

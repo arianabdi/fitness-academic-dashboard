@@ -86,45 +86,9 @@ function ProgramAdd({ ...props }) {
     "slug": "",
     "categoryId": "",
     "level": "",
-    "description": "",
-    "image": null, // در زمان update مقدار fileId فایل آپلود شده قبلی رو نگه میداره
-    "imageHolder": null, // در زمان create و update فایل عکس رو نگه میداره
-    "imagePreview": null, // در زمان update آدرس عکسی که قبلا آپلود شده رو نگه میداره
-    "video": null,
+    "description": ""
   });
-  async function loadData() {
-    const res = await dispatch(getItemById(id));
 
-    if (res.statusCode === 200) {
-      setData(prevState => ({
-        ...prevState,
-        ...res.data.exercise
-      }));
-      setIsloading(false);
-      return data;
-    }
-
-    return {};
-
-  }
-
-  function loadExercisesByCategoryId(categoryId){
-    const items = exerciseCategories.filter(j => j._id === categoryId);
-
-    if(items.length > 0){
-      const slug = (items[0]).slug;
-
-      if(exerciseList.length > 0){
-        return exerciseList.filter(i => {
-          if(i.category === slug)
-            return {label: i.title, value: i._id}
-        })
-      }
-    }
-
-
-    return []
-  }
 
   async function loadExercises(){
     try {
@@ -187,8 +151,6 @@ function ProgramAdd({ ...props }) {
     loadExercises()
     loadProgram()
 
-    if (isEditing)
-      loadData();
 
 
   }, []);
@@ -214,67 +176,6 @@ function ProgramAdd({ ...props }) {
       ErrorToaster(e)
     }
   }
-
-
-
-  async function onCreate() {
-
-
-    try {
-      setProcessing(true)
-      const fileId = await uploadImage({ image: data.imageHolder })
-
-
-
-      const res = await axios.post(`${process.env.REACT_APP_API_URL}${path}`, {
-        ...data,
-        image: fileId
-      }, {
-          headers: { "authorization": `bearer ${auth.token}` }
-      });
-
-
-
-
-
-      if(res.data.statusCode === 200){
-        navigate(`/exercise-list`);
-      }
-
-      setProcessing(false)
-
-    } catch (e) {
-      ErrorToaster(e)
-      setProcessing(false)
-    }
-  }
-
-  async function onUpdate() {
-    try {
-
-      setProcessing(true)
-      let _data = {...data}
-      let fileId;
-      delete _data.imagePreview;
-      delete _data.imageHolder;
-
-
-      if(data.imageHolder.length !== 0){
-        fileId = await uploadImage({ image: data.imageHolder })
-      }
-      const res = await axios.patch(`${process.env.REACT_APP_API_URL}${path}/${id}`,
-        { ..._data, image: fileId || data.image },
-        { headers: { "authorization": `bearer ${auth.token}` }}
-      );
-
-
-
-      setProcessing(false)
-    } catch (e) {
-      ErrorToaster(e)
-      setProcessing(false)
-    }
-  }
   const toggleCollapse = (param) => {
     if (param === isOpen) {
       setIsOpen("0");
@@ -282,36 +183,6 @@ function ProgramAdd({ ...props }) {
       setIsOpen(param);
     }
   };
-
-
-  async function uploadImage({image}) {
-    try {
-
-      const formData = new FormData();
-      formData.append('image', image[0].file);
-
-      const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/file/upload/image`,
-        formData, {
-          headers: {
-            "authorization": `bearer ${auth.token}`,
-            "Content-Type": "multipart/form-data"
-          },
-
-        }
-      );
-
-
-
-      if(res.status === 200)
-        return res.data.fileId;
-
-
-    } catch (e) {
-      ErrorToaster(e)
-    }
-  }
-
-
 
 
   function InfoItem({title, value}){
@@ -408,10 +279,29 @@ function ProgramAdd({ ...props }) {
     }
   }
 
-  function onSubmitForm() {
+  async function onSubmitForm() {
     console.log('diet', diet)
     console.log('exercise', exercises)
     validateform()
+
+
+    try {
+      const res =  await axios.patch(`${process.env.REACT_APP_API_URL}/api/programs/${id}`, {
+        status: status,
+        diet: diet,
+        exercises: exercises
+      }, {
+        headers: {authorization: `bearer ${auth.token}`}
+      })
+
+      console.log('program-update res', res)
+      if(res.status === 200){
+        toast.success("برنامه مورد نظر با موفقیت بروزرسانی شد")
+        navigate(`/program-list`);
+      }
+    }catch (e) {
+
+    }
   }
 
   return (
@@ -872,8 +762,8 @@ function ProgramAdd({ ...props }) {
 
 
               <Block size="lg">
-                <div className="btn btn-primary d-flex w-100 dana-font justify-content-center align-content-center" onClick={()=>{
-                  onSubmitForm()
+                <div className="btn btn-primary d-flex w-100 dana-font justify-content-center align-content-center" onClick={async ()=>{
+                  await onSubmitForm()
                 }}>
                   ثبت
                 </div>
